@@ -1,0 +1,84 @@
+{
+  "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "devCommand": "npm run dev",
+  "installCommand": "npm install",
+  "outputDirectory": ".next",
+  "regions": ["iad1"],
+  "functions": {
+    "src/app/api/**/*.ts": {
+      "runtime": "nodejs20.x",
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=31536000; includeSubDomains"
+        }
+      ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "https://controlhub.artificialmonks.com"
+        },
+        {
+          "key": "Access-Control-Allow-Methods",
+          "value": "GET, POST, PUT, DELETE, OPTIONS"
+        },
+        {
+          "key": "Access-Control-Allow-Headers",
+          "value": "Content-Type, Authorization, X-Requested-With"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/webhooks/n8n/(.*)",
+      "destination": "/api/webhooks/n8n/$1"
+    }
+  ],
+  "env": {
+    "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key",
+    "SUPABASE_SERVICE_ROLE_KEY": "@supabase_service_role_key",
+    "NEXTAUTH_SECRET": "@nextauth_secret",
+    "N8N_WEBHOOK_SECRET": "@n8n_webhook_secret",
+    "N8N_API_KEY": "@n8n_api_key",
+    "N8N_BASE_URL": "@n8n_base_url",
+    "ENCRYPTION_KEY": "@encryption_key",
+    "CORS_ORIGINS": "@cors_origins",
+    "ENABLE_ANALYTICS": "@enable_analytics",
+    "ENABLE_ERROR_TRACKING": "@enable_error_tracking",
+    "LOG_LEVEL": "@log_level",
+    "FEATURE_TELEMETRY": "@feature_telemetry",
+    "FEATURE_ADVANCED_ANALYTICS": "@feature_advanced_analytics"
+  }
+}
