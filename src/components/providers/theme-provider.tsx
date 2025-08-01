@@ -18,5 +18,16 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
+  const [mounted, setMounted] = React.useState(false)
+
+  React.useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    // Return children with light theme class during SSR/hydration
+    return <div className="light">{children}</div>
+  }
+
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>
 }

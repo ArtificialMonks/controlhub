@@ -30,9 +30,11 @@ export default function RootLayout({
       >
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          defaultTheme="light"
+          enableSystem={false}
           disableTransitionOnChange={false}
+          storageKey="communitee-theme"
+          themes={["light", "dark"]}
         >
           {children}
         </ThemeProvider>

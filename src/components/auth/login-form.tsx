@@ -83,7 +83,7 @@ export function LoginForm() {
               disabled={isLoading}
             />
             {errors.email && (
-              <div className="text-sm text-[#ef4444]">
+              <div className="text-sm text-destructive">
                 {errors.email.message}
               </div>
             )}
@@ -116,19 +116,19 @@ export function LoginForm() {
               </Button>
             </div>
             {errors.password && (
-              <div className="text-sm text-[#ef4444]">
+              <div className="text-sm text-destructive">
                 {errors.password.message}
               </div>
             )}
           </div>
           {error && (
-            <div className="text-sm text-[#ef4444] bg-red-50 border border-[#ef4444]/20 p-3 rounded-md">
+            <div className="text-sm text-destructive bg-destructive/10 border border-destructive/20 p-3 rounded-md">
               {error}
             </div>
           )}
           <Button
             type="submit"
-            className="w-full bg-gradient-to-r from-[#003cff] to-[#0066ff] hover:from-[#002bff] hover:to-[#0052cc] text-white border-0 shadow-lg transition-all duration-200"
+            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground border-0 shadow-lg transition-all duration-200"
             disabled={isLoading}
           >
             {isLoading ? 'Signing in...' : 'Sign In'}

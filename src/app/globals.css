@@ -36,6 +36,7 @@
   .dark {
     /* Communitee Control Hub Brand Colors - Dark Theme */
     --background: 225 84% 8%; /* Dark bg gradient start #0a0b1f */
+    --background-gradient: linear-gradient(135deg, #0a0b1f 0%, #002bff 100%); /* Dark mode gradient */
     --foreground: 0 0% 100%; /* Dark text #ffffff */
     --card: 225 84% 8%;
     --card-foreground: 0 0% 100%;
@@ -69,5 +70,11 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* Dark mode gradient background */
+  .dark body {
+    background: var(--background-gradient);
+    min-height: 100vh;
   }
 }

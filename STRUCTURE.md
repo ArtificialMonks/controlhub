@@ -35,6 +35,15 @@ communitee-control-hub/
 │   │   │   └── chub-project-brief.md
 │   │   └── ui-specs/                   # UI specifications
 │   │       └── chub-ui-specs.md
+│   ├── evidence/                       # A.V.A.R.I.C.E. Protocol evidence storage
+│   │   ├── TEMPLATE-quest-structure/   # Standardized quest evidence template
+│   │   ├── quest-1.1/                  # Quest-specific evidence directories
+│   │   ├── quest-1.2/                  # Following standardized structure
+│   │   └── quest-{number}/             # Each quest has dedicated evidence directory
+│   │       ├── phase-evidence/         # Evidence from all 9 protocol phases
+│   │       ├── agent-reports/          # Agent-specific reports and outputs
+│   │       ├── quality-gates/          # Quality gate validation results
+│   │       └── memorization/           # Neo4j memory storage confirmations
 │   └── journeys/                       # User journey documentation
 │       └── quests/                     # Quest-based feature documentation
 │
@@ -212,6 +221,22 @@ communitee-control-hub/
 - **Architecture**: Technical architecture and design decisions
 - **Requirements**: Product requirements and specifications
 - **User Journeys**: Feature documentation organized as user journeys
+- **Evidence Storage**: A.V.A.R.I.C.E. Protocol evidence with standardized quest-specific organization
+
+#### Evidence Storage Standards (MANDATORY)
+**Location**: `/docs/evidence/quest-{quest-number}/`
+
+**Standardized Structure**:
+- `phase-evidence/`: Evidence from all 9 A.V.A.R.I.C.E. Protocol phases
+- `agent-reports/`: Agent-specific reports (Architect, Coder, QA, Logician, Scribe)
+- `quality-gates/`: Quality gate validation results (TypeScript, ESLint, Testing, Security)
+- `memorization/`: Neo4j memory storage confirmations and institutional memory
+
+**Enforcement Rules**:
+- **ZERO TOLERANCE**: Evidence storage outside quest-specific directories is prohibited
+- **AUTOMATIC VALIDATION**: Evidence paths validated during protocol execution
+- **QUEST NUMBERING**: Use format `quest-{major}.{minor}` (e.g., `quest-1.1`, `quest-2.3`)
+- **NO COMBINED QUESTS**: Avoid formats like `quest-2.1-2.2` or inconsistent naming
 
 ### `/tests` - Testing
 **Comprehensive testing strategy**

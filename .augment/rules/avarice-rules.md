@@ -67,8 +67,16 @@ type: "always_apply"
 - **MODULARITY PRIORITY**: Follow established best practices for enterprise-grade directory structuring
 - **SEPARATION OF CONCERNS**: Maintain scalability, clarity, and ease of navigation
 
+### **EVIDENCE STORAGE STANDARDS (MANDATORY)**
+- **QUEST-SPECIFIC DIRECTORIES**: All evidence MUST be stored in `/docs/evidence/quest-{quest-number}/`
+- **STANDARDIZED SUBDIRECTORIES**: Required subdirectories: `phase-evidence/`, `agent-reports/`, `quality-gates/`, `memorization/`
+- **ZERO TOLERANCE POLICY**: Evidence storage outside quest-specific directories is STRICTLY PROHIBITED
+- **AUTOMATIC VALIDATION**: Evidence paths validated during every A.V.A.R.I.C.E. Protocol execution
+- **IMMEDIATE STOP-WORK**: Invalid evidence storage triggers immediate protocol halt until corrected
+
 ### **LOGGING STANDARDS**
 - **LOG STORAGE**: All logs stored within `/logs` directory
+- **QUEST INTEGRATION**: Logs must reference quest-specific evidence directories when applicable
 - **LOGGING GUIDELINES**: Follow logging standards in `/docs/LOGGING_STANDARDS.md`
 - **DOCUMENTATION STORAGE**: All documentation stored within `/docs` directory
 
@@ -161,10 +169,17 @@ type: "always_apply"
 
 ## **ENFORCEMENT PROTOCOLS**
 
+### **EVIDENCE VALIDATION REQUIREMENTS**
+- **QUEST-SPECIFIC VALIDATION**: All evidence must be stored in correct quest-specific directories
+- **DIRECTORY STRUCTURE VALIDATION**: Validate presence of required subdirectories: `phase-evidence/`, `agent-reports/`, `quality-gates/`, `memorization/`
+- **PATH VALIDATION**: Automated validation of evidence paths during protocol execution
+- **COMPLIANCE ENFORCEMENT**: Zero tolerance for evidence storage violations
+
 ### **ZERO TOLERANCE QUALITY GATE**
 - **100% COMPLETION REQUIREMENT**: No advancement until ALL tests pass 100%, ALL issues are resolved, and ALL evidence is provided
 - **VERIFICATION CHAIN**: Provide complete verification chain showing all validation activities were executed successfully
 - **ACCOUNTABILITY MEASURE**: All completion claims must be backed by concrete, measurable evidence
+- **EVIDENCE STORAGE COMPLIANCE**: All evidence must be stored in quest-specific directories with proper structure
 
 ### **ESCALATION REQUIREMENTS**
 - **AUTO-HEALING RULE**: Issues that cannot be auto-healed must be escalated

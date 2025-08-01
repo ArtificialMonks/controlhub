@@ -98,7 +98,7 @@ export function DialogContent({ className, children }: DialogContentProps) {
     <>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 z-50 bg-black/50"
+        className="fixed inset-0 z-50 bg-black/80 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0"
         onClick={() => context.onOpenChange(false)}
       />
       
@@ -106,7 +106,7 @@ export function DialogContent({ className, children }: DialogContentProps) {
       <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
         <div
           className={cn(
-            "relative bg-white rounded-lg shadow-lg max-w-lg w-full max-h-[90vh] overflow-auto",
+            "relative bg-background border rounded-lg shadow-lg max-w-lg w-full max-h-[90vh] overflow-auto data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]",
             className
           )}
           onClick={(e) => e.stopPropagation()}
@@ -115,7 +115,7 @@ export function DialogContent({ className, children }: DialogContentProps) {
           
           {/* Close button */}
           <button
-            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-white transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:ring-offset-2 disabled:pointer-events-none"
+            className="absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none text-muted-foreground hover:text-foreground"
             onClick={() => context.onOpenChange(false)}
           >
             <X className="h-4 w-4" />
@@ -169,7 +169,7 @@ interface DialogTitleProps {
 
 export function DialogTitle({ className, children }: DialogTitleProps) {
   return (
-    <h2 className={cn("text-lg font-semibold leading-none tracking-tight", className)}>
+    <h2 className={cn("text-lg font-semibold leading-none tracking-tight text-foreground", className)}>
       {children}
     </h2>
   )
@@ -185,7 +185,7 @@ interface DialogDescriptionProps {
 
 export function DialogDescription({ className, children }: DialogDescriptionProps) {
   return (
-    <p className={cn("text-sm text-slate-500", className)}>
+    <p className={cn("text-sm text-muted-foreground", className)}>
       {children}
     </p>
   )
