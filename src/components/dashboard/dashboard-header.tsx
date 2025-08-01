@@ -1,3 +1,4 @@
+// src/components/dashboard/dashboard-header.tsx
 'use client'
 
 import { User } from '@supabase/supabase-js'

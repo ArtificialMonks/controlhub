@@ -1,3 +1,4 @@
+// src/lib/config.ts
 /**
  * Centralized configuration module for Communitee Control Hub
  * Manages all environment variables and application settings

@@ -172,7 +172,9 @@ export const productionLoggingConfig = {
 /**
  * Create production-ready logger instance
  */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function createProductionLogger(_component: string) {
+  // Component parameter reserved for future component-specific logging
   return logger
 }
 

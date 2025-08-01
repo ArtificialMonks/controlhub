@@ -1,3 +1,4 @@
+// src/components/auth/signup-form.tsx
 'use client'
 
 import { useState } from 'react'
@@ -126,11 +127,15 @@ export function SignupForm() {
             />
           </div>
           {error && (
-            <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md">
+            <div className="text-sm text-[#ef4444] bg-red-50 border border-[#ef4444]/20 p-3 rounded-md">
               {error}
             </div>
           )}
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full bg-gradient-to-r from-[#003cff] to-[#0066ff] hover:from-[#002bff] hover:to-[#0052cc] text-white border-0 shadow-lg transition-all duration-200"
+            disabled={isLoading}
+          >
             {isLoading ? 'Creating account...' : 'Create Account'}
           </Button>
         </form>

@@ -1,5 +1,6 @@
 import { User } from '@supabase/supabase-js'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { AutomationsDataTable } from '@/components/features/automations-data-table'
 
 interface DashboardContentProps {
   user: User
@@ -61,6 +62,19 @@ export function DashboardContent({ user }: DashboardContentProps) {
           </CardContent>
         </Card>
       </div>
+
+      {/* Automations Data Table */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Automations Overview</CardTitle>
+          <CardDescription>
+            Manage and monitor your automation workflows
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <AutomationsDataTable />
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader>

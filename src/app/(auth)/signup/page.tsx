@@ -1,15 +1,16 @@
+// src/app/(auth)/signup/page.tsx
 import { SignupForm } from '@/components/auth/signup-form'
 import Link from 'next/link'
 
 export default function SignupPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-chub-dark-bg to-chub-dark-bg-end dark:from-chub-dark-bg dark:to-chub-dark-bg-end light:bg-chub-light-bg py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-chub-light-text dark:text-chub-dark-text">
             Communitee Control Hub
           </h1>
-          <p className="mt-2 text-sm text-gray-600">
+          <p className="mt-2 text-sm text-chub-neutral">
             Create your account to get started
           </p>
         </div>
@@ -17,7 +18,7 @@ export default function SignupPage() {
         <SignupForm />
         
         <div className="text-center">
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-chub-neutral">
             Already have an account?{' '}
             <Link 
               href="/login" 

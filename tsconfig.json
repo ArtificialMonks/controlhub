@@ -23,5 +23,5 @@
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules", "avarice-protocol", "src/test"]
+  "exclude": ["node_modules", "avarice-protocol", "src/test", "**/*.test.ts", "**/*.test.tsx", "**/__tests__/**"]
 }

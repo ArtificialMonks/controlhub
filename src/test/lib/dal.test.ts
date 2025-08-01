@@ -1,3 +1,4 @@
+// src/test/lib/dal.test.ts
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { getUser, getProfile, updateProfile } from '@/lib/dal'
 

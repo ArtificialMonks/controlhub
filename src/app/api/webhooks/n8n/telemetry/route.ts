@@ -1,3 +1,4 @@
+// src/app/api/webhooks/n8n/telemetry/route.ts
 import { createClient } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { headers } from 'next/headers'

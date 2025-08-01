@@ -30,6 +30,7 @@ export const getUserProfile = cache(async () => {
   const user = await verifySession()
   
   if (!user) {
+    console.log('No user session found for profile fetch')
     return null
   }
   
@@ -43,13 +44,37 @@ export const getUserProfile = cache(async () => {
       .single()
     
     if (error) {
-      console.error('Profile fetch error:', error)
+      console.error('Profile fetch error:', {
+        code: error.code,
+        message: error.message,
+        details: error.details,
+        hint: error.hint,
+        userId: user.id
+      })
+      
+      // If profile doesn't exist, return a basic profile structure
+      if (error.code === 'PGRST116') {
+        console.log('Profile not found, creating default profile structure')
+        return {
+          id: user.id,
+          full_name: user.email,
+          avatar_url: null,
+          website: null,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString()
+        }
+      }
+      
       return null
     }
     
     return profile
   } catch (error) {
-    console.error('Profile fetch error:', error)
+    console.error('Profile fetch error (catch):', {
+      error: error instanceof Error ? error.message : 'Unknown error',
+      userId: user?.id,
+      errorType: typeof error
+    })
     return null
   }
 })
