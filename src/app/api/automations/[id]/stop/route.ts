@@ -23,7 +23,7 @@ import type { User } from '@supabase/supabase-js'
  * Stop a specific automation that is currently running
  */
 export async function POST(
-  request: NextRequest,
+  _request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   const startTime = Date.now()
@@ -143,7 +143,7 @@ export async function POST(
       clientId: automation.client_id,
       result: webhookResult.success,
       executionTime: Date.now() - startTime,
-      webhookResponse: webhookResult
+      webhookResponse: webhookResult as unknown as Record<string, unknown>
     })
 
     // 9. Standardized Success Response

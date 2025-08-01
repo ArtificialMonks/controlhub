@@ -14,21 +14,26 @@ interface Notification {
 interface AppState {
   // UI State
   sidebarOpen: boolean
+  sidebarCollapsed: boolean
+  isMobile: boolean
   theme: 'light' | 'dark' | 'system'
   notifications: Notification[]
-  
+
   // Global loading states
   globalLoading: boolean
-  
+
   // Actions
   setSidebarOpen: (open: boolean) => void
   toggleSidebar: () => void
+  setSidebarCollapsed: (collapsed: boolean) => void
+  toggleSidebarCollapsed: () => void
+  setIsMobile: (mobile: boolean) => void
   setTheme: (theme: 'light' | 'dark' | 'system') => void
   addNotification: (notification: Omit<Notification, 'id' | 'timestamp' | 'read'>) => void
   markNotificationRead: (id: string) => void
   clearNotifications: () => void
   setGlobalLoading: (loading: boolean) => void
-  
+
   // Computed getters
   getUnreadNotifications: () => Notification[]
   getNotificationCount: () => number
@@ -39,6 +44,8 @@ export const useAppStore = create<AppState>()(
     (set, get) => ({
       // UI State
       sidebarOpen: true,
+      sidebarCollapsed: false,
+      isMobile: false,
       theme: 'system',
       notifications: [],
       globalLoading: false,
@@ -50,6 +57,18 @@ export const useAppStore = create<AppState>()(
 
       toggleSidebar: () => {
         set((state) => ({ sidebarOpen: !state.sidebarOpen }))
+      },
+
+      setSidebarCollapsed: (sidebarCollapsed) => {
+        set({ sidebarCollapsed })
+      },
+
+      toggleSidebarCollapsed: () => {
+        set((state) => ({ sidebarCollapsed: !state.sidebarCollapsed }))
+      },
+
+      setIsMobile: (isMobile) => {
+        set({ isMobile })
       },
 
       setTheme: (theme) => {
@@ -100,6 +119,7 @@ export const useAppStore = create<AppState>()(
       name: 'app-storage',
       partialize: (state) => ({
         sidebarOpen: state.sidebarOpen,
+        sidebarCollapsed: state.sidebarCollapsed,
         theme: state.theme,
         notifications: state.notifications,
       }),

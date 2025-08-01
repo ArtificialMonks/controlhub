@@ -1,10 +1,18 @@
+// src/app/(auth)/login/page.tsx
 import { LoginForm } from '@/components/auth/login-form'
+import { ThemeToggle } from '@/components/ui/theme-toggle'
 import Link from 'next/link'
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex items-center justify-center bg-chub-light-bg dark:bg-gradient-to-br dark:from-chub-dark-bg dark:to-chub-dark-bg-end py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
+    <div className="min-h-screen relative bg-chub-light-bg dark:bg-gradient-to-br dark:from-chub-dark-bg dark:to-chub-dark-bg-end py-12 px-4 sm:px-6 lg:px-8">
+      {/* Theme Toggle in top-right corner */}
+      <div className="absolute top-4 right-4">
+        <ThemeToggle />
+      </div>
+
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-chub-light-text dark:text-chub-dark-text">
             Communitee Control Hub
@@ -26,6 +34,7 @@ export default function LoginPage() {
               Sign up here
             </Link>
           </p>
+        </div>
         </div>
       </div>
     </div>

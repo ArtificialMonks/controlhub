@@ -5,7 +5,7 @@ import { User } from '@supabase/supabase-js'
 import DOMPurify from 'dompurify'
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { AutomationsDataTable } from '@/components/features/automations-data-table'
+import { AutomationsView, type ViewMode } from '@/components/features/automations-view'
 import { AutomationsToolbar } from '@/components/features/automations-toolbar/AutomationsToolbar'
 import { useDebounce } from '@/hooks/useDebounce'
 
@@ -22,6 +22,7 @@ export function DashboardContent({ user }: DashboardContentProps) {
   const [searchTerm, setSearchTerm] = useState('')
   const [selectedClient, setSelectedClient] = useState<string | null>(null)
   const [selectedStatuses, setSelectedStatuses] = useState<AutomationStatus[]>([])
+  const [viewMode, setViewMode] = useState<ViewMode>('list') // Default to list view for backward compatibility
 
   // Performance Expert consensus: 300ms debounced search
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
@@ -158,9 +159,11 @@ export function DashboardContent({ user }: DashboardContentProps) {
             onBulkAction={handleBulkAction}
           />
 
-          {/* AutomationsDataTable with filtered data */}
-          <AutomationsDataTable
+          {/* AutomationsView with view mode toggle and filtered data */}
+          <AutomationsView
             automations={filteredAutomations}
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
             loading={false}
             error={null}
           />

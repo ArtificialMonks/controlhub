@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 // Communitee Control Hub Color Palette from UI Specs
-const COLOR_PALETTE = {
+const _COLOR_PALETTE = {
   // Backgrounds
   backgroundDark: ['#0a0b1f', '#002bff'], // Gradient
   backgroundLight: '#ffffff',
@@ -33,7 +33,7 @@ function hexToRgb(hex: string): { r: number, g: number, b: number } {
 }
 
 // Helper function to check if color is close to expected (allows for slight variations)
-function isColorClose(actual: string, expected: string, tolerance: number = 10): boolean {
+function _isColorClose(actual: string, expected: string, tolerance: number = 10): boolean {
   const actualRgb = hexToRgb(actual);
   const expectedRgb = hexToRgb(expected);
   

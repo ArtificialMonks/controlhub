@@ -200,7 +200,7 @@ class TestRunner {
     console.log(`   JSON: ${jsonReportPath}`);
   }
 
-  private generateHTMLReport(totalTests: number, totalPassed: number, totalFailed: number, totalSkipped: number, successRate: string, totalDuration: number): string {
+  private generateHTMLReport(totalTests: number, totalPassed: number, totalFailed: number, _totalSkipped: number, successRate: string, _totalDuration: number): string {
     return `
 <!DOCTYPE html>
 <html lang="en">

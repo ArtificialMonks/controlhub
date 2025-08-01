@@ -31,10 +31,10 @@ describe('Webhook Security Validation', () => {
     mockFetch.mockReset()
 
     // Set up comprehensive mock implementation
-    mockFetch.mockImplementation(async (url: string, options: any) => {
+    mockFetch.mockImplementation(async (url: string, options: RequestInit) => {
       const method = options?.method || 'GET'
       const headers = options?.headers || {}
-      const body = options?.body
+      const body = typeof options?.body === 'string' ? options.body : JSON.stringify(options?.body || {})
       const authorization = headers['Authorization'] || headers['authorization']
 
       // HTTP Method Security - reject non-POST methods
@@ -128,7 +128,7 @@ describe('Webhook Security Validation', () => {
           } as Response
         }
 
-      } catch (error) {
+      } catch {
         return {
           status: 400,
           json: async () => ({

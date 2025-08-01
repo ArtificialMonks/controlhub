@@ -266,7 +266,7 @@ async function processBulkAction(
           result: {
             webhookTriggered: true,
             webhookStatus: webhookResult.status,
-            executionId: webhookResult.data?.executionId
+            executionId: webhookResult.data?.executionId as string
           },
           timestamp: new Date().toISOString()
         }
