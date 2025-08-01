@@ -86,6 +86,8 @@ export interface Automation {
   error_count: number
   success_rate: number
   metadata: Record<string, unknown>
+  n8n_run_webhook_url?: string
+  n8n_stop_webhook_url?: string
   created_at: string
   updated_at: string
 }

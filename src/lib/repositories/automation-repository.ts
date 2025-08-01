@@ -34,6 +34,41 @@ export class AutomationRepository {
   // ==========================================================================
 
   /**
+   * Get all automations for a user
+   * Implements Quest 1.5 requirement for real-time data display
+   */
+  async getAllAutomations(userId: string): Promise<Automation[]> {
+    try {
+      const supabase = await this.getClient()
+
+      const { data, error } = await supabase
+        .from('automations')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+
+      if (error) {
+        throw new RepositoryError(
+          `Failed to fetch automations: ${error.message}`,
+          'getAllAutomations',
+          { userId, error }
+        )
+      }
+
+      return data as Automation[] || []
+    } catch (error) {
+      if (error instanceof RepositoryError) {
+        throw error
+      }
+      throw new RepositoryError(
+        'Unexpected error fetching automations',
+        'getAllAutomations',
+        { userId, error }
+      )
+    }
+  }
+
+  /**
    * Get automation by ID
    */
   async getAutomationById(automationId: string): Promise<Automation | null> {

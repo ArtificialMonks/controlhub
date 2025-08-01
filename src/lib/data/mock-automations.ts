@@ -1,3 +1,4 @@
+// src/lib/data/mock-automations.ts
 /**
  * Mock data for automation testing and development
  * Aligned with Architecture Document schema requirements for Quest 1.4
@@ -66,6 +67,7 @@ export const mockProfiles: Profile[] = [
 export const mockAutomations: Automation[] = [
   {
     id: 'auto-1',
+    user_id: 'user-1',
     client_id: 'client-1',
     name: 'Customer Data Sync',
     status: 'Running',
@@ -73,10 +75,13 @@ export const mockAutomations: Automation[] = [
     avg_duration_ms: 2500,
     success_rate: 98.5,
     n8n_run_webhook_url: 'https://n8n.acme.com/webhook/run/customer-sync',
-    n8n_stop_webhook_url: 'https://n8n.acme.com/webhook/stop/customer-sync'
+    n8n_stop_webhook_url: 'https://n8n.acme.com/webhook/stop/customer-sync',
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-07-31T08:30:00Z'
   },
   {
     id: 'auto-2',
+    user_id: 'user-1',
     client_id: 'client-1',
     name: 'Email Campaign Automation',
     status: 'Stopped',
@@ -84,10 +89,13 @@ export const mockAutomations: Automation[] = [
     avg_duration_ms: 1800,
     success_rate: 95.2,
     n8n_run_webhook_url: 'https://n8n.acme.com/webhook/run/email-campaign',
-    n8n_stop_webhook_url: 'https://n8n.acme.com/webhook/stop/email-campaign'
+    n8n_stop_webhook_url: 'https://n8n.acme.com/webhook/stop/email-campaign',
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-07-30T16:45:00Z'
   },
   {
     id: 'auto-3',
+    user_id: 'user-2',
     client_id: 'client-2',
     name: 'Inventory Management',
     status: 'Error',
@@ -95,10 +103,13 @@ export const mockAutomations: Automation[] = [
     avg_duration_ms: 3200,
     success_rate: 87.3,
     n8n_run_webhook_url: 'https://n8n.techstart.com/webhook/run/inventory',
-    n8n_stop_webhook_url: null
+    n8n_stop_webhook_url: null,
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-07-31T07:15:00Z'
   },
   {
     id: 'auto-4',
+    user_id: 'user-2',
     client_id: 'client-2',
     name: 'Social Media Posting',
     status: 'Running',
@@ -106,10 +117,13 @@ export const mockAutomations: Automation[] = [
     avg_duration_ms: 1200,
     success_rate: 99.1,
     n8n_run_webhook_url: 'https://n8n.techstart.com/webhook/run/social-media',
-    n8n_stop_webhook_url: 'https://n8n.techstart.com/webhook/stop/social-media'
+    n8n_stop_webhook_url: 'https://n8n.techstart.com/webhook/stop/social-media',
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-07-31T09:00:00Z'
   },
   {
     id: 'auto-5',
+    user_id: 'user-3',
     client_id: 'client-3',
     name: 'Financial Report Generation',
     status: 'Stalled',
@@ -117,10 +131,13 @@ export const mockAutomations: Automation[] = [
     avg_duration_ms: 4500,
     success_rate: 92.8,
     n8n_run_webhook_url: 'https://n8n.global.com/webhook/run/financial-reports',
-    n8n_stop_webhook_url: 'https://n8n.global.com/webhook/stop/financial-reports'
+    n8n_stop_webhook_url: 'https://n8n.global.com/webhook/run/financial-reports',
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-07-29T23:30:00Z'
   },
   {
     id: 'auto-6',
+    user_id: 'user-3',
     client_id: 'client-3',
     name: 'Backup Automation',
     status: 'Running',
@@ -128,7 +145,9 @@ export const mockAutomations: Automation[] = [
     avg_duration_ms: 8900,
     success_rate: 100.0,
     n8n_run_webhook_url: 'https://n8n.global.com/webhook/run/backup',
-    n8n_stop_webhook_url: 'https://n8n.global.com/webhook/stop/backup'
+    n8n_stop_webhook_url: 'https://n8n.global.com/webhook/stop/backup',
+    created_at: '2024-01-01T00:00:00Z',
+    updated_at: '2024-07-31T06:00:00Z'
   }
 ]
 

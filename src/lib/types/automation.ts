@@ -1,3 +1,4 @@
+// src/lib/types/automation.ts
 /**
  * TypeScript interfaces for automation data
  * Aligned with Architecture Document schema requirements for Quest 1.4
@@ -38,6 +39,7 @@ export interface Profile {
  */
 export interface Automation {
   id: string
+  user_id: string
   client_id: string
   name: string
   status: AutomationStatus
@@ -46,6 +48,8 @@ export interface Automation {
   success_rate: number
   n8n_run_webhook_url: string
   n8n_stop_webhook_url: string | null
+  created_at?: string
+  updated_at?: string
 }
 
 /**
