@@ -139,9 +139,14 @@ export function ConfirmationDialog({
             {getActionIcon()}
             {title}
           </DialogTitle>
-          <DialogDescription className="text-left space-y-2">
-            <div>{description}</div>
-            
+          <DialogDescription className="text-left">
+            {description}
+          </DialogDescription>
+        </DialogHeader>
+        
+        {/* Additional content outside DialogHeader to avoid p > div nesting issues */}
+        {(automationName || consequence) && (
+          <div className="px-6 -mt-2 space-y-3">
             {automationName && (
               <div className="font-medium text-foreground">
                 Automation: &ldquo;{automationName}&rdquo;
@@ -153,8 +158,8 @@ export function ConfirmationDialog({
                 <strong>Note:</strong> {consequence}
               </div>
             )}
-          </DialogDescription>
-        </DialogHeader>
+          </div>
+        )}
         
         <DialogFooter className="flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
           <Button
