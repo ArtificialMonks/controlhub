@@ -7,32 +7,37 @@
 Configure the following environment variables in your Vercel project dashboard:
 
 #### **Required Supabase Configuration**
-```
+
+```env
 NEXT_PUBLIC_SUPABASE_URL = https://trphfbzhurabdmgqimwj.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRycGhmYnpodXJhYmRtZ3FpbXdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NDE4MjEsImV4cCI6MjA2OTUxNzgyMX0.RpT9zWTEL50xXnoTizmbaA6V-pIzWzf47iRxk5EfPDw
 SUPABASE_SERVICE_ROLE_KEY = [Get from Supabase Dashboard > Settings > API]
 ```
 
 #### **Required Authentication Configuration**
-```
+
+```env
 NEXTAUTH_SECRET = [Generate: openssl rand -base64 32]
 ```
 
 #### **Required n8n Integration**
-```
+
+```env
 N8N_API_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MjExYTJjZi1lYTJjLTQ0Y2QtOGMyNS0xNDRjMDA4MTI1ODciLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzUzNzk1MjQ1fQ.WAhjBxjE6lTMOdldQr0a01zth_B9iYJwm4VBoomyVnU
 N8N_WEBHOOK_SECRET = [Generate: openssl rand -hex 32]
 N8N_BASE_URL = https://n8n.artificialmonks.com
 ```
 
 #### **Required Security Configuration**
-```
+
+```env
 ENCRYPTION_KEY = [Generate: openssl rand -base64 32]
 CORS_ORIGINS = https://controlhub.artificialmonks.com,https://n8n.artificialmonks.com
 ```
 
 #### **Optional Monitoring Configuration**
-```
+
+```env
 ENABLE_ANALYTICS = true
 ENABLE_ERROR_TRACKING = true
 LOG_LEVEL = info
@@ -43,6 +48,7 @@ FEATURE_ADVANCED_ANALYTICS = true
 ### **Deployment Steps**
 
 1. **Create Vercel Project**
+
    ```bash
    # Install Vercel CLI
    npm i -g vercel
@@ -88,16 +94,19 @@ FEATURE_ADVANCED_ANALYTICS = true
 ### **Troubleshooting**
 
 #### **Build Issues**
+
 - Ensure all dependencies are in package.json
 - Check TypeScript compilation locally: `npm run build`
 - Verify environment variables are set
 
 #### **Runtime Issues**
+
 - Check Vercel function logs
 - Verify Supabase connection
 - Test API endpoints individually
 
 #### **Database Issues**
+
 - Verify RLS policies are correct
 - Check Supabase service role key
 - Test database queries in Supabase dashboard
@@ -105,6 +114,7 @@ FEATURE_ADVANCED_ANALYTICS = true
 ### **Rollback Procedure**
 
 1. **Immediate Rollback**
+
    ```bash
    vercel rollback [deployment-url]
    ```

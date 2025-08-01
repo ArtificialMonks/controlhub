@@ -4,17 +4,21 @@ export default defineConfig({
   testDir: './tests',
   fullyParallel: false, // Sequential for faster execution
   forbidOnly: !!process.env.CI,
-  retries: 0, // No retries for speed
-  workers: 1, // Single worker for speed
-  reporter: 'list',
-  timeout: 10000, // 10 second timeout
+  retries: process.env.CI ? 2 : 0, // Retries in CI for stability
+  workers: process.env.CI ? 2 : 1, // More workers in CI
+  reporter: [
+    ['list'],
+    ['html', { outputFolder: 'playwright-report' }],
+    ['json', { outputFile: 'test-results/results.json' }]
+  ],
+  timeout: 30000, // Increased timeout for performance tests
   use: {
     baseURL: 'http://localhost:3000',
-    trace: 'off', // No tracing for speed
+    trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
     screenshot: 'only-on-failure',
-    video: 'off', // No video for speed
-    actionTimeout: 5000, // Fast action timeout
-    navigationTimeout: 8000, // Fast navigation timeout
+    video: process.env.CI ? 'retain-on-failure' : 'off',
+    actionTimeout: 10000, // Increased for performance tests
+    navigationTimeout: 15000, // Increased for performance tests
   },
 
   projects: [

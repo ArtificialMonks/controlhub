@@ -2,25 +2,37 @@
 
 ## **Introduction**
 
-This document outlines the complete fullstack architecture for the Communitee Control Hub, including backend systems, frontend implementation, and their integration. It serves as the single source of truth for AI-driven development, ensuring consistency across the entire technology stack.
+This document outlines the complete fullstack architecture for the Communitee Control Hub, including backend
+systems, frontend implementation, and their integration. It serves as the single source of truth for
+AI-driven development, ensuring consistency across the entire technology stack.
 
 ### **Starter Template or Existing Project**
 
-While no specific pre-packaged starter *kit* was selected in the PRD, the technical foundation will be a modern React meta-framework to support our goals of a high-performance, serverless application.
+While no specific pre-packaged starter _kit_ was selected in the PRD, the technical
+foundation will be a modern React meta-framework to support our goals of a
+high-performance, serverless application.
 
-**Recommendation:** The project will be initialized using the standard **Next.js App Router** starter (npx create-next-app@latest).
+**Recommendation:** The project will be initialized using the standard **Next.js App Router** starter
+(npx create-next-app@latest).
 
 **Rationale:**
 
-* **Alignment:** Next.js is the leading framework for production React applications and integrates seamlessly with our chosen UI library, **shadcn/ui**.  
-* **Serverless by Default:** It is designed for a serverless deployment model, which directly aligns with the PRD's technical recommendation.  
-* **Full-Stack Capabilities:** The framework's API routes provide a natural and efficient way to build our backend, including the critical "Enhanced Telemetry" webhook endpoint.
+* **Alignment:** Next.js is the leading framework for production React applications and integrates seamlessly
+  with our chosen UI library, **shadcn/ui**.
+* **Serverless by Default:** It is designed for a serverless deployment model, which directly aligns with
+  the PRD's technical recommendation.
+* **Full-Stack Capabilities:** The framework's API routes provide a natural and efficient way to build our
+  backend, including the critical "Enhanced Telemetry" webhook endpoint.
 
-### 
+### **Project Overview**
 
-### 
+This document provides the comprehensive fullstack architecture for the Communitee Control Hub.
 
-### 
+### **Technical Stack**
+
+Next.js 15 with App Router, TypeScript, Tailwind CSS, Supabase, and shadcn/ui components.
+
+### **Architecture Principles**
 
 ### **Change Log**
 
@@ -32,20 +44,29 @@ While no specific pre-packaged starter *kit* was selected in the PRD, the techni
 
 ### **Technical Summary**
 
-The system will be a full-stack, serverless web application built on the **Next.js** framework. The frontend will be a server-side rendered (SSR) React application using **shadcn/ui**. The backend will consist of serverless API routes co-located within the same application, responsible for user actions and processing incoming n8n webhooks. The entire application will be deployed on **Vercel**, with data and auth managed by **Supabase**. Key architectural patterns include a strict **Repository Layer** to mitigate vendor lock-in and a **"n8n Heartbeat Checker"** service to monitor the upstream n8n instance.
+The system will be a full-stack, serverless web application built on the **Next.js** framework. The frontend
+will be a server-side rendered (SSR) React application using **shadcn/ui**. The backend will consist of
+serverless API routes co-located within the same application, responsible for user actions and processing
+incoming n8n webhooks. The entire application will be deployed on **Vercel**, with data and auth managed by
+**Supabase**. Key architectural patterns include a strict **Repository Layer** to mitigate vendor lock-in and
+a **"n8n Heartbeat Checker"** service to monitor the upstream n8n instance.
 
 ### **Platform and Infrastructure Choice**
 
 * **Platform:** **Vercel**  
-  * **Rationale:** Provides a seamless, zero-configuration deployment experience for Next.js, a global edge network for performance, integrated CI/CD, and native support for our serverless API routes.  
+  * **Rationale:** Provides a seamless, zero-configuration deployment experience for Next.js, a global edge
+    network for performance, integrated CI/CD, and native support for our serverless API routes.
 * **Key Services:**  
   * **Vercel:** For application hosting, serverless function execution, and CI/CD.  
-  * **Supabase:** For the Postgres database, user authentication, and real-time data subscriptions. *(Note: A post-MVP "Load Testing" quest will be added to the roadmap to validate performance under high write-volume scenarios).*
+  * **Supabase:** For the Postgres database, user authentication, and real-time data subscriptions. _(Note: A
+    post-MVP "Load Testing" quest will be added to the roadmap to validate performance under high write-volume
+    scenarios)._
 
 ### **Repository Structure**
 
 * **Structure:** A single **Next.js application repository**.  
-  * **Rationale:** Co-locating frontend and backend code simplifies development and allows for end-to-end type safety between the UI and the API.
+  * **Rationale:** Co-locating frontend and backend code simplifies development and allows for end-to-end type
+    safety between the UI and the API.
 
 ### **High Level Architecture Diagram**
 
@@ -54,7 +75,7 @@ Code snippet
 graph TD  
     User \--\> Vercel\[Vercel Edge Network\];  
     Vercel \--\> App\[Next.js App (SSR Frontend)\];  
-      
+
     subgraph "User Interaction Flow"  
         App \-- API Calls \--\> API\_Routes\[API Routes on Vercel\];  
         API\_Routes \-- Triggers \--\> n8n\[n8n Instance\];  
@@ -76,8 +97,11 @@ graph TD
 
 * **Full-Stack Framework:** Using Next.js for both frontend and backend logic.  
 * **Server-Side Rendering (SSR):** For the initial page load to improve performance.  
-* **API Routes:** All backend logic will be implemented as serverless functions. *(Note: Post-MVP, the critical webhook ingestion service will be considered for extraction into a separate function for fault isolation).*  
-* **Repository Layer:** All database and auth calls **must** be wrapped in a dedicated data access layer. This abstracts the data source and mitigates long-term vendor lock-in.  
+* **API Routes:** All backend logic will be implemented as serverless functions. _(Note: Post-MVP, the
+  critical webhook ingestion service will be considered for extraction into a separate function for fault
+  isolation)._
+* **Repository Layer:** All database and auth calls **must** be wrapped in a dedicated data access layer.
+  This abstracts the data source and mitigates long-term vendor lock-in.
 * **Component-Based UI:** The frontend will be composed of reusable React components from shadcn/ui.  
 * **Database as a Service (DBaaS):** We will use Supabase to offload database management.
 
@@ -86,18 +110,28 @@ graph TD
 | Category | Technology | Version | Purpose & Rationale |
 | :---- | :---- | :---- | :---- |
 | **Frontend Language** | TypeScript | 5.5.3 | For type-safe development, catching errors early. |
-| **Frontend Framework** | Next.js (App Router) | 14.2.5 | Production-grade React framework with SSR and serverless functions. |
-| **UI Component Library** | shadcn/ui | Latest | A collection of accessible and composable components for rapid UI development. |
-| **State Management** | Zustand | 4.5.2 | Simple, unopinionated state management for React that avoids boilerplate. |
-| **CSS Framework** | Tailwind CSS | 3.4.4 | A utility-first CSS framework for creating custom designs efficiently. |
-| **Backend Language** | TypeScript | 5.5.3 | Aligns with the frontend for a consistent, type-safe monorepo experience. |
+| **Frontend Framework** | Next.js (App Router) | 14.2.5 | Production-grade React framework with SSR and
+
+                                                             serverless functions. |
+| **UI Component Library** | shadcn/ui | Latest | A collection of accessible and composable components
+                                                  for rapid UI development. |
+| **State Management** | Zustand | 4.5.2 | Simple, unopinionated state management for React that
+                                        avoids boilerplate. |
+| **CSS Framework** | Tailwind CSS | 3.4.4 | A utility-first CSS framework for creating custom designs
+                                             efficiently. |
+| **Backend Language** | TypeScript | 5.5.3 | Aligns with the frontend for a consistent, type-safe
+                                            monorepo experience. |
 | **Backend Framework** | Next.js API Routes | 14.2.5 | Provides a simple, serverless-first way to build our backend. |
 | **API Style** | REST API | N/A | Well-understood, standard approach for web APIs. |
-| **Database** | PostgreSQL (via Supabase) | 16.x | Powerful, reliable, and feature-rich open-source relational database. |
+| **Database** | PostgreSQL (via Supabase) | 16.x | Powerful, reliable, and feature-rich open-source
+                                                   relational database. |
 | **Authentication** | Supabase Auth | \~2.x | Manages user sign-up, login, and session management securely. |
-| **Frontend Testing** | Vitest \+ React Testing Library | 1.6.0 | Modern, fast test runner and library for testing components from a user's perspective. |
-| **E2E Testing** | Playwright | 1.45.1 | For robust, end-to-end testing of critical user flows across different browsers. |
-| **CI/CD Platform** | Vercel CI | N/A | Natively integrated with our host, providing seamless automated deployments. |
+| **Frontend Testing** | Vitest \+ React Testing Library | 1.6.0 | Modern, fast test runner and library for testing
+                                                              components from a user's perspective. |
+| **E2E Testing** | Playwright | 1.45.1 | For robust, end-to-end testing of critical user flows
+                                        across different browsers. |
+| **CI/CD Platform** | Vercel CI | N/A | Natively integrated with our host, providing seamless
+                                       automated deployments. |
 
 ## **Data Models**
 
@@ -109,7 +143,8 @@ graph TD
 
 ## **Components**
 
-(Details the logical components: Frontend Application, Backend API, Repository Layer, n8n Webhook Service, Telemetry Ingestion Service, and Heartbeat Checker, including a component diagram.)
+(Details the logical components: Frontend Application, Backend API, Repository Layer, n8n Webhook Service,
+Telemetry Ingestion Service, and Heartbeat Checker, including a component diagram.)
 
 ## **External APIs**
 
@@ -118,7 +153,8 @@ graph TD
 * **Purpose:** To trigger and stop the user's automation workflows.  
 * **Documentation:** https://docs.n8n.io/webhooks/  
 * **Authentication:** A secret token sent in the request headers.  
-* **Integration Notes:** The n8n Webhook Service component is responsible for managing these outbound calls. URLs are stored encrypted.
+* **Integration Notes:** The n8n Webhook Service component is responsible for managing these outbound calls.
+  URLs are stored encrypted.
 
 ## **Core Workflows**
 
@@ -126,7 +162,8 @@ graph TD
 
 ## **Database Schema**
 
-The following SQL statements define the tables for our PostgreSQL database, to be managed via Supabase migrations. Row Level Security (RLS) must be enabled on all tables.
+The following SQL statements define the tables for our PostgreSQL database, to be managed via Supabase
+migrations. Row Level Security (RLS) must be enabled on all tables.
 
 SQL
 
@@ -246,11 +283,13 @@ NEXTAUTH\_SECRET="generate\_a\_strong\_random\_secret\_for\_session\_encryption"
 ### **Deployment Strategy**
 
 * **Frontend Deployment:** The Next.js frontend application will be deployed to **Vercel's global Edge Network**.  
-* **Backend Deployment:** All backend logic within the Next.js API Routes will be deployed as individual **Serverless Functions** on Vercel's infrastructure.
+* **Backend Deployment:** All backend logic within the Next.js API Routes will be deployed as individual
+  **Serverless Functions** on Vercel's infrastructure.
 
 ### **CI/CD Pipeline**
 
-We will use Vercel's native, Git-integrated CI/CD pipeline. Every Pull Request will generate a unique **Preview URL** for testing. Merges to the main branch will automatically trigger a **Production** deployment.
+We will use Vercel's native, Git-integrated CI/CD pipeline. Every Pull Request will generate a unique
+**Preview URL** for testing. Merges to the main branch will automatically trigger a **Production** deployment.
 
 ### **Environments**
 
@@ -264,20 +303,26 @@ We will use Vercel's native, Git-integrated CI/CD pipeline. Every Pull Request w
 
 ### **Security Requirements**
 
-* **Frontend Security:** A strict Content Security Policy (CSP) will be implemented. JWTs will be stored in secure, HttpOnly cookies.  
-* **Backend Security:** All API inputs will be rigorously validated. Vercel's built-in rate limiting will be configured for sensitive endpoints.  
-* **Authentication Security:** Secure session and token refresh logic will be handled by the official Supabase client library.
+* **Frontend Security:** A strict Content Security Policy (CSP) will be implemented. JWTs will be stored in
+  secure, HttpOnly cookies.  
+* **Backend Security:** All API inputs will be rigorously validated. Vercel's built-in rate limiting will be
+  configured for sensitive endpoints.  
+* **Authentication Security:** Secure session and token refresh logic will be handled by the official
+  Supabase client library.
 
 ### **Performance Optimization**
 
-* **Frontend Performance:** We will use Server-Side Rendering (SSR), code-splitting, and skeleton loaders to achieve our Core Web Vitals goals.  
-* **Backend Performance:** The 95th percentile (P95) latency for all core API routes should remain under 500ms. Database indexes will be used for all frequently queried columns.
+* **Frontend Performance:** We will use Server-Side Rendering (SSR), code-splitting, and skeleton loaders to
+  achieve our Core Web Vitals goals.  
+* **Backend Performance:** The 95th percentile (P95) latency for all core API routes should remain under
+  500ms. Database indexes will be used for all frequently queried columns.
 
 ## **Testing Strategy**
 
 ### **Testing Pyramid**
 
-Our strategy is based on the Testing Pyramid, with a foundation of many fast unit tests, fewer integration tests, and a select few end-to-end tests.
+Our strategy is based on the Testing Pyramid, with a foundation of many fast unit tests, fewer integration
+tests, and a select few end-to-end tests.
 
 ### **Test Organization**
 
@@ -287,7 +332,8 @@ Our strategy is based on the Testing Pyramid, with a foundation of many fast uni
 
 ### **Test Examples**
 
-(Provides boilerplate examples for a Frontend Component Test with jest-axe, a Backend API Test, and an E2E Test with Playwright.)
+(Provides boilerplate examples for a Frontend Component Test with jest-axe, a Backend API Test, and an E2E
+Test with Playwright.)
 
 ## **Coding Standards**
 
@@ -295,7 +341,8 @@ Our strategy is based on the Testing Pyramid, with a foundation of many fast uni
 
 1. **Use the Repository Layer:** All database interactions **must** go through the defined Repository Layer.  
 2. **End-to-End Type Safety:** Use shared TypeScript types; avoid using any.  
-3. **Use the Centralized API Client:** Frontend components **must** use the centralized API client for all backend communication.  
+3. **Use the Centralized API Client:** Frontend components **must** use the centralized API client for all
+   backend communication.  
 4. **Isolate Environment Variables:** Access environment variables only through a dedicated configuration module.  
 5. **Rely on Authentication Middleware:** Do not implement session checks inside individual API routes.
 
@@ -311,15 +358,18 @@ Our strategy is based on the Testing Pyramid, with a foundation of many fast uni
 
 ### **Error Response Format**
 
-All errors returned by the backend API **must** conform to a standardized JSON structure including a user-friendly message, status code, and a request ID for tracing.
+All errors returned by the backend API **must** conform to a standardized JSON structure including a
+user-friendly message, status code, and a request ID for tracing.
 
 ### **Frontend Error Handling**
 
-The centralized API client will catch all non-2xx responses and trigger a global **Toast** notification with a user-friendly message.
+The centralized API client will catch all non-2xx responses and trigger a global **Toast** notification with
+a user-friendly message.
 
 ### **Backend Error Handling**
 
-All API routes will use a global try...catch block to ensure no unhandled exceptions are thrown. Custom error classes will be used to map to specific HTTP status codes.
+All API routes will use a global try...catch block to ensure no unhandled exceptions are thrown. Custom error
+classes will be used to map to specific HTTP status codes.
 
 ## **Monitoring and Observability**
 
@@ -333,4 +383,3 @@ All API routes will use a global try...catch block to ensure no unhandled except
 ### **Key Metrics**
 
 (Details key frontend and backend metrics to monitor, including error rates, P95 latency, and Core Web Vitals.)
-

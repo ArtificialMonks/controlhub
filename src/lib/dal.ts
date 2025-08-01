@@ -45,11 +45,12 @@ export const getUserProfile = cache(async () => {
     
     if (error) {
       console.error('Profile fetch error:', {
-        code: error.code,
-        message: error.message,
-        details: error.details,
-        hint: error.hint,
-        userId: user.id
+        code: error?.code,
+        message: error?.message,
+        details: error?.details,
+        hint: error?.hint,
+        userId: user.id,
+        fullError: JSON.stringify(error, null, 2)
       })
       
       // If profile doesn't exist, return a basic profile structure
@@ -73,7 +74,9 @@ export const getUserProfile = cache(async () => {
     console.error('Profile fetch error (catch):', {
       error: error instanceof Error ? error.message : 'Unknown error',
       userId: user?.id,
-      errorType: typeof error
+      errorType: typeof error,
+      stack: error instanceof Error ? error.stack : undefined,
+      fullError: JSON.stringify(error, Object.getOwnPropertyNames(error))
     })
     return null
   }

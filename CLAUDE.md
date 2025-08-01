@@ -5,17 +5,23 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Development Commands
 
 ### Core Development
+
 - `npm run dev` - Start development server with Turbopack
 - `npm run build` - Build production version
 - `npm start` - Start production server
 - `npm run lint` - Run ESLint
+- `npm run lint:md` - Run markdownlint on all markdown files
+- `npm run lint:md:fix` - Auto-fix markdown formatting issues
+- `npm run lint:all` - Run both ESLint and markdownlint
 - `npm run test` - Run tests with Vitest
 - `npm run test:ui` - Run tests with Vitest UI
 - `npm run test:run` - Run all tests once
 - `npm run test:coverage` - Run tests with coverage report
 
 ### Testing Strategy
+
 The project uses:
+
 - **Vitest** for unit testing with React integration
 - **Testing Library** (@testing-library/react, @testing-library/jest-dom) for component testing
 - **Playwright** for end-to-end testing
@@ -29,6 +35,7 @@ The project uses:
 ## Architecture Overview
 
 ### Tech Stack
+
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript with strict mode
 - **Styling**: Tailwind CSS with shadcn/ui components
@@ -41,6 +48,7 @@ The project uses:
 ### Project Structure
 
 #### Core Application (`/src`)
+
 - **`app/`** - Next.js App Router structure
   - `(auth)/` - Authentication routes (login, signup)
   - `(dashboard)/` - Protected dashboard routes  
@@ -58,12 +66,14 @@ The project uses:
   - `security/` - Encryption utilities
 
 #### Database
+
 - **Migration files**: `supabase/migrations/`
 - **Profiles table**: Extends auth.users with additional user data
 - **RLS policies**: Implemented for data security
 - **Auto-triggers**: Handle profile creation and updates
 
 #### Parallel Development Environment - A.V.A.R.I.C.E. Protocol
+
 - **`avarice-protocol/`** - Advanced AI-driven development framework (excluded from main tsconfig)
 - Contains Research Agent system with Level 3 intelligence capabilities
 - Features specialized agents: Architect, Executor, Static Analyzer, Scribe, JOKER
@@ -74,17 +84,20 @@ The project uses:
 ### Key Design Patterns
 
 #### Authentication Flow
+
 - Magic link and password authentication via Supabase
 - Middleware handles auth state and redirects
 - Server-side data access through DAL (Data Access Layer)
 
 #### Component Architecture
+
 - shadcn/ui for consistent design system
 - Dark/light mode support with CSS custom properties
 - Responsive design with Tailwind
 - Form validation with React Hook Form + Zod
 
 #### API Design
+
 - RESTful API routes in `app/api/` following Next.js 15 App Router conventions
 - Webhook endpoints for n8n integration (`/api/webhooks/n8n/`)
 - Server actions for form submissions (authentication, profile management)
@@ -97,9 +110,12 @@ The project uses:
 
 ## Key Business Context
 
-This is the **Communitee Control Hub** - a management interface for n8n automation workflows. The main goal is to provide non-technical users with a simple interface to monitor and control their automation workflows without needing developer assistance.
+This is the **Communitee Control Hub** - a management interface for n8n automation workflows.
+The main goal is to provide non-technical users with a simple interface to monitor and control
+their automation workflows without needing developer assistance.
 
 ### Core Features (from PRD)
+
 - Secure user authentication and workspace management
 - Data grid showing automations with status, client, last run data
 - Real-time filtering by client name and automation status
@@ -108,6 +124,7 @@ This is the **Communitee Control Hub** - a management interface for n8n automati
 - Light/dark mode with professional branding
 
 ### UI/UX Requirements
+
 - **Light mode**: White background (#ffffff) with black text
 - **Dark mode**: Deep navy gradient (#0a0b1f→#002bff) with white text  
 - Two-column layout with collapsible sidebar
@@ -118,26 +135,31 @@ This is the **Communitee Control Hub** - a management interface for n8n automati
 ## Development Guidelines
 
 ### Path Aliases
+
 - Use `@/*` for imports from `src/` directory
 - Example: `import { Button } from "@/components/ui/button"`
 
 ### Database Operations
+
 - Always use the DAL (`src/lib/dal.ts`) for data access
 - Follow RLS policies - users can only access their own data
 - Use server-side rendering where possible for better performance
 
 ### State Management
+
 - Use Zustand stores for client-side state
 - Keep stores focused and feature-specific
 - Server state should use React Server Components when possible
 
 ### Security Considerations
+
 - All sensitive data encrypted at rest
 - Webhook URLs and API keys must be secured
 - Follow Supabase security best practices
 - No hardcoded credentials in code
 
 ### Testing Requirements
+
 - Write unit tests for utilities and business logic (Vitest)
 - Component tests for UI components (React Testing Library)
 - Integration tests for API routes and database operations
@@ -146,11 +168,68 @@ This is the **Communitee Control Hub** - a management interface for n8n automati
 - **Performance tests**: Require live Supabase instance, documented in `docs/testing/performance-tests.md`
 - **Research Agent tests**: Independent testing in `avarice-protocol/` with specialized test framework
 
+## Documentation Quality & Compliance
+
+### Markdown Standards & Prevention System
+
+The project enforces strict markdown quality standards through a comprehensive prevention system:
+
+#### Core Standards
+
+- **Line Length**: Maximum 120 characters per line
+- **Heading Style**: ATX-style headings (# format) with proper spacing
+- **Code Blocks**: Must specify language for syntax highlighting
+- **Spell Check**: All technical terms must be in `.cspell.json` dictionary
+- **Structure**: Documents must start with level 1 heading
+
+#### Prevention System Components
+
+1. **Enhanced .markdownlint.json**: Strict linting rules with comprehensive validation
+2. **Pre-commit Hooks**: Automated validation before commits (`.git/hooks/pre-commit`)
+3. **CI/CD Integration**: Pipeline validation with spell-check and markdown linting
+4. **Spell Check Dictionary**: Comprehensive `.cspell.json` with all project terms
+5. **Markdown Template**: Standard template in `.templates/markdown-template.md`
+
+#### Usage Commands
+
+```bash
+# Lint markdown files
+npm run lint:md
+
+# Fix auto-fixable markdown issues
+npm run lint:md:fix
+
+# Run spell check
+npx cspell "**/*.md" --no-progress
+
+# Validate before commit (automatic via pre-commit hook)
+git commit -m "message"
+```
+
+#### Adding New Technical Terms
+
+When encountering legitimate technical terms that trigger spell-check violations:
+
+1. Add terms to `.cspell.json` in the `words` array
+2. Maintain alphabetical order for readability
+3. Include both variations (e.g., "webhook", "Webhook")
+
+#### Violation Prevention
+
+- **Pre-commit**: Blocks commits with markdown violations
+- **CI/CD**: Fails builds on quality gate violations
+- **Developer Guidelines**: Clear documentation in `docs/MARKDOWN_LINTING.md`
+- **Template**: Standard structure prevents common issues
+
+This system ensures zero future violations and maintains consistent, high-quality documentation.
+
 ## MCP Configuration
 
-The project uses MCP (Model Context Protocol) servers configured in `.mcp.json` in the root directory. This is the single source of truth for MCP server configuration to avoid conflicts.
+The project uses MCP (Model Context Protocol) servers configured in `.mcp.json` in the root directory.
+This is the single source of truth for MCP server configuration to avoid conflicts.
 
 ### Available MCP Servers
+
 All MCP servers from `.mcp.json` are integrated with Claude Code:
 
 - **exa** - Advanced AI-powered search and research capabilities (exa-mcp-server)
@@ -161,6 +240,7 @@ All MCP servers from `.mcp.json` are integrated with Claude Code:
 - **mcp-sequentialthinking-tools** - Sequential reasoning and thinking tools
 
 ### Claude MCP Integration
+
 To add these MCP servers to Claude Code, use the following commands:
 
 ```bash
@@ -171,10 +251,13 @@ claude add mcp exa npx -y exa-mcp-server
 claude add mcp neo4j /opt/homebrew/bin/uvx mcp-neo4j-data-modeling@0.2.0 --transport stdio
 
 # Web scraping and content extraction
-claude add mcp firecrawl-mcp-server npx -y @smithery/cli@latest run @Krieg2065/firecrawl-mcp-server --key af1abe1d-64eb-443e-8457-f42e6f8ee527 --profile explicit-snail-AI7rKy
+claude add mcp firecrawl-mcp-server npx -y @smithery/cli@latest run \
+  @Krieg2065/firecrawl-mcp-server --key af1abe1d-64eb-443e-8457-f42e6f8ee527 \
+  --profile explicit-snail-AI7rKy
 
 # Magic development tools
-claude add mcp magic npx -y @21st-dev/magic@latest API_KEY="7336facdebd50448820fcbc4b0539dd34256cf64ffecccbebf11000caa026d55"
+claude add mcp magic npx -y @21st-dev/magic@latest \
+  API_KEY="7336facdebd50448820fcbc4b0539dd34256cf64ffecccbebf11000caa026d55"
 
 # Context management
 claude add mcp context7 npx -y @upstash/context7-mcp@latest
@@ -184,6 +267,7 @@ claude add mcp sequential-thinking npx -y mcp-sequentialthinking-tools
 ```
 
 ### MCP Server Details
+
 - **EXA API Key**: Pre-configured in `.mcp.json` (98aa8e4e-7583-414f-b879-cadb1a4583c4)
 - **Firecrawl**: Configured with API key and profile (explicit-snail-AI7rKy)
 - **Magic**: Configured with API key for enhanced development
@@ -192,7 +276,9 @@ claude add mcp sequential-thinking npx -y mcp-sequentialthinking-tools
 - **Sequential Thinking**: No API key required
 
 ### Integration with Research Agent
+
 The A.V.A.R.I.C.E. Protocol Research Agent system integrates with these MCP servers for:
+
 - **External research and validation** (EXA, Context 7)
 - **Content extraction and analysis** (Firecrawl)
 - **Graph database operations** (Neo4j for knowledge graph management)
@@ -213,7 +299,8 @@ Always add new MCP servers to `.mcp.json` to maintain consistency across the sys
 
 ## A.V.A.R.I.C.E. Protocol Integration
 
-This repository contains both the Communitee Control Hub application and the A.V.A.R.I.C.E. Protocol framework. Understanding their relationship is crucial:
+This repository contains both the Communitee Control Hub application and the A.V.A.R.I.C.E. Protocol framework.
+Understanding their relationship is crucial:
 
 ### Dual Architecture
 
@@ -266,4 +353,6 @@ When working on Research Agent features:
 - `augment-integration.ts` - Main integration layer for external research tools
 - `types.ts` - Comprehensive type definitions for research operations
 
-The Research Agent system represents a sophisticated AI framework designed for autonomous research, optimization, and knowledge management, complementing the main application's automation workflow management capabilities.
+The Research Agent system represents a sophisticated AI framework designed for autonomous research,
+optimization, and knowledge management, complementing the main application's automation workflow
+management capabilities.

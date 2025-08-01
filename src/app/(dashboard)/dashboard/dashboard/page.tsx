@@ -1,3 +1,4 @@
+// src/app/(dashboard)/dashboard/dashboard/page.tsx
 import { redirect } from 'next/navigation'
 import { verifySession, getUserProfile } from '@/lib/dal'
 import { DashboardHeader } from '@/components/dashboard/dashboard-header'

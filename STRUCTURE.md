@@ -2,7 +2,9 @@
 
 ## Overview
 
-This document describes the enterprise-grade directory structure implemented for the Communitee Control Hub application. The structure follows modern Next.js and full-stack application best practices, emphasizing clean architecture, security, and scalability.
+This document describes the enterprise-grade directory structure implemented for the Communitee Control Hub
+application. The structure follows modern Next.js and full-stack application best practices, emphasizing clean
+architecture, security, and scalability.
 
 ## Directory Tree
 
@@ -180,12 +182,14 @@ communitee-control-hub/
 ## Directory Purposes
 
 ### Root Level
+
 - **Essential project files only**: README, package.json, configuration files
 - **No business logic or implementation details**
 - **Clean, professional appearance for repository visitors**
 
 ### `/src/app` - Next.js App Router
-**Modern Next.js 13+ App Router structure with file-based routing**
+
+#### Modern Next.js 13+ App Router structure with file-based routing
 
 - **Route Groups**: `(auth)` for authentication-related pages
 - **Dynamic Routes**: `[id]` for parameterized routes
@@ -193,14 +197,16 @@ communitee-control-hub/
 - **Layouts**: Nested layouts for different sections of the application
 
 ### `/src/components` - React Components
-**Reusable UI components organized by domain**
+
+#### Reusable UI components organized by domain
 
 - **UI Components**: shadcn/ui based design system components
 - **Feature Components**: Domain-specific components (auth, dashboard, automation)
 - **Composition**: Components designed for reusability and composition
 
 ### `/src/lib` - Utility Libraries
-**Core application logic and utilities**
+
+#### Core application logic and utilities
 
 - **Configuration**: Centralized environment and feature flag management
 - **Data Access**: Supabase integration and data access patterns
@@ -209,14 +215,16 @@ communitee-control-hub/
 - **Monitoring**: Logging, metrics, and error tracking
 
 ### `/supabase` - Database Management
-**Database schema and migration management**
+
+#### Database schema and migration management
 
 - **Migrations**: SQL migration files with proper versioning
 - **RLS Policies**: Row Level Security policies for data protection
 - **Indexes**: Performance optimization through proper indexing
 
 ### `/docs` - Documentation
-**Comprehensive project documentation**
+
+#### Comprehensive project documentation
 
 - **Architecture**: Technical architecture and design decisions
 - **Requirements**: Product requirements and specifications
@@ -224,22 +232,26 @@ communitee-control-hub/
 - **Evidence Storage**: A.V.A.R.I.C.E. Protocol evidence with standardized quest-specific organization
 
 #### Evidence Storage Standards (MANDATORY)
+
 **Location**: `/docs/evidence/quest-{quest-number}/`
 
 **Standardized Structure**:
+
 - `phase-evidence/`: Evidence from all 9 A.V.A.R.I.C.E. Protocol phases
 - `agent-reports/`: Agent-specific reports (Architect, Coder, QA, Logician, Scribe)
 - `quality-gates/`: Quality gate validation results (TypeScript, ESLint, Testing, Security)
 - `memorization/`: Neo4j memory storage confirmations and institutional memory
 
 **Enforcement Rules**:
+
 - **ZERO TOLERANCE**: Evidence storage outside quest-specific directories is prohibited
 - **AUTOMATIC VALIDATION**: Evidence paths validated during protocol execution
 - **QUEST NUMBERING**: Use format `quest-{major}.{minor}` (e.g., `quest-1.1`, `quest-2.3`)
 - **NO COMBINED QUESTS**: Avoid formats like `quest-2.1-2.2` or inconsistent naming
 
 ### `/tests` - Testing
-**Comprehensive testing strategy**
+
+#### Comprehensive testing strategy
 
 - **Unit Tests**: Component and utility function tests with Vitest
 - **E2E Tests**: End-to-end testing with Playwright
@@ -248,29 +260,34 @@ communitee-control-hub/
 ## Architecture Principles
 
 ### 1. **Clean Architecture**
+
 - Clear separation of concerns between UI, business logic, and data access
 - Dependency inversion with interfaces and abstractions
 - Domain-driven design principles
 
 ### 2. **Security First**
+
 - Row Level Security (RLS) enabled on all database tables
 - Input validation and sanitization at all entry points
 - Secure authentication with Supabase Auth
 - Environment variable management and secrets protection
 
 ### 3. **Performance Optimization**
+
 - Static generation where possible with Next.js
 - Proper caching strategies for API responses
 - Image optimization with Next.js Image component
 - Bundle optimization and code splitting
 
 ### 4. **Developer Experience**
+
 - TypeScript strict mode for type safety
 - ESLint and Prettier for code quality
 - Comprehensive testing with Vitest and Playwright
 - Hot reload and fast refresh in development
 
 ### 5. **Production Readiness**
+
 - Comprehensive monitoring and logging
 - Error tracking and performance monitoring
 - Proper deployment configuration for Vercel
@@ -279,12 +296,14 @@ communitee-control-hub/
 ## Best Practices
 
 ### File Naming Conventions
+
 - **Components**: PascalCase (e.g., `LoginForm.tsx`)
 - **Utilities**: camelCase (e.g., `authUtils.ts`)
 - **Constants**: UPPER_SNAKE_CASE (e.g., `API_ENDPOINTS.ts`)
 - **Types**: PascalCase with descriptive names (e.g., `UserProfile.ts`)
 
 ### Import Organization
+
 1. React and Next.js imports
 2. Third-party library imports
 3. Internal component imports
@@ -292,15 +311,18 @@ communitee-control-hub/
 5. Type imports (with `type` keyword)
 
 ### Component Structure
+
 - Use functional components with hooks
 - Implement proper error boundaries
 - Follow accessibility best practices (WCAG 2.1 AA)
 - Use TypeScript interfaces for props
 
 ### State Management
+
 - Use Zustand for global state management
 - Implement proper state persistence where needed
 - Follow immutable update patterns
 - Use computed values for derived state
 
-This structure ensures maintainability, scalability, and follows modern Next.js and React best practices while maintaining enterprise-grade standards for security and performance.
+This structure ensures maintainability, scalability, and follows modern Next.js and React best practices while
+maintaining enterprise-grade standards for security and performance.

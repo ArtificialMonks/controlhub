@@ -2,11 +2,13 @@
 
 ## Overview
 
-This template provides the standardized directory structure for A.V.A.R.I.C.E. Protocol evidence collection. All quest evidence **MUST** follow this exact structure to ensure consistency and compliance.
+This template provides the standardized directory structure for A.V.A.R.I.C.E. Protocol
+evidence collection. All quest evidence **MUST** follow this exact structure to ensure
+consistency and compliance.
 
 ## Directory Structure
 
-```
+```text
 docs/evidence/quest-{quest-number}/
 ├── README.md                     # Quest-specific evidence overview
 ├── phase-evidence/               # Evidence from each of the 9 phases
@@ -111,21 +113,25 @@ docs/evidence/quest-{quest-number}/
 ## Usage Instructions
 
 ### 1. Quest Directory Creation
+
 - Replace `{quest-number}` with actual quest number (e.g., `quest-1.1`, `quest-2.3`)
 - Use format: `quest-{major}.{minor}` (NO combined quests like `quest-2.1-2.2`)
 
 ### 2. Evidence Storage Requirements
+
 - **ALL** evidence must be stored in appropriate subdirectories
 - **NO** evidence storage outside the quest-specific structure
 - **AUTOMATIC** validation during A.V.A.R.I.C.E. Protocol execution
 
 ### 3. Directory Creation Process
+
 1. Copy this template directory structure
 2. Rename to appropriate quest number
 3. Create all required subdirectories
 4. Add quest-specific README.md with overview
 
 ### 4. Validation Requirements
+
 - Evidence paths validated during protocol execution
 - Directory structure compliance enforced
 - Zero tolerance for deviations from this template
@@ -138,6 +144,7 @@ docs/evidence/quest-{quest-number}/
 - Neo4j integration must point to quest-specific directories
 
 ## Template Version
+
 - Version: 1.0
 - Last Updated: 2025-01-08
 - Compliance: A.V.A.R.I.C.E. Protocol Standards

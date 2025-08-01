@@ -2,20 +2,25 @@
 
 ## Overview
 
-This document defines comprehensive logging standards for the A.V.A.R.I.C.E. Protocol, integrating with the standardized quest-specific evidence storage structure and existing application logging infrastructure.
+This document defines comprehensive logging standards for the A.V.A.R.I.C.E. Protocol, integrating with the
+standardized quest-specific evidence storage structure and existing application logging infrastructure.
 
 ## Logging Architecture
 
 ### Primary Logging Locations
 
 #### 1. Application Logs (`/logs/`)
+
 **Purpose**: Runtime application logs and system operations
+
 - `app.log`: General application logs
 - `error.log`: Error logs and exceptions
 - `access.log`: Access logs and request tracking
 
 #### 2. Evidence Logs (`/docs/evidence/quest-{quest-number}/`)
+
 **Purpose**: A.V.A.R.I.C.E. Protocol execution evidence and audit trails
+
 - `phase-evidence/`: Phase-specific execution logs
 - `agent-reports/`: Agent-specific operation logs
 - `quality-gates/`: Quality validation and compliance logs
@@ -23,7 +28,8 @@ This document defines comprehensive logging standards for the A.V.A.R.I.C.E. Pro
 
 ### Integration with Existing Logger
 
-The existing logger service (`src/lib/monitoring/logger.ts`) is extended to support A.V.A.R.I.C.E. Protocol evidence logging:
+The existing logger service (`src/lib/monitoring/logger.ts`) is extended to support A.V.A.R.I.C.E. Protocol
+evidence logging:
 
 ```typescript
 import { Logger, LogLevel } from '@/lib/monitoring/logger'
@@ -71,15 +77,18 @@ export class AvariceProtocolLogger extends Logger {
 ### Phase Evidence Logging
 
 #### Phase 1: Strategic Planning
+
 **Location**: `docs/evidence/quest-{quest-number}/phase-evidence/phase-1-strategic-planning/execution-logs/`
 
 **Required Logs**:
+
 - Task breakdown execution logs
 - Strategic planning validation results
 - Agent capability verification logs
 - Neo4j storage operation logs
 
 **Log Format**:
+
 ```json
 {
   "timestamp": "2025-01-08T12:00:00Z",
@@ -103,18 +112,22 @@ export class AvariceProtocolLogger extends Logger {
 ```
 
 #### Phase 5: Multi-Layer Verification
+
 **Location**: `docs/evidence/quest-{quest-number}/phase-evidence/phase-5-multi-layer-verification/`
 
 **Required Logs**:
+
 - Static analysis execution logs (`static-analysis/`)
 - Formal verification logs (`formal-verification/`)
 - Quality assurance logs (`quality-assurance/`)
 - Agent coordination logs (`agent-coordination/`)
 
 #### Phase 8: Knowledge Memorization
+
 **Location**: `docs/evidence/quest-{quest-number}/memorization/`
 
 **Required Logs**:
+
 - Knowledge extraction logs (`knowledge-extraction/`)
 - Memory consolidation logs (`memory-consolidation/`)
 - Neo4j storage logs (`neo4j-storage/`)
@@ -123,27 +136,33 @@ export class AvariceProtocolLogger extends Logger {
 ### Agent-Specific Logging
 
 #### Architect Agent
+
 **Location**: `docs/evidence/quest-{quest-number}/agent-reports/architect-agent/`
 
 **Log Categories**:
+
 - Strategic planning decisions and rationale
 - Architectural review assessments
 - Expert council coordination logs
 - Design pattern validation results
 
 #### Coder Agent
+
 **Location**: `docs/evidence/quest-{quest-number}/agent-reports/coder-agent/`
 
 **Log Categories**:
+
 - Code generation execution logs
 - Implementation validation results
 - Integration testing logs
 - Bug fixing and optimization logs
 
 #### QA Agent
+
 **Location**: `docs/evidence/quest-{quest-number}/agent-reports/qa-agent/`
 
 **Log Categories**:
+
 - Test execution results and coverage
 - Quality gate validation logs
 - Performance testing results
@@ -152,9 +171,11 @@ export class AvariceProtocolLogger extends Logger {
 ### Quality Gates Logging
 
 #### TypeScript Validation
+
 **Location**: `docs/evidence/quest-{quest-number}/quality-gates/typescript-validation/`
 
 **Required Logs**:
+
 ```bash
 # Compilation results
 npx tsc --noEmit --strict > compilation-results/tsc-validation-$(date +%Y%m%d-%H%M%S).log 2>&1
@@ -164,9 +185,11 @@ npx tsc --noEmit --strict --listFiles > type-checking/type-validation-$(date +%Y
 ```
 
 #### ESLint Compliance
+
 **Location**: `docs/evidence/quest-{quest-number}/quality-gates/eslint-compliance/`
 
 **Required Logs**:
+
 ```bash
 # ESLint validation
 npx eslint src --ext .ts --format json > linting-results/eslint-results-$(date +%Y%m%d-%H%M%S).json
@@ -178,15 +201,18 @@ npx eslint src --ext .ts --format unix > code-quality/eslint-quality-$(date +%Y%
 ### Neo4j Memory Logging
 
 #### Knowledge Graph Storage
+
 **Location**: `docs/evidence/quest-{quest-number}/memorization/knowledge-graph-storage/`
 
 **Required Logs**:
+
 - Data model validation results
 - Cypher query execution logs
 - Storage confirmation evidence
 - Relationship validation logs
 
 **Log Format**:
+
 ```json
 {
   "timestamp": "2025-01-08T12:00:00Z",
@@ -210,18 +236,22 @@ npx eslint src --ext .ts --format unix > code-quality/eslint-quality-$(date +%Y%
 ## Logging Implementation Guidelines
 
 ### Log Level Standards
+
 - **DEBUG**: Detailed execution flow and variable states
 - **INFO**: Normal operation events and milestones
 - **WARN**: Potential issues that don't stop execution
 - **ERROR**: Errors that require immediate attention
 
 ### Timestamp Standards
+
 - Use ISO 8601 format: `YYYY-MM-DDTHH:mm:ssZ`
 - Include timezone information
 - Maintain consistent timestamp format across all logs
 
 ### Quest Context Requirements
+
 All logs must include:
+
 - `questId`: Quest identifier (e.g., "quest-1.2")
 - `phase`: Current protocol phase
 - `agent`: Responsible agent identifier
@@ -229,6 +259,7 @@ All logs must include:
 - `evidencePath`: Path to related evidence artifacts
 
 ### Error Handling Standards
+
 ```typescript
 // Error logging with quest context
 try {
@@ -258,18 +289,21 @@ try {
 ## Audit Trail Requirements
 
 ### Evidence Chain Integrity
+
 - All logs must maintain evidence chain integrity
 - Cross-reference logs with evidence artifacts
 - Ensure traceability from logs to concrete evidence
 - Validate log completeness during protocol execution
 
 ### Compliance Documentation
+
 - All logs must support audit trail requirements
 - Include sufficient detail for compliance verification
 - Maintain logs for required retention periods
 - Ensure logs are tamper-evident and verifiable
 
 ### Integration with Monitoring
+
 - Integrate with existing monitoring infrastructure
 - Support real-time log analysis and alerting
 - Enable log aggregation and search capabilities
@@ -278,15 +312,19 @@ try {
 ## Validation and Enforcement
 
 ### Automated Validation
+
 - Validate log format compliance during protocol execution
 - Ensure all required logs are generated
 - Verify evidence path consistency
 - Check log completeness and integrity
 
 ### Quality Assurance
+
 - Regular log quality audits
 - Compliance verification procedures
 - Performance impact assessment
 - Security and privacy validation
 
-This logging standard ensures comprehensive evidence collection while integrating seamlessly with the existing application logging infrastructure and the new quest-specific evidence storage structure.
+This logging standard ensures comprehensive evidence collection while integrating seamlessly
+with the existing application logging infrastructure and the new quest-specific evidence
+storage structure.

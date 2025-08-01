@@ -27,7 +27,7 @@ function convertAutomationToCard(automation: Automation) {
     name: automation.name,
     description: `Automation for ${automation.client_id}`, // Fallback description
     status: automation.status.toLowerCase() as "active" | "inactive" | "error" | "running",
-    lastRun: automation.last_run_at ? new Date(automation.last_run_at).toLocaleDateString() : undefined,
+    lastRun: automation.last_run_at ? new Date(automation.last_run_at).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }) : undefined,
     nextRun: "Scheduled", // Placeholder
     successRate: Math.round(automation.success_rate),
     totalRuns: Math.floor(Math.random() * 1000) + 100, // Placeholder

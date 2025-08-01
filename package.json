@@ -4,13 +4,29 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "npm run lint:all && next build",
     "start": "next start",
     "lint": "next lint",
+    "lint:md": "markdownlint \"**/*.md\"",
+    "lint:md:fix": "markdownlint \"**/*.md\" --fix",
+    "lint:all": "npm run lint && npm run lint:md",
+    "prebuild": "npm run lint:all",
     "test": "vitest",
     "test:ui": "vitest --ui",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage"
+    "test:coverage": "vitest run --coverage",
+    "test:security": "vitest run src/test/security/",
+    "test:unit": "vitest run src/test/utils/ src/test/config/",
+    "test:components": "vitest run src/components/",
+    "test:e2e": "playwright test",
+    "ci:validate": "tsx scripts/ci-cd-validation.ts",
+    "ci:validate:staging": "tsx scripts/ci-cd-validation.ts staging",
+    "ci:validate:production": "tsx scripts/ci-cd-validation.ts production",
+    "ci:quality-gates": "npm run lint:all && npx tsc --noEmit --strict && npm audit --audit-level=moderate",
+    "ci:test-all": "npm run test:unit && npm run test:security && npm run test:components",
+    "ci:build-validate": "npm run build && node -e \"console.log('Build validation passed')\"",
+    "performance:lighthouse": "lhci autorun",
+    "health:check": "curl -f http://localhost:3000/api/health || exit 1"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
@@ -60,6 +76,8 @@
     "eslint-plugin-security": "^3.0.1",
     "jest-axe": "^10.0.0",
     "jsdom": "^26.1.0",
+    "markdownlint-cli": "^0.45.0",
+    "markdownlint-cli2": "^0.18.1",
     "typescript": "^5",
     "vitest": "^3.2.4"
   }

@@ -1,3 +1,4 @@
+// src/components/dashboard/dashboard-content.tsx
 "use client"
 
 import React, { useState, useMemo } from 'react'
@@ -190,13 +191,13 @@ export function DashboardContent({ user }: DashboardContentProps) {
             <div>
               <label className="text-sm font-medium text-gray-700">Account Created</label>
               <p className="text-sm text-gray-900">
-                {new Date(user.created_at).toLocaleDateString()}
+                {new Date(user.created_at).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' })}
               </p>
             </div>
             <div>
               <label className="text-sm font-medium text-gray-700">Last Sign In</label>
               <p className="text-sm text-gray-900">
-                {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString() : 'Never'}
+                {user.last_sign_in_at ? new Date(user.last_sign_in_at).toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: 'numeric' }) : 'Never'}
               </p>
             </div>
           </div>

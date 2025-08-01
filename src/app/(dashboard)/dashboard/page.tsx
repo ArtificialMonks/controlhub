@@ -10,7 +10,13 @@ export default async function DashboardPage() {
     redirect('/login')
   }
 
-  const profile = await getUserProfile()
+  let profile = null
+  try {
+    profile = await getUserProfile()
+  } catch (error) {
+    console.error('Dashboard: Profile fetch failed:', error)
+    // Continue with null profile - components should handle this gracefully
+  }
 
   return (
     <div className="p-6">

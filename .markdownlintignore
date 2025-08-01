@@ -1,0 +1,45 @@
+# Dependencies and build outputs
+node_modules/
+.next/
+dist/
+build/
+
+# Generated files
+*.min.md
+**/generated/**
+
+# Version control
+.git/
+
+# IDE and editor files
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Temporary files
+tmp/
+temp/
+
+# Specific exclusions for large auto-generated content
+docs/evidence/**/phase-evidence/**/*.md
+avarice-protocol/**/*.md
+
+# README files that might have special formatting requirements
+**/node_modules/**/README.md
+
+# Lock files
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Coverage reports
+coverage/
+
+# Test results
+test-results/
