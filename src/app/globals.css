@@ -1,3 +1,5 @@
+/* src/app/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -76,5 +78,47 @@
   .dark body {
     background: var(--background-gradient);
     min-height: 100vh;
+  }
+
+  /* Layout utilities for sidebar integration */
+  .sidebar-layout-container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    position: relative;
+  }
+
+  .sidebar-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+
+  .sidebar-main-content-inner {
+    flex: 1;
+    overflow: auto;
+    height: 100%;
+  }
+
+  /* Responsive sidebar adjustments */
+  @media (max-width: 768px) {
+    .sidebar-main-content {
+      width: 100% !important;
+      margin-left: 0 !important;
+    }
+  }
+
+  /* Futuristic font utilities */
+  .font-futuristic {
+    font-family: 'Orbitron', monospace;
+  }
+
+  .control-hub-title {
+    font-family: 'Orbitron', monospace;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 }

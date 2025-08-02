@@ -1,9 +1,27 @@
 // src/components/ui/sidebar.tsx
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 
 import * as React from "react"
+import { motion, AnimatePresence } from "framer-motion"
 import { cn } from "@/lib/utils"
 import { useAppStore } from "@/lib/stores/app-store"
+import { useTheme } from "next-themes"
+import {
+  sidebarVariants,
+  menuItemVariants,
+  menuTextVariants,
+  iconVariants,
+  backdropVariants,
+  staggerContainer,
+  staggerItem,
+  SIDEBAR_KEYBOARD_SHORTCUT,
+  SIDEBAR_WIDTH,
+  DRAG_CONSTRAINTS,
+  SWIPE_THRESHOLD,
+  SWIPE_VELOCITY_THRESHOLD
+} from "@/lib/animations/sidebar-animations"
+import styles from "./sidebar.module.css"
 
 interface SidebarContextValue {
   isOpen: boolean
@@ -62,6 +80,24 @@ export function SidebarProvider({
     return () => window.removeEventListener('resize', checkMobile)
   }, [setIsMobile, setSidebarCollapsed, sidebarCollapsed])
 
+  // Keyboard shortcut handler
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Ctrl/Cmd + B to toggle sidebar
+      if ((e.ctrlKey || e.metaKey) && e.key === SIDEBAR_KEYBOARD_SHORTCUT) {
+        e.preventDefault()
+        if (isMobile) {
+          toggleSidebar()
+        } else {
+          toggleSidebarCollapsed()
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [isMobile, toggleSidebar, toggleSidebarCollapsed])
+
   const contextValue: SidebarContextValue = {
     isOpen: sidebarOpen,
     isCollapsed: sidebarCollapsed,
@@ -79,7 +115,7 @@ export function SidebarProvider({
   )
 }
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SidebarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onDragEnd' | 'onDrag' | 'style'> {
   side?: "left" | "right"
   variant?: "default" | "floating" | "inset"
   collapsible?: "offcanvas" | "icon" | "none"
@@ -92,25 +128,74 @@ export function Sidebar({
   ...props
 }: SidebarProps) {
   const { isOpen, isCollapsed, isMobile } = useSidebar()
+  const { theme, resolvedTheme } = useTheme()
+
+  const currentTheme = theme === 'system' ? resolvedTheme : theme
+  const { toggleSidebar } = useSidebar()
+
+  // Handle drag end for mobile
+  const handleDragEnd = (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
+    const shouldClose = info.offset.x < -SWIPE_THRESHOLD || 
+                       info.velocity.x < -SWIPE_VELOCITY_THRESHOLD
+    
+    if (shouldClose && isOpen) {
+      toggleSidebar()
+    } else if (!shouldClose && !isOpen && info.offset.x > SWIPE_THRESHOLD) {
+      toggleSidebar()
+    }
+  }
 
   return (
-    <div
-      className={cn(
-        "relative flex h-full w-64 flex-col border-r bg-background transition-all duration-300 ease-in-out",
-        {
-          "w-16": isCollapsed && !isMobile,
-          "translate-x-0": isOpen,
-          "-translate-x-full": !isOpen && isMobile,
-          "w-64": !isCollapsed || !isMobile,
-        },
-        variant === "floating" && "m-2 rounded-lg border shadow-lg",
-        variant === "inset" && "m-2 rounded-lg",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </div>
+    <>
+      {/* Mobile backdrop */}
+      <AnimatePresence>
+        {isMobile && isOpen && (
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            exit="hidden"
+            variants={backdropVariants}
+            className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm md:hidden"
+            onClick={toggleSidebar}
+          />
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        variants={isMobile ? undefined : sidebarVariants}
+        animate={isCollapsed && !isMobile ? "collapsed" : "expanded"}
+        initial={false}
+        drag={isMobile ? "x" : false}
+        dragConstraints={isMobile ? DRAG_CONSTRAINTS : undefined}
+        dragElastic={0.2}
+        onDragEnd={isMobile ? handleDragEnd : undefined}
+        className={cn(
+          "flex h-full flex-col border-r transition-all duration-300 ease-in-out",
+          styles['sidebar-gpu-accelerated'],
+          currentTheme === 'dark' ? styles['sidebar-gradient-dark'] : styles['sidebar-gradient-light'],
+          variant === "floating" && "m-2 rounded-lg border shadow-lg",
+          variant === "inset" && "m-2 rounded-lg",
+          // Fixed positioning for desktop, mobile overlay
+          isMobile
+            ? "fixed left-0 top-0 z-50 h-screen"
+            : "fixed left-0 top-0 z-40 h-screen",
+          className
+        )}
+        style={{
+          width: isMobile
+            ? SIDEBAR_WIDTH.MOBILE
+            : isCollapsed
+              ? SIDEBAR_WIDTH.COLLAPSED
+              : SIDEBAR_WIDTH.EXPANDED,
+          x: isMobile ? (isOpen ? 0 : -SIDEBAR_WIDTH.MOBILE) : undefined
+        }}
+        {...(props as any)}
+      >
+        <div className="relative z-10">
+          {children}
+        </div>
+      </motion.div>
+    </>
   )
 }
 
@@ -168,12 +253,12 @@ export function SidebarFooter({ className, children, ...props }: SidebarFooterPr
   )
 }
 
-interface SidebarTriggerProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface SidebarTriggerProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onDrag'> {
   children?: React.ReactNode
 }
 
 export function SidebarTrigger({ className, children, ...props }: SidebarTriggerProps) {
-  const { toggleSidebar, isMobile, toggleCollapsed } = useSidebar()
+  const { toggleSidebar, isMobile, toggleCollapsed, isCollapsed } = useSidebar()
 
   const handleClick = () => {
     if (isMobile) {
@@ -184,21 +269,26 @@ export function SidebarTrigger({ className, children, ...props }: SidebarTrigger
   }
 
   return (
-    <button
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
       className={cn(
         "inline-flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
         className
       )}
       onClick={handleClick}
-      {...props}
+      title={`${isCollapsed ? 'Expand' : 'Collapse'} sidebar (${isMobile ? 'Tap' : 'Ctrl/Cmd + B'})`}
+      {...(props as any)}
     >
       {children || (
-        <svg
+        <motion.svg
           width="15"
           height="15"
           viewBox="0 0 15 15"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
+          animate={{ rotate: isCollapsed ? 180 : 0 }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
         >
           <path
             d="M1.5 3C1.22386 3 1 3.22386 1 3.5C1 3.77614 1.22386 4 1.5 4H13.5C13.7761 4 14 3.77614 14 3.5C14 3.22386 13.7761 3 13.5 3H1.5ZM1 7.5C1 7.22386 1.22386 7 1.5 7H13.5C13.7761 7 14 7.22386 14 7.5C14 7.77614 13.7761 8 13.5 8H1.5C1.22386 8 1 7.77614 1 7.5ZM1 11.5C1 11.2239 1.22386 11 1.5 11H13.5C13.7761 11 14 11.2239 14 11.5C14 11.7761 13.7761 12 13.5 12H1.5C1.22386 12 1 11.7761 1 11.5Z"
@@ -206,43 +296,48 @@ export function SidebarTrigger({ className, children, ...props }: SidebarTrigger
             fillRule="evenodd"
             clipRule="evenodd"
           />
-        </svg>
+        </motion.svg>
       )}
-    </button>
+    </motion.button>
   )
 }
 
-interface SidebarMenuProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SidebarMenuProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag'> {
   children?: React.ReactNode
 }
 
 export function SidebarMenu({ className, children, ...props }: SidebarMenuProps) {
+  const { isCollapsed } = useSidebar()
+  
   return (
-    <div
+    <motion.div
+      variants={staggerContainer}
+      animate={isCollapsed ? "collapsed" : "expanded"}
       className={cn("space-y-1 px-2", className)}
-      {...props}
+      {...(props as any)}
     >
       {children}
-    </div>
+    </motion.div>
   )
 }
 
-interface SidebarMenuItemProps extends React.HTMLAttributes<HTMLDivElement> {
+interface SidebarMenuItemProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag'> {
   children?: React.ReactNode
 }
 
 export function SidebarMenuItem({ className, children, ...props }: SidebarMenuItemProps) {
   return (
-    <div
+    <motion.div
+      variants={staggerItem}
       className={cn("", className)}
-      {...props}
+      {...(props as any)}
     >
       {children}
-    </div>
+    </motion.div>
   )
 }
 
-interface SidebarMenuButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface SidebarMenuButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'onDrag'> {
   isActive?: boolean
   tooltip?: string
 }
@@ -256,18 +351,48 @@ export function SidebarMenuButton({
 }: SidebarMenuButtonProps) {
   const { isCollapsed } = useSidebar()
 
+  // Split children into icon and text
+  const childrenArray = React.Children.toArray(children)
+  const icon = childrenArray[0]
+  const text = childrenArray.slice(1)
+
   return (
-    <button
+    <motion.button
+      variants={menuItemVariants}
+      animate={isCollapsed ? "collapsed" : "expanded"}
+      whileHover="hover"
+      whileTap="tap"
       className={cn(
-        "flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground",
-        isActive && "bg-accent text-accent-foreground",
+        "flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200",
+        styles['sidebar-item-glass'],
+        styles['sidebar-animated-border'],
+        isActive && styles['sidebar-accent-gradient'],
+        !isActive && "hover:bg-accent/10 hover:text-accent-foreground",
         isCollapsed && "justify-center px-2",
         className
       )}
-      title={isCollapsed ? tooltip : undefined}
-      {...props}
+      title={isCollapsed ? tooltip || (typeof text[0] === 'string' ? text[0] : undefined) : undefined}
+      {...(props as any)}
     >
-      {children}
-    </button>
+      {icon && (
+        <motion.span
+          variants={iconVariants}
+          animate={isCollapsed ? "collapsed" : "expanded"}
+          className="flex-shrink-0"
+        >
+          {icon}
+        </motion.span>
+      )}
+      
+      {text.length > 0 && (
+        <motion.span
+          variants={menuTextVariants}
+          animate={isCollapsed ? "collapsed" : "expanded"}
+          className="flex-1 text-left"
+        >
+          {text}
+        </motion.span>
+      )}
+    </motion.button>
   )
 }

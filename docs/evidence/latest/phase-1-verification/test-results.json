@@ -1,0 +1,26 @@
+[
+  {
+    "script": "analyze:all",
+    "status": "failed",
+    "executionTime": 269,
+    "output": "",
+    "error": "Command failed: npm run analyze:all\nnpm warn using --force Recommended protections disabled.\nnpm warn using --force Recommended protections disabled.\nsh: knip: command not found\n",
+    "timestamp": "2025-08-02T10:36:41.005Z"
+  },
+  {
+    "script": "ci:validate",
+    "status": "failed",
+    "executionTime": 9393,
+    "output": "",
+    "error": "Command failed: npm run ci:validate\nnpm warn using --force Recommended protections disabled.\n",
+    "timestamp": "2025-08-02T10:36:50.398Z"
+  },
+  {
+    "script": "monitor:quality",
+    "status": "failed",
+    "executionTime": 71983,
+    "output": "",
+    "error": "Command failed: npm run monitor:quality\nnpm warn using --force Recommended protections disabled.\nError executing command: npx knip --reporter json\nCommand failed: npx knip --reporter json\nnpm warn using --force Recommended protections disabled.\nnpm warn exec The following package was not found and will be installed: knip@5.62.0\n\nError executing command: npx depcheck --json\nCommand failed: npx depcheck --json\nnpm warn using --force Recommended protections disabled.\nnpm warn exec The following package was not found and will be installed: depcheck@1.4.7\n\nError executing command: npm run build\nCommand failed: npm run build\nnpm warn using --force Recommended protections disabled.\nFailed to compile.\n\n./src/components/automations/AutomationsDashboard.tsx\nModule not found: Can't resolve 'framer-motion'\n\nhttps://nextjs.org/docs/messages/module-not-found\n\n./src/components/automations/AutomationsDashboard.tsx\nModule not found: Can't resolve './data-grid/AutomationsDataTable'\n\nhttps://nextjs.org/docs/messages/module-not-found\n\n./src/components/automations/AutomationsDashboard.tsx\nModule not found: Can't resolve './actions/BulkActions'\n\nhttps://nextjs.org/docs/messages/module-not-found\n\n./src/components/automations/AutomationsDashboard.tsx\nModule not found: Can't resolve '@/components/ui/use-toast'\n\nhttps://nextjs.org/docs/messages/module-not-found\n\n./src/components/automations/data-grid/AutomationFilters.tsx\nModule not found: Can't resolve '@/components/ui/date-range-picker'\n\nhttps://nextjs.org/docs/messages/module-not-found\n\nImport trace for requested module:\n./src/components/automations/AutomationsDashboard.tsx\n\n\n> Build failed because of webpack errors\n\n",
+    "timestamp": "2025-08-02T10:38:02.381Z"
+  }
+]

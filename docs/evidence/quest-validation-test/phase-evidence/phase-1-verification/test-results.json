@@ -1,0 +1,26 @@
+[
+  {
+    "script": "analyze:all",
+    "status": "failed",
+    "executionTime": 302,
+    "output": "",
+    "error": "Command failed: npm run analyze:all\nnpm warn using --force Recommended protections disabled.\nnpm warn using --force Recommended protections disabled.\nsh: knip: command not found\n",
+    "timestamp": "2025-08-02T12:13:31.369Z"
+  },
+  {
+    "script": "ci:validate",
+    "status": "failed",
+    "executionTime": 9092,
+    "output": "",
+    "error": "Command failed: npm run ci:validate\nnpm warn using --force Recommended protections disabled.\n",
+    "timestamp": "2025-08-02T12:13:40.461Z"
+  },
+  {
+    "script": "monitor:quality",
+    "status": "failed",
+    "executionTime": 55834,
+    "output": "",
+    "error": "Command failed: npm run monitor:quality\nnpm warn using --force Recommended protections disabled.\nError executing command: npx knip --reporter json\nCommand failed: npx knip --reporter json\nnpm warn using --force Recommended protections disabled.\n\nError executing command: npx depcheck --json\nCommand failed: npx depcheck --json\nnpm warn using --force Recommended protections disabled.\n\n",
+    "timestamp": "2025-08-02T12:14:36.297Z"
+  }
+]

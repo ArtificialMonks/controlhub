@@ -49,9 +49,48 @@ type: "always_apply"
 - **EVIDENCE REQUIREMENT**: Provide concrete proof of successful validation with logs and metrics
 
 **Markdown Files:**
-- **MANDATORY EXECUTION**: Markdown validation (links, headers, structure) - MUST BE ACTUALLY EXECUTED
-- **MANDATORY EXECUTION**: Link verification and accessibility testing - MUST BE ACTUALLY EXECUTED
-- **EVIDENCE REQUIREMENT**: Provide concrete proof of successful validation
+- **MANDATORY EXECUTION**: Comprehensive markdown quality validation (PR-001 through PR-007) - MUST BE ACTUALLY EXECUTED
+- **MANDATORY EXECUTION**: Markdownlint validation with zero violations tolerance - MUST BE ACTUALLY EXECUTED
+- **MANDATORY EXECUTION**: Spelling validation with zero errors tolerance - MUST BE ACTUALLY EXECUTED
+- **MANDATORY EXECUTION**: A.V.A.R.I.C.E. Protocol specific validation - MUST BE ACTUALLY EXECUTED
+- **EVIDENCE REQUIREMENT**: Provide concrete proof of successful validation with logs and metrics
+- **PREVENTION RULES COMPLIANCE**: All documentation must comply with PR-001 through PR-007 prevention rules
+- **IMMEDIATE ISSUE RESOLUTION**: Fix ALL markdown violations before proceeding - zero tolerance for quality debt
+
+### **A.V.A.R.I.C.E. PROTOCOL MARKDOWN QUALITY GATES (MANDATORY)**
+
+**Phase-Specific Validation Commands:**
+- **Phase 1 (Strategic Planning)**: `npm run validate:markdown-quality` - MUST BE EXECUTED
+- **Phase 2 (Contextual Grounding)**: `npm run lint:md:avarice` - MUST BE EXECUTED
+- **Phase 3 (Expert Council)**: `npm run validate:markdown-quality` - MUST BE EXECUTED
+- **Phase 4 (Implementation)**: `npm run lint:md:avarice` - MUST BE EXECUTED
+- **Phase 5 (Multi-Layer Verification)**: `npm run validate:avarice-docs` - MUST BE EXECUTED
+- **Phase 6 (Architectural Review)**: `npm run validate:markdown-quality` - MUST BE EXECUTED
+- **Phase 7 (Protocol Validation)**: `npm run validate:avarice-docs` - MUST BE EXECUTED
+- **Phase 8 (Knowledge Memorization)**: `npm run spell:avarice` - MUST BE EXECUTED
+- **Phase 9 (Autonomous Termination)**: `npm run validate:avarice-docs` - MUST BE EXECUTED
+
+**Agent-Specific Markdown Responsibilities:**
+- **Architect Agent**: Strategic documentation validation - 100% compliance with PR-001, PR-002
+- **Coder Agent**: Implementation documentation validation - 100% compliance with PR-004, PR-006
+- **QA Agent**: Comprehensive validation - 100% compliance with all PR-001 through PR-007
+- **Logician Agent**: Protocol compliance validation - 100% compliance with PR-003, PR-007
+- **Scribe Agent**: Knowledge documentation validation - 100% compliance with all prevention rules
+
+**Quality Gate Thresholds (ZERO TOLERANCE):**
+- **Markdownlint Violations**: 0 errors, 0 warnings
+- **Spelling Errors**: 0 unknown words (after whitelist updates)
+- **A.V.A.R.I.C.E. Protocol Compliance**: 95%+ compliance score
+- **Evidence Collection**: 100% compliance with standard format
+
+**Prevention Rules Enforcement (PR-001 through PR-007):**
+- **PR-001**: Blanks around headings - 100% compliance mandatory
+- **PR-002**: Blanks around lists - 100% compliance mandatory
+- **PR-003**: Multiple blank lines - 100% compliance mandatory
+- **PR-004**: Blanks around fences - 100% compliance mandatory
+- **PR-005**: Line length (120 chars) - 95% compliance mandatory
+- **PR-006**: Code language specification - 100% compliance mandatory
+- **PR-007**: Duplicate headings - 100% compliance mandatory
 
 ### **UNIVERSAL FILE CREATION ENFORCEMENT**
 - **PRE-CREATION SCAN**: Before creating ANY file, scan existing codebase for similar functionality
@@ -73,6 +112,9 @@ type: "always_apply"
 - **ZERO TOLERANCE POLICY**: Evidence storage outside quest-specific directories is STRICTLY PROHIBITED
 - **AUTOMATIC VALIDATION**: Evidence paths validated during every A.V.A.R.I.C.E. Protocol execution
 - **IMMEDIATE STOP-WORK**: Invalid evidence storage triggers immediate protocol halt until corrected
+- **MARKDOWN QUALITY ENFORCEMENT**: All evidence documentation must pass `npm run validate:evidence` before storage
+- **ZERO MARKDOWN VIOLATIONS**: Evidence files must comply with all PR-001 through PR-007 prevention rules
+- **SPELLING ACCURACY MANDATE**: Zero spelling errors required in all evidence documentation
 
 ### **LOGGING STANDARDS**
 - **LOG STORAGE**: All logs stored within `/logs` directory
@@ -202,6 +244,28 @@ type: "always_apply"
 - **COMPLEX PROBLEMS**: Use Sequential Thinking for deep complex problems analysis
 - **TASK STRUCTURING**: Use for analyzing and structuring complex tasks
 - **PROBLEM SOLVING**: Use when relevant for comprehensive problem-solving approaches
+
+---
+
+## 🔧 **MARKDOWN QUALITY INTEGRATION STATUS**
+
+### **INTEGRATION COMPLETE ✅**
+
+**Markdown Quality Prevention System**: Fully integrated into A.V.A.R.I.C.E. Protocol rule framework
+- **Prevention Rules**: PR-001 through PR-007 and SP-001 integrated
+- **Phase Integration**: All 9 phases include mandatory markdown validation
+- **Agent Responsibilities**: Clear validation requirements for all 5 agents
+- **Quality Gates**: Zero tolerance enforcement with automated validation
+- **Evidence Collection**: Automatic validation for all future documentation
+
+**Enforcement Commands**: Integrated into package.json and phase test configurations
+- `npm run validate:markdown-quality` - Comprehensive markdown validation
+- `npm run validate:avarice-docs` - A.V.A.R.I.C.E. Protocol specific validation
+- `npm run validate:evidence` - Evidence collection validation
+- `npm run lint:md:avarice` - A.V.A.R.I.C.E. documentation linting
+- `npm run spell:avarice` - Spelling validation for A.V.A.R.I.C.E. documentation
+
+**Status**: ✅ **PRODUCTION READY** - All future A.V.A.R.I.C.E. Protocol execution will automatically enforce zero markdownlint violations and zero spelling errors.
 
 ---
 

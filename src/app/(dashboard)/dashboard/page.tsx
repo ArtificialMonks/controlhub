@@ -1,8 +1,15 @@
 // src/app/(dashboard)/dashboard/page.tsx
 import { redirect } from 'next/navigation'
-import { verifySession, getUserProfile } from '@/lib/dal'
-import { DashboardContent } from '@/components/dashboard/dashboard-content'
+import { verifySession } from '@/lib/dal'
+import { logger } from '@/lib/monitoring/logger'
+import { serverAutomationService } from '@/lib/services/server-automation-service'
+import { DashboardClient } from '@/components/dashboard/DashboardClient'
+import type { Automation } from '@/lib/repositories/automation-repository'
 
+interface Client {
+  id: string
+  name: string
+}
 export default async function DashboardPage() {
   const user = await verifySession()
 
@@ -10,17 +17,36 @@ export default async function DashboardPage() {
     redirect('/login')
   }
 
-  let profile = null
+  // Fetch real automation data from Supabase
+  let automations: Automation[] = []
+  let clients: Client[] = []
+  let error: string | null = null
+
   try {
-    profile = await getUserProfile()
-  } catch (error) {
-    console.error('Dashboard: Profile fetch failed:', error)
-    // Continue with null profile - components should handle this gracefully
+    // Fetch automations for the user
+    automations = await serverAutomationService.getAllAutomations(user.id)
+    
+    // Get unique clients
+    clients = await serverAutomationService.getUniqueClients(user.id)
+    
+    logger.info('Dashboard data loaded', {
+      userId: user.id,
+      automationCount: automations.length,
+      clientCount: clients.length
+    })
+  } catch (err) {
+    logger.error('Dashboard: Failed to fetch automation data:', err instanceof Error ? err : new Error(String(err)))
+    error = err instanceof Error ? err.message : 'Failed to load automation data'
+    // Fall back to empty arrays for graceful degradation
+    automations = []
+    clients = []
   }
 
   return (
-    <div className="p-6">
-      <DashboardContent user={user} profile={profile} />
-    </div>
+    <DashboardClient
+      automations={automations}
+      clients={clients}
+      error={error}
+    />
   )
 }

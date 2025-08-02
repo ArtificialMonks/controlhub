@@ -421,8 +421,8 @@ export class AdvancedMonitoringSystem {
         total: usage.heapTotal,
         percentage: (usage.heapUsed / usage.heapTotal) * 100
       }
-    } else if (typeof performance !== 'undefined' && (performance as any).memory) {
-      const memory = (performance as any).memory
+    } else if (typeof performance !== 'undefined' && 'memory' in performance) {
+      const memory = (performance as { memory: { usedJSHeapSize: number; totalJSHeapSize: number } }).memory
       return {
         used: memory.usedJSHeapSize,
         total: memory.totalJSHeapSize,
@@ -638,20 +638,20 @@ export class AdvancedMonitoringSystem {
 // ============================================================================
 
 export const defaultMonitoringConfig: MonitoringConfig = {
-  enableRealTimeMonitoring: true,
-  enableAlerts: true,
-  enableMetricsCollection: true,
+  enableRealTimeMonitoring: process.env.NODE_ENV === 'production',
+  enableAlerts: process.env.NODE_ENV === 'production',
+  enableMetricsCollection: process.env.NODE_ENV === 'production',
   enablePerformanceTracking: true,
   alertThresholds: {
     errorRate: 5, // 5%
     responseTime: 1000, // 1 second
-    memoryUsage: 85, // 85%
-    cpuUsage: 90, // 90%
-    diskUsage: 90, // 90%
+    memoryUsage: 90, // 90% - increased threshold for development
+    cpuUsage: 95, // 95%
+    diskUsage: 95, // 95%
     activeUsers: 10000 // 10k users
   },
   metricsRetention: 30, // 30 days
-  samplingRate: 1.0 // 100% sampling
+  samplingRate: process.env.NODE_ENV === 'production' ? 1.0 : 0.1 // Reduced sampling in dev
 }
 
 // ============================================================================

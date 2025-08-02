@@ -8,6 +8,7 @@
 import { render, screen, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { expect, vi } from 'vitest'
+import '@testing-library/jest-dom'
 import type { ReactElement } from 'react'
 import type { RenderOptions } from '@testing-library/react'
 

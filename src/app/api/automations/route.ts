@@ -66,6 +66,9 @@ export async function GET(request: NextRequest) {
   }
 }
 
+// POST method removed - automations are managed externally
+// This system only provides read and control operations for existing automations
+
 /**
  * OPTIONS /api/automations
  * CORS preflight handler

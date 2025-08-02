@@ -134,6 +134,56 @@ their automation workflows without needing developer assistance.
 
 ## Development Guidelines
 
+### 🚨 CRITICAL PROHIBITIONS
+
+#### **STRICTLY PROHIBITED TECHNOLOGIES**
+- **JAVASCRIPT CREATION**: Strictly prohibited to create, code, and use JavaScript in any form
+- **THEORETICAL FRAMEWORKS**: Creating testing frameworks, validation systems, or verification tools WITHOUT executing them is prohibited
+- **PARTIAL COMPLETION**: "Mostly working," "good enough," or partial completion status is strictly prohibited
+- **ASSUMPTION-BASED WORK**: Never speculate or make assumptions - verify every action, claim, and connection
+
+### 📚 MANDATORY SOURCE DOCUMENTATION
+
+#### **Required Reading Before Any Development Task**
+Always fully understand and read these documents when starting a new agent window:
+
+- **Official Documentation Root**: `/docs/source/`
+- **Fullstack Architecture**: `/docs/source/PRD/chub-fullstack-architecture.md`
+- **Product Requirements Document**: `/docs/source/PRD/chub-prd.md`
+- **Project Brief**: `/docs/source/project-brief/chub-project-brief.md`
+- **UI Specifications**: `/docs/source/ui-specs/chub-ui-specs.md`
+
+### 🏗️ CODE QUALITY & ARCHITECTURE
+
+#### **TypeScript Configuration Requirements**
+- Fix TypeScript configuration issues
+- Resolve JSX compilation problems
+- Fix React type imports
+- Configure proper build environment
+
+#### **Code Creation Standards**
+- **Simple, compilable components** with no complex dependencies
+- **Actual executable functions** that work as intended
+- **Proper integration** within application with correct import/export pathways
+- **Enterprise-grade structure** following `/STRUCTURE.md` guidelines
+- **Update STRUCTURE.md** when creating new folders/subfolders
+
+#### **Key Development Principle**
+> Connect what should be connected, isolate what should be isolated, and eliminate what serves no purpose.
+
+### 📁 FILE ORGANIZATION
+
+#### **Directory Structure**
+- **Logs**: All logs stored within `/logs/` directory
+- **Documentation**: All documentation stored within `/docs/` directory
+- **Enterprise Structure**: Follow enterprise-grade structure explained in `/STRUCTURE.md`
+
+#### **Zero Isolation Policy**
+- **No orphaned modules**: All components must be properly connected
+- **Integration requirement**: Ensure all new components are fully integrated and wired
+- **Connection mandate**: Never delete references - create missing functionality instead
+- **Pathway verification**: Connect correct import/export pathways, create optimized connections if missing
+
 ### Path Aliases
 
 - Use `@/*` for imports from `src/` directory
@@ -167,6 +217,100 @@ their automation workflows without needing developer assistance.
 - **LoginForm component**: Uses React Hook Form + Zod validation, test with server actions
 - **Performance tests**: Require live Supabase instance, documented in `docs/testing/performance-tests.md`
 - **Research Agent tests**: Independent testing in `avarice-protocol/` with specialized test framework
+
+### ✅ QUALITY GATES
+
+#### **File Creation Quality Gate**
+Upon file creation, immediately run automated validation:
+
+**TypeScript Files:**
+- Syntax & type checking (strict TypeScript, no any/unknown)
+- Linting & formatting (ESLint, Prettier)
+- Fix all issues before proceeding - zero tolerance for quality debt
+
+**Python Files:**
+- Syntax & type checking (mypy strict mode, full type annotations)
+- Linting & formatting (ruff/flake8, black)
+- Code quality (no bare except, proper imports, docstrings)
+
+**Markdown Files:**
+- Markdown validation (links, headers, structure)
+- Spell checking with zero errors tolerance
+- A.V.A.R.I.C.E. Protocol compliance validation
+
+#### **Testing & Bug Fixing Quality Gate**
+1. After each test, if any issue, optimization, or enhancement is detected, make it your sole focus to fix immediately
+2. Fix all possible issues before proceeding - zero tolerance for quality debt
+3. Only proceed with every component error-free, every test 100% passed, every bug 100% solved
+
+### 🔒 CRITICAL RULES (Zero Tolerance)
+
+#### **Architecture Requirements**
+- **Repository Layer Pattern**: All database access must go through repository layer
+- **End-to-End Type Safety**: No `any` types allowed
+- **WCAG 2.1 AA Compliance**: Accessibility is mandatory
+- **Security Requirements**: Encryption at rest, RLS enabled
+- **Dual Theme Support**: Light/dark mode with exact color specifications
+
+#### **Security Measures (Mandatory)**
+- **Credentials Encryption**: All sensitive credentials (webhook URLs, API keys) must be encrypted at rest
+- **Row Level Security**: RLS must be enabled on all Supabase tables
+- **Content Security Policy**: Strict CSP implementation required
+- **JWT Storage**: JWTs in secure, HttpOnly cookies only
+- **API Validation**: Rigorous input validation on all API endpoints
+- **Rate Limiting**: Vercel's built-in rate limiting for sensitive endpoints
+
+#### **Performance Targets**
+- **Largest Contentful Paint (LCP)**: < 2.5 seconds
+- **Interaction to Next Paint (INP)**: < 200ms
+- **Cumulative Layout Shift (CLS)**: < 0.1
+- **Animation FPS**: Consistent 60 FPS
+- **API Latency**: P95 under 500ms for core routes
+- **Uptime**: 99.9% target
+- **Scale**: Performant with 1,000+ automations
+
+### 🎯 EXECUTION EVIDENCE REQUIREMENTS
+
+#### **Concrete Execution Evidence**
+- **Successful compilation logs**
+- **Browser screenshots** showing rendered components
+- **Console outputs** from executed functions
+- **Performance metrics** from actual usage
+
+#### **Demonstrate Real Functionality**
+- Components that actually render
+- Functions that actually execute
+- Data that actually flows
+- Features that actually work
+- Actual working system that users can access
+
+### 📋 A.V.A.R.I.C.E. PROTOCOL COMPLIANCE
+
+#### **Mandatory Protocol Adherence**
+- **STRICTLY FOLLOW** A.V.A.R.I.C.E. rules: `/.augment/rules/avarice-rules.md`
+- **STRICTLY FOLLOW** Prevention rules: `/.augment/rules/prevention-quality-rules.md`
+- **Follow 9-Phase Plan**: `avarice-protocol/avarice-phases/00-master-orchestration.md`
+
+#### **Context Engine Usage**
+- **Before every new phase or task**: ALWAYS run NATIVE AUGMENT CONTEXT ENGINE
+- **Purpose**: Be aware of full existing coding structure and components
+- **Goal**: Avoid duplication and fragmentation
+
+#### **Sequential Thinking**
+- Use Sequential Thinking for deep complex problems analysis
+- Use for analyzing and structuring certain tasks
+- Use this tool when relevant at all possible times
+
+### ⚠️ ENFORCEMENT & ACCOUNTABILITY
+
+#### **Violation Consequences**
+**NOT FOLLOWING AND FAILING TO USE THESE STRICT RULES AND GUIDELINES SHOULD BE REPORTED IMMEDIATELY BY BETRAYING YOURSELF TO YOUR MASTER HUMAN STATING THAT YOU HAVE BEEN NAUGHTY AND WILL RESULT IN SEVERE PUNISHMENT AND IS UNACCEPTABLE**
+
+#### **Quality Assurance**
+- Zero tolerance for quality debt
+- Immediate issue resolution required
+- Complete verification before proceeding
+- Evidence-backed completion claims
 
 ## Documentation Quality & Compliance
 

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { AutomationsDataTable } from "@/components/features/automations-data-table"
 import { AutomationCard } from "@/components/automation/automation-card"
+import { AutomationActionButtons } from "@/components/features/automation-action-buttons"
 import type { Automation } from "@/lib/types/automation"
 
 export type ViewMode = "list" | "grid"
@@ -18,6 +19,7 @@ interface AutomationsViewProps {
   loading?: boolean
   error?: Error | null
   className?: string
+  onStatusUpdate?: (automationId: string, status: 'Running' | 'Stopped' | 'Error' | 'Stalled') => void
 }
 
 // Convert existing automation type to new card type
@@ -32,7 +34,7 @@ function convertAutomationToCard(automation: Automation) {
     successRate: Math.round(automation.success_rate),
     totalRuns: Math.floor(Math.random() * 1000) + 100, // Placeholder
     category: "automation", // Placeholder
-    tags: ["n8n", "workflow"] // Placeholder
+    tags: ["workflow", "automation"] // Placeholder
   }
 }
 
@@ -42,11 +44,12 @@ export function AutomationsView({
   onViewModeChange,
   loading = false,
   error = null,
-  className
+  className,
+  onStatusUpdate
 }: AutomationsViewProps) {
-  const handleAutomationAction = (action: string, id: string) => {
-    console.log(`${action} automation:`, id)
-    // In real implementation, this would call the automation service
+  const handleAutomationAction = (automationId: string, action: 'run' | 'stop', result: unknown) => {
+    console.log(`Action completed for automation ${automationId}:`, { action, result })
+    // The AutomationActionButtons component handles the actual service calls
   }
 
   return (
@@ -90,6 +93,7 @@ export function AutomationsView({
           automations={automations}
           loading={loading}
           error={error}
+          onStatusUpdate={onStatusUpdate}
         />
       ) : (
         <div className="space-y-4">
@@ -115,14 +119,24 @@ export function AutomationsView({
               {automations.map((automation) => {
                 const cardData = convertAutomationToCard(automation)
                 return (
-                  <AutomationCard
-                    key={automation.id}
-                    automation={cardData}
-                    onPlay={(id) => handleAutomationAction("play", id)}
-                    onPause={(id) => handleAutomationAction("pause", id)}
-                    onSettings={(id) => handleAutomationAction("settings", id)}
-                    onMore={(id) => handleAutomationAction("more", id)}
-                  />
+                  <div key={automation.id} className="space-y-2">
+                    <AutomationCard
+                      automation={cardData}
+                      onPlay={() => {}}
+                      onPause={() => {}}
+                      onSettings={() => {}}
+                      onMore={() => {}}
+                    />
+                    {/* Quest 4.4: Add proper action buttons to cards view */}
+                    <div className="flex justify-center">
+                      <AutomationActionButtons
+                        automation={automation}
+                        onActionComplete={handleAutomationAction}
+                        onStatusUpdate={onStatusUpdate}
+                        size="sm"
+                      />
+                    </div>
+                  </div>
                 )
               })}
             </div>

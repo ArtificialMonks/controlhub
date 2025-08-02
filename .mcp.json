@@ -52,6 +52,18 @@
         "-y",
         "mcp-sequentialthinking-tools"
       ]
+    },
+    "supabase": {
+      "command": "npx", 
+      "args": [
+        "-y",
+        "@supabase/mcp-server-supabase@latest",
+        "--project-ref",
+        "xxttsckupjbvvhrykprf"
+      ],
+      "env": {
+        "SUPABASE_ACCESS_TOKEN": "sbp_bc9756e7f4aae7254e33b9b66eabfe69e1d17a35"
+      }
     }
   }
 }

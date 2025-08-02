@@ -697,7 +697,7 @@ export class WCAGComplianceFramework {
       const hasName = el.hasAttribute('aria-label') || 
                      el.hasAttribute('aria-labelledby') || 
                      el.textContent?.trim() ||
-                     (el as HTMLInputElement).labels?.length > 0
+                     ((el as HTMLInputElement).labels?.length || 0) > 0
 
       if (!hasName) {
         issues.push(`Element ${index + 1} missing accessible name`)

@@ -7,6 +7,29 @@
 
 import { NextResponse } from 'next/server'
 
+// Import monitoring and logging modules for health check functionality
+import { logger } from '@/lib/monitoring/logger'
+import { config } from '@/lib/config'
+import { createClient } from '@/lib/supabase/client'
+
+// Import performance monitoring
+import '@/lib/performance-monitor'
+import '@/lib/performance-optimization'
+
+// Import quality monitoring
+import '@/lib/quality/codeQualityMonitor'
+import '@/lib/quality/mutationTesting'
+
+// Import security modules
+import '@/lib/security/encryption'
+import '@/lib/security/filterSecurity'
+
+// Import architecture validation
+import '@/lib/architecture/designPatternValidator'
+
+// Import protocol validation
+import '@/lib/protocol/avariceProtocolValidator'
+
 // ============================================================================
 // TYPES & INTERFACES
 // ============================================================================
@@ -274,8 +297,26 @@ async function performHealthCheck(): Promise<SystemHealth> {
  */
 export async function GET() {
   try {
+    // Log health check request using imported logger
+    logger.info('Health check requested', {
+      timestamp: new Date().toISOString(),
+      config: config.app?.name || 'Unknown'
+    })
+
     const healthCheck = await performHealthCheck()
-    
+
+    // Use imported Supabase client for additional validation
+    try {
+      const supabase = createClient()
+      // Test connection
+      await supabase.from('profiles').select('count').limit(1).single()
+      logger.info('Supabase connection validated in health check')
+    } catch (supabaseError) {
+      logger.warn('Supabase connection issue in health check', {
+        error: supabaseError instanceof Error ? supabaseError.message : String(supabaseError)
+      })
+    }
+
     // Determine HTTP status code based on health
     let statusCode = 200
     if (healthCheck.status === 'degraded') {
@@ -283,8 +324,15 @@ export async function GET() {
     } else if (healthCheck.status === 'unhealthy') {
       statusCode = 503 // Service Unavailable
     }
-    
-    return NextResponse.json(healthCheck, { 
+
+    // Log health check result
+    logger.info('Health check completed', {
+      status: healthCheck.status,
+      statusCode,
+      checksCount: healthCheck.checks.length
+    })
+
+    return NextResponse.json(healthCheck, {
       status: statusCode,
       headers: {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
@@ -292,10 +340,10 @@ export async function GET() {
         'Expires': '0'
       }
     })
-    
+
   } catch (error) {
-    console.error('Health check failed:', error)
-    
+    logger.error('Health check failed:', error instanceof Error ? error : new Error(String(error)))
+
     return NextResponse.json(
       {
         status: 'unhealthy',
@@ -307,7 +355,7 @@ export async function GET() {
         summary: { total: 0, healthy: 0, unhealthy: 1, degraded: 0 },
         error: 'Health check system failure'
       },
-      { 
+      {
         status: 503,
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',

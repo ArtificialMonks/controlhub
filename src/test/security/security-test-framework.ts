@@ -6,6 +6,8 @@
  */
 
 import React from 'react'
+import { render, screen } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 
 // ============================================================================
 // TYPES & INTERFACES
@@ -250,7 +252,7 @@ export class AuthorizationSecurityTester {
   ): Promise<AuthorizationTestResult> {
     const testId = `authz-rbac-${Date.now()}`
     let unauthorizedAccess = false
-    let privilegeEscalation = false
+    const privilegeEscalation = false
     const recommendations: string[] = []
 
     try {
@@ -259,7 +261,7 @@ export class AuthorizationSecurityTester {
         const mockUser = { role, permissions: [role] }
         
         // Render component with mocked user context
-        render(React.createElement(component, { user: mockUser }))
+        render(React.createElement(component, { user: mockUser } as any))
 
         // Check if user can access restricted actions
         const restrictedButtons = screen.queryAllByRole('button')

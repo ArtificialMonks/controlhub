@@ -80,20 +80,86 @@ run_markdown_lint() {
 # Function to run spell checking
 run_spell_check() {
     print_status "$BLUE" "Running spell checking..."
-    
+
     local violations=0
-    
+
     # Run cspell and capture output
-    if ! npx cspell "**/*.md" --no-progress > /tmp/cspell_output.txt 2>&1; then
+    if ! npx cspell "**/*.md" --no-progress --exclude "node_modules/**" --exclude ".next/**" --exclude "dist/**" > /tmp/cspell_output.txt 2>&1; then
         violations=1
         print_status "$YELLOW" "Spell check violations found:"
         cat /tmp/cspell_output.txt
         echo ""
-        print_status "$YELLOW" "Note: Add legitimate technical terms to .cspell.json"
+
+        # A.V.A.R.I.C.E. Protocol specific analysis
+        print_status "$BLUE" "🔍 Analyzing A.V.A.R.I.C.E. Protocol specific violations..."
+        if grep -q "utonomous\|erification\|daptive\|obust\|ntelligent\|ompliant\|fficient" /tmp/cspell_output.txt; then
+            print_status "$YELLOW" "⚠️  Detected truncated A.V.A.R.I.C.E. terms - check acronym formatting"
+        fi
+
+        # Count violations by category
+        local avarice_violations=$(grep -c "avarice-protocol" /tmp/cspell_output.txt || echo "0")
+        local evidence_violations=$(grep -c "docs/evidence" /tmp/cspell_output.txt || echo "0")
+        local total_violations=$(wc -l < /tmp/cspell_output.txt)
+
+        print_status "$BLUE" "📊 Violation Summary:"
+        echo "  - Total violations: $total_violations"
+        echo "  - A.V.A.R.I.C.E. Protocol files: $avarice_violations violations"
+        echo "  - Evidence documentation: $evidence_violations violations"
+
+        print_status "$YELLOW" "💡 Note: Add legitimate technical terms to .cspell.json"
     else
         print_status "$GREEN" "Spell checking passed ✓"
     fi
-    
+
+    return $violations
+}
+
+# Function to validate A.V.A.R.I.C.E. Protocol specific requirements
+validate_avarice_protocol_requirements() {
+    print_status "$BLUE" "🎯 Validating A.V.A.R.I.C.E. Protocol specific requirements..."
+
+    local violations=0
+
+    # Check A.V.A.R.I.C.E. Protocol documentation structure
+    if [ -d "avarice-protocol" ]; then
+        print_status "$BLUE" "Checking A.V.A.R.I.C.E. Protocol documentation..."
+
+        # Validate phase documentation
+        for phase in {1..9}; do
+            local phase_file="avarice-protocol/avarice-phases/phase-${phase}-*.md"
+            if ! ls $phase_file 1> /dev/null 2>&1; then
+                print_status "$RED" "Missing Phase $phase documentation"
+                violations=1
+            fi
+        done
+
+        # Check evidence collection structure
+        if [ -d "docs/evidence" ]; then
+            local evidence_files=$(find docs/evidence -name "*.md" -type f | head -10)
+            for file in $evidence_files; do
+                # Check for proper evidence structure
+                if ! grep -q "## Overview\|## Implementation\|## Results" "$file"; then
+                    print_status "$YELLOW" "Evidence file missing standard structure: $file"
+                    violations=1
+                fi
+            done
+        fi
+
+        # Check for A.V.A.R.I.C.E. specific markdown violations
+        local avarice_files=$(find avarice-protocol -name "*.md" -type f)
+        for file in $avarice_files; do
+            # Check for proper heading hierarchy in A.V.A.R.I.C.E. files
+            if grep -q "^# " "$file" && grep -q "^### " "$file" && ! grep -q "^## " "$file"; then
+                print_status "$YELLOW" "Warning: Improper heading hierarchy in: $file"
+                violations=1
+            fi
+        done
+    fi
+
+    if [ $violations -eq 0 ]; then
+        print_status "$GREEN" "A.V.A.R.I.C.E. Protocol validation passed ✓"
+    fi
+
     return $violations
 }
 
@@ -159,10 +225,11 @@ generate_summary() {
     local lint_result=$1
     local spell_result=$2
     local quality_result=$3
-    
+    local avarice_result=${4:-0}
+
     print_status "$BLUE" "=== VALIDATION SUMMARY ==="
-    
-    local total_violations=$((lint_result + spell_result + quality_result))
+
+    local total_violations=$((lint_result + spell_result + quality_result + avarice_result))
     
     if [ $lint_result -eq 0 ]; then
         print_status "$GREEN" "✓ Markdown Linting: PASSED"
@@ -181,7 +248,13 @@ generate_summary() {
     else
         print_status "$RED" "✗ Quality Gates: FAILED"
     fi
-    
+
+    if [ $avarice_result -eq 0 ]; then
+        print_status "$GREEN" "✓ A.V.A.R.I.C.E. Protocol: PASSED"
+    else
+        print_status "$YELLOW" "⚠ A.V.A.R.I.C.E. Protocol: WARNINGS"
+    fi
+
     echo ""
     
     if [ $total_violations -eq 0 ]; then
@@ -209,19 +282,23 @@ main() {
     local lint_violations=0
     local spell_violations=0
     local quality_violations=0
-    
+    local avarice_violations=0
+
     # Run validations
     run_markdown_lint || lint_violations=1
     echo ""
-    
+
     run_spell_check || spell_violations=1
     echo ""
-    
+
+    validate_avarice_protocol_requirements || avarice_violations=1
+    echo ""
+
     validate_quality_gates || quality_violations=1
     echo ""
-    
+
     # Generate summary and exit with appropriate code
-    generate_summary $lint_violations $spell_violations $quality_violations
+    generate_summary $lint_violations $spell_violations $quality_violations $avarice_violations
 }
 
 # Cleanup function
