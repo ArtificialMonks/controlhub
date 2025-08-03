@@ -1,7 +1,7 @@
 // src/components/dashboard/charts/EnhancedPerformanceTrendChart.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -48,10 +48,19 @@ export function EnhancedPerformanceTrendChart({
   const [chartType, setChartType] = useState<ChartType>('area')
   const [isAnimating, setIsAnimating] = useState(true)
   const [selectedMetric, setSelectedMetric] = useState<'all' | 'success' | 'duration'>('all')
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<{
+    date: string
+    fullDate: string
+    successRate: number
+    avgDuration: number
+    executionCount: number
+    errorRate: number
+    throughput: number
+    failureCount: number
+  }[]>([])
 
   // Generate enhanced trend data with more metrics
-  const generateEnhancedTrendData = () => {
+  const generateEnhancedTrendData = React.useCallback(() => {
     const days = timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : 90
     const generatedData = []
     const now = new Date()
@@ -88,7 +97,7 @@ export function EnhancedPerformanceTrendChart({
     }
     
     return generatedData
-  }
+  }, [timeRange])
 
   useEffect(() => {
     const newData = generateEnhancedTrendData()
@@ -100,15 +109,19 @@ export function EnhancedPerformanceTrendChart({
         const updatedData = [...prevData]
         const lastItem = updatedData[updatedData.length - 1]
         if (lastItem) {
-          lastItem.successRate = Math.min(100, lastItem.successRate + Math.random() * 2 - 1)
-          lastItem.avgDuration = Math.max(500, lastItem.avgDuration + Math.random() * 100 - 50)
+          // Create a new object instead of mutating the existing one
+          updatedData[updatedData.length - 1] = {
+            ...lastItem,
+            successRate: Math.min(100, lastItem.successRate + Math.random() * 2 - 1),
+            avgDuration: Math.max(500, lastItem.avgDuration + Math.random() * 100 - 50)
+          }
         }
         return updatedData
       })
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [timeRange])
+  }, [timeRange, generateEnhancedTrendData])
 
   // Calculate trend indicators
   const calculateTrend = () => {
@@ -129,7 +142,19 @@ export function EnhancedPerformanceTrendChart({
   const { trend, percentage } = calculateTrend()
 
   // Enhanced tooltip with more information
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  const CustomTooltip = ({ active, payload, label }: {
+    active?: boolean
+    payload?: Array<{
+      payload: {
+        date: string
+        successRate: number
+        avgDuration: number
+        executionCount: number
+        throughput: number
+      }
+    }>
+    label?: string
+  }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload
       return (

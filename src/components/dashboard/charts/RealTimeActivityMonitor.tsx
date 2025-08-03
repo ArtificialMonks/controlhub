@@ -42,7 +42,13 @@ export function RealTimeActivityMonitor({
   maxDataPoints = 50, 
   updateInterval = 1000 
 }: RealTimeActivityMonitorProps) {
-  const [data, setData] = useState<any[]>([])
+  const [data, setData] = useState<{
+    time: number
+    active: number
+    success: number
+    error: number
+    throughput: number
+  }[]>([])
   const [events, setEvents] = useState<ActivityEvent[]>([])
   const [throughput, setThroughput] = useState(0)
   const [successRate, setSuccessRate] = useState(100)
@@ -129,7 +135,12 @@ export function RealTimeActivityMonitor({
   }, [updateInterval, maxDataPoints])
 
   // Custom tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: {
+    active?: boolean
+    payload?: Array<{
+      value: number
+    }>
+  }) => {
     if (active && payload && payload.length) {
       return (
         <motion.div

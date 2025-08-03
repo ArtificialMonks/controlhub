@@ -123,9 +123,20 @@ export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistrib
   }, [data.length, isAnimating])
 
   // Custom active shape for pie chart
-  const renderActiveShape = (props: any) => {
+  const renderActiveShape = (props: unknown) => {
     const RADIAN = Math.PI / 180
-    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, percent, value } = props
+    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, value } = props as {
+      cx: number
+      cy: number
+      midAngle: number
+      innerRadius: number
+      outerRadius: number
+      startAngle: number
+      endAngle: number
+      fill: string
+      payload: { name: string; percentage: string }
+      value: number
+    }
     const sin = Math.sin(-RADIAN * midAngle)
     const cos = Math.cos(-RADIAN * midAngle)
     const sx = cx + (outerRadius + 10) * cos
@@ -172,7 +183,18 @@ export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistrib
   }
 
   // Enhanced tooltip
-  const CustomTooltip = ({ active, payload }: any) => {
+  const CustomTooltip = ({ active, payload }: {
+    active?: boolean
+    payload?: Array<{
+      payload: {
+        name: string
+        value: number
+        color: string
+        icon: React.ComponentType<{ className?: string; style?: React.CSSProperties }>
+        percentage: string
+      }
+    }>
+  }) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload
       const Icon = data.icon
@@ -217,15 +239,14 @@ export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistrib
             endAngle={-270}
           >
             <PolarGrid stroke="none" />
-            <PolarAngleAxis type="number" domain={[0, stats.total]} hide />
+            <PolarAngleAxis type="number" domain={[0, stats.total]} style={{ display: 'none' }} />
             <RadialBar
               dataKey="value"
               cornerRadius={10}
               fill="#8884d8"
               label={{
                 position: 'insideStart',
-                fill: '#fff',
-                formatter: (value: any) => `${value}`,
+                fill: '#fff'
               }}
             >
               {data.map((entry, index) => (
@@ -259,7 +280,7 @@ export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistrib
               strokeWidth={2}
             />
             <Tooltip 
-              formatter={(value: any) => `${Math.round(value)}%`}
+              formatter={(value: number) => `${Math.round(value)}%`}
               contentStyle={{
                 backgroundColor: 'rgba(0, 0, 0, 0.9)',
                 border: '1px solid rgba(255, 255, 255, 0.1)',
@@ -274,8 +295,6 @@ export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistrib
         return (
           <PieChart>
             <Pie
-              activeIndex={activeIndex}
-              activeShape={renderActiveShape}
               data={data}
               cx="50%"
               cy="50%"
@@ -285,7 +304,6 @@ export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistrib
               dataKey="value"
               animationBegin={0}
               animationDuration={isAnimating ? 800 : 0}
-              onMouseEnter={(_, index) => setActiveIndex(index)}
             >
               {data.map((entry, index) => (
                 <Cell key={`cell-${index}`} fill={entry.color} />
