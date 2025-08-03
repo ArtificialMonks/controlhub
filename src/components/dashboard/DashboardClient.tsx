@@ -33,8 +33,10 @@ interface DashboardClientProps {
 
 export function DashboardClient({ automations, clients, error }: DashboardClientProps) {
   const [isRefreshing, setIsRefreshing] = useState(false)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading] = useState(false)
   const { toast } = useToast()
+
+
 
   // Calculate statistics from automation data
   const stats = {
@@ -56,7 +58,7 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
     try {
       // Refresh functionality - could trigger a router refresh or API call
       window.location.reload()
-    } catch (error) {
+    } catch {
       toast({
         title: "Refresh failed",
         description: "Unable to refresh dashboard data.",
@@ -146,23 +148,30 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
                 <RealTimeActivitySkeleton />
               </div>
               <div className="lg:col-span-2">
+                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-1">
+                <RealTimeActivitySkeleton />
+              </div>
+              <div className="lg:col-span-2">
                 <RecentAutomationsTableSkeleton />
+              </div>
+            </div>
               </div>
             </div>
           </>
         ) : (
           <>
             {/* Key Metrics Cards */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
             >
-              <MetricsCards stats={stats} />
+              <MetricsCards stats={stats} automations={automations} />
             </motion.div>
 
             {/* Automation Progress Section */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.15 }}
@@ -171,7 +180,7 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
             </motion.div>
 
             {/* Charts Section */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
@@ -182,7 +191,7 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
             {/* Real-time Activity Monitor and Recent Automations */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
               {/* Real-time Activity Monitor */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.25 }}
@@ -192,7 +201,7 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
               </motion.div>
 
               {/* Recent Automations Table */}
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 }}

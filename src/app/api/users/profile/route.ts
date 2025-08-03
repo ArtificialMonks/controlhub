@@ -21,22 +21,27 @@ export async function GET() {
       )
     }
 
-    // Get user profile from profiles table
+    // Get user profile from profiles table (optional)
     const { data: profile, error: profileError } = await supabase
       .from('profiles')
       .select('*')
       .eq('id', user.id)
       .single()
 
+    // If profile doesn't exist, that's okay - we still have the user
     if (profileError) {
-      console.error('Profile fetch error:', profileError)
-      return NextResponse.json(
-        { error: 'Failed to fetch profile' },
-        { status: 500 }
-      )
+      console.warn('Profile fetch error (table may not exist):', profileError)
     }
 
-    return NextResponse.json({ profile })
+    return NextResponse.json({
+      email: user.email,
+      profile: profile || null,
+      user: {
+        id: user.id,
+        email: user.email,
+        created_at: user.created_at
+      }
+    })
   } catch (error) {
     console.error('Profile API error:', error)
     return NextResponse.json(

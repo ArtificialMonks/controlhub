@@ -29,6 +29,7 @@ export function ThemeToggle() {
         variant="outline"
         size="icon"
         className="relative z-[100] pointer-events-auto"
+        aria-label="Toggle theme"
       >
         <Sun className="h-[1.2rem] w-[1.2rem]" />
         <span className="sr-only">Toggle theme</span>
@@ -46,6 +47,8 @@ export function ThemeToggle() {
       className="relative z-[100] pointer-events-auto overflow-hidden group theme-toggle-glow border-2 hover:border-primary/50 hover:scale-105 transition-all duration-300"
       style={{ cursor: 'pointer' }}
       type="button"
+      aria-label={isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      aria-pressed={isDark}
     >
       {/* Animated background pulse */}
       <motion.div
@@ -183,7 +186,9 @@ export function ThemeToggle() {
         ))}
       </motion.div>
 
-      <span className="sr-only">Toggle theme</span>
+      <span className="sr-only">
+        {isDark ? 'Switch to light theme' : 'Switch to dark theme'}
+      </span>
     </Button>
   )
 }

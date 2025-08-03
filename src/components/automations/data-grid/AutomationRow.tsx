@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { TableCell, TableRow } from '@/components/ui/table'
+import { TableCell } from '@/components/ui/table'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -13,11 +13,6 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from '@/components/ui/collapsible'
 import { 
   MoreHorizontal, 
   Play, 
@@ -132,7 +127,7 @@ export function AutomationRow({
           })
           break
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Action failed",
         description: "Unable to perform the requested action.",

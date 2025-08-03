@@ -71,13 +71,10 @@ interface DashboardFilterPresentationProps {
  * - UX Expert: Consistent UI patterns and accessibility
  */
 export function DashboardFilterPresentation({
-  user,
-  profile,
   automations,
   allAutomations,
   filters,
   actions,
-  availableClients,
   onBulkAction,
   onStatusUpdate,
   loading = false,

@@ -29,8 +29,7 @@ import {
   Activity,
   BarChart3,
   LineChart as LineChartIcon,
-  PieChart,
-  RefreshCw
+  PieChart
 } from 'lucide-react'
 import type { Automation } from '@/lib/repositories/automation-repository'
 
@@ -42,11 +41,10 @@ interface EnhancedPerformanceTrendChartProps {
 type ChartType = 'area' | 'line' | 'bar' | 'composed'
 
 export function EnhancedPerformanceTrendChart({ 
-  automations, 
   timeRange = '7d' 
 }: EnhancedPerformanceTrendChartProps) {
   const [chartType, setChartType] = useState<ChartType>('area')
-  const [isAnimating, setIsAnimating] = useState(true)
+  const [isAnimating] = useState(true)
   const [selectedMetric, setSelectedMetric] = useState<'all' | 'success' | 'duration'>('all')
   const [data, setData] = useState<{
     date: string
@@ -102,26 +100,35 @@ export function EnhancedPerformanceTrendChart({
   useEffect(() => {
     const newData = generateEnhancedTrendData()
     setData(newData)
-    
-    // Simulate real-time updates
+
+    // Re-enable real-time updates with proper cleanup and longer intervals
+    let isMounted = true
+
     const interval = setInterval(() => {
+      if (!isMounted) return
+
       setData(prevData => {
+        if (!isMounted || prevData.length === 0) return prevData
+
         const updatedData = [...prevData]
         const lastItem = updatedData[updatedData.length - 1]
         if (lastItem) {
           // Create a new object instead of mutating the existing one
           updatedData[updatedData.length - 1] = {
             ...lastItem,
-            successRate: Math.min(100, lastItem.successRate + Math.random() * 2 - 1),
-            avgDuration: Math.max(500, lastItem.avgDuration + Math.random() * 100 - 50)
+            successRate: Math.min(100, Math.max(60, lastItem.successRate + Math.random() * 2 - 1)),
+            avgDuration: Math.max(500, Math.min(5000, lastItem.avgDuration + Math.random() * 100 - 50))
           }
         }
         return updatedData
       })
-    }, 5000)
+    }, 10000) // Increased from 5000ms to 10000ms
 
-    return () => clearInterval(interval)
-  }, [timeRange, generateEnhancedTrendData])
+    return () => {
+      isMounted = false
+      clearInterval(interval)
+    }
+  }, [generateEnhancedTrendData])
 
   // Calculate trend indicators
   const calculateTrend = () => {
@@ -436,7 +443,8 @@ export function EnhancedPerformanceTrendChart({
               {/* Time Range Selector */}
               <Badge variant="secondary" className="bg-white/5 dark:bg-black/20 backdrop-blur-sm border border-white/10">
                 <Calendar className="h-3 w-3 mr-1" />
-                {timeRange === '7d' ? 'Last 7 Days' : timeRange === '30d' ? 'Last 30 Days' : 'Last 90 Days'}
+                <span className="hidden sm:inline">{timeRange === '7d' ? 'Last 7 Days' : timeRange === '30d' ? 'Last 30 Days' : 'Last 90 Days'}</span>
+                <span className="sm:hidden">{timeRange}</span>
               </Badge>
             </div>
           </div>
@@ -508,7 +516,7 @@ export function EnhancedPerformanceTrendChart({
         </CardHeader>
 
         <CardContent>
-          <div className="h-64">
+          <div className="h-48 sm:h-64">
             <ResponsiveContainer width="100%" height="100%">
               {renderChart()}
             </ResponsiveContainer>
@@ -516,7 +524,7 @@ export function EnhancedPerformanceTrendChart({
 
           {/* Summary Statistics */}
           <motion.div 
-            className="grid grid-cols-4 gap-4 mt-6"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5 }}
@@ -526,7 +534,7 @@ export function EnhancedPerformanceTrendChart({
               { label: 'Avg Duration', value: `${((data.reduce((sum, d) => sum + d.avgDuration, 0) / data.length || 0) / 1000).toFixed(1)}s`, color: 'text-blue-500' },
               { label: 'Total Runs', value: data.reduce((sum, d) => sum + d.executionCount, 0).toLocaleString(), color: 'text-purple-500' },
               { label: 'Throughput', value: `${Math.round(data.reduce((sum, d) => sum + d.throughput, 0) / data.length || 0)}/hr`, color: 'text-orange-500' }
-            ].map((stat, index) => (
+            ].map((stat) => (
               <motion.div
                 key={stat.label}
                 whileHover={{ scale: 1.05 }}

@@ -2,7 +2,6 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -66,17 +65,20 @@ export function LoginForm() {
       }
 
       const result = await login(data)
-      
+
+      // If we get here, there was an error (success redirects server-side)
       if (result?.error) {
         if (isMountedRef.current) {
           setError(result.error)
           setIsLoading(false)
         }
-        return
+      } else {
+        // This shouldn't happen with server-side redirect, but handle it
+        if (isMountedRef.current) {
+          setError('Login failed - unexpected response')
+          setIsLoading(false)
+        }
       }
-
-      // Success - login action handles redirect
-      // Don't set loading to false here as redirect will occur
     } catch (error) {
       console.error('Login error:', error)
       if (isMountedRef.current) {

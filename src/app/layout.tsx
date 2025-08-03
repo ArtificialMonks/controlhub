@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Orbitron } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { SkipNavigation } from "@/components/ui/skip-navigation";
 
 // Import utilities and configurations to connect isolated modules
 import "@/lib/config"; // Import for side effects to connect module
@@ -145,6 +146,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${orbitron.variable} antialiased`}
       >
+        <SkipNavigation />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

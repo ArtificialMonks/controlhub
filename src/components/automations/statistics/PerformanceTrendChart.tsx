@@ -9,7 +9,7 @@ interface PerformanceTrendChartProps {
   automations: Automation[]
 }
 
-export function PerformanceTrendChart({ automations }: PerformanceTrendChartProps) {
+export function PerformanceTrendChart({ }: PerformanceTrendChartProps) {
   // Generate trend data from last 7 days
   const generateTrendData = () => {
     const days = 7

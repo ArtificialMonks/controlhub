@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
+import { NotificationProvider } from '@/components/notifications/NotificationProvider'
 
 // Sidebar header component with responsive logo and CONTROLHUB text
 function SidebarHeaderContent() {
@@ -174,15 +175,22 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
 
   // Check connection status and user auth
   useEffect(() => {
-    // Simulate connection check - replace with actual logic
+    // Get user from cookie/session - replace with actual auth logic
     const checkConnection = async () => {
       try {
         // Check if user is authenticated and system is operational
-        setIsConnected(true)
-        // You would get this from your auth context/session
-        setUserEmail('user@example.com')
+        const response = await fetch('/api/users/profile')
+        if (response.ok) {
+          const data = await response.json()
+          setIsConnected(true)
+          setUserEmail(data.email)
+        } else {
+          setIsConnected(false)
+          setUserEmail(null)
+        }
       } catch {
         setIsConnected(false)
+        setUserEmail(null)
       }
     }
 
@@ -221,7 +229,12 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Main content with proper sizing */}
-      <main className="flex-1 min-h-0 overflow-hidden bg-background pointer-events-auto">
+      <main 
+        id="main-content"
+        className="flex-1 min-h-0 overflow-hidden bg-background pointer-events-auto"
+        role="main"
+        aria-label="Main content"
+      >
         <div className="h-full w-full overflow-auto">
           {children}
         </div>
@@ -235,81 +248,110 @@ export default function DashboardLayout({
 }: {
   children: React.ReactNode
 }) {
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+
+  // Get user email for NotificationProvider
+  useEffect(() => {
+    const fetchUserEmail = async () => {
+      try {
+        const response = await fetch('/api/users/profile')
+        if (response.ok) {
+          const data = await response.json()
+          setUserEmail(data.email)
+        } else {
+          // Fallback to a default email if profile fetch fails
+          setUserEmail('user@controlhub.com')
+        }
+      } catch (error) {
+        console.error('Failed to fetch user profile:', error)
+        // Fallback to a default email if profile fetch fails
+        setUserEmail('user@controlhub.com')
+      }
+    }
+
+    fetchUserEmail()
+  }, [])
+
+  // Use fallback email to prevent blocking the UI
+  const effectiveUserEmail = userEmail || 'user@controlhub.com'
+
   return (
-    <SidebarProvider>
-      <div className="relative min-h-screen w-full bg-background overflow-hidden">
-        {/* Fixed Sidebar */}
-        <Sidebar className="pointer-events-auto">
-          <SidebarHeader className="border-b border-aligned">
-            <SidebarHeaderContent />
-          </SidebarHeader>
+    <NotificationProvider userId={effectiveUserEmail}>
+      <SidebarProvider>
+        <div className="relative min-h-screen w-full bg-background overflow-hidden">
+          {/* Fixed Sidebar */}
+          <Sidebar className="pointer-events-auto">
+            <SidebarHeader className="border-b border-aligned">
+              <SidebarHeaderContent />
+            </SidebarHeader>
 
-          <SidebarContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <Link href="/dashboard">
-                  <SidebarMenuButton>
-                    <Home className="h-4 w-4" />
-                    <span>Dashboard</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
+            <SidebarContent>
+              <SidebarMenu>
+                <SidebarMenuItem>
+                  <Link href="/dashboard">
+                    <SidebarMenuButton>
+                      <Home className="h-4 w-4" />
+                      <span>Dashboard</span>
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
 
-              <SidebarMenuItem>
-                <Link href="/automations">
-                  <SidebarMenuButton>
-                    <Zap className="h-4 w-4" />
-                    <span>Automations</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <Link href="/automations">
+                    <SidebarMenuButton>
+                      <Zap className="h-4 w-4" />
+                      <span>Automations</span>
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
 
-              <SidebarMenuItem>
-                <Link href="/dashboard">
-                  <SidebarMenuButton>
-                    <BarChart3 className="h-4 w-4" />
-                    <span>Analytics</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <Link href="/dashboard">
+                    <SidebarMenuButton>
+                      <BarChart3 className="h-4 w-4" />
+                      <span>Analytics</span>
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
 
-              <SidebarMenuItem>
-                <Link href="/dashboard">
-                  <SidebarMenuButton>
-                    <FileText className="h-4 w-4" />
-                    <span>Reports</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <Link href="/dashboard">
+                    <SidebarMenuButton>
+                      <FileText className="h-4 w-4" />
+                      <span>Reports</span>
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
 
-              <SidebarMenuItem>
-                <Link href="/settings">
-                  <SidebarMenuButton>
-                    <Settings className="h-4 w-4" />
-                    <span>Settings</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
+                <SidebarMenuItem>
+                  <Link href="/settings">
+                    <SidebarMenuButton>
+                      <Settings className="h-4 w-4" />
+                      <span>Settings</span>
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
 
-              <SidebarMenuItem>
-                <Link href="/dashboard">
-                  <SidebarMenuButton>
-                    <HelpCircle className="h-4 w-4" />
-                    <span>Help</span>
-                  </SidebarMenuButton>
-                </Link>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarContent>
+                <SidebarMenuItem>
+                  <Link href="/dashboard">
+                    <SidebarMenuButton>
+                      <HelpCircle className="h-4 w-4" />
+                      <span>Help</span>
+                    </SidebarMenuButton>
+                  </Link>
+                </SidebarMenuItem>
+              </SidebarMenu>
+            </SidebarContent>
 
-          <SidebarFooter>
-            {/* Footer content removed as requested - auth controls moved to header */}
-          </SidebarFooter>
-        </Sidebar>
+            <SidebarFooter>
+              {/* Footer content removed as requested - auth controls moved to header */}
+            </SidebarFooter>
+          </Sidebar>
 
-        {/* Main Content Area */}
-        <DashboardContent>{children}</DashboardContent>
-      </div>
-    </SidebarProvider>
+          {/* Main Content Area */}
+          <DashboardContent>{children}</DashboardContent>
+        </div>
+      </SidebarProvider>
+    </NotificationProvider>
   )
 }

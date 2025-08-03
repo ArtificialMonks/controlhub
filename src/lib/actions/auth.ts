@@ -29,9 +29,11 @@ export async function login(data: LoginData) {
   })
 
   if (error) {
+    console.log('Login error:', error.message)
     return { error: error.message }
   }
 
+  console.log('Login successful for user:', (await supabase.auth.getUser()).data.user?.id)
   revalidatePath('/', 'layout')
   redirect('/dashboard')
 }

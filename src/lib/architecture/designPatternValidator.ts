@@ -128,8 +128,8 @@ export class DesignPatternValidator {
 
     // Check for DAL implementation
     const hasDALStructure = true // Simulated check
-    const hasProperAbstraction = true
-    const hasConsistentInterface = true
+    const _hasProperAbstraction = true
+    const _hasConsistentInterface = true
 
     if (!hasDALStructure) {
       violations.push({

@@ -350,7 +350,7 @@ function DashboardFilterContainerInner({
       await new Promise(resolve => setTimeout(resolve, 1000))
       
       console.log(`Bulk ${action} completed successfully`)
-    } catch (_error) {
+    } catch {
       reportError(createValidationError(
         `Failed to perform bulk ${action} action`,
         'bulkAction',

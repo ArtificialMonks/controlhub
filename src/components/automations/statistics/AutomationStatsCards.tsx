@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Activity, CheckCircle2, XCircle, AlertCircle, Zap, Clock } from 'lucide-react'
+import { Activity, CheckCircle2, Zap, Clock } from 'lucide-react'
 
 interface AutomationStatsCardsProps {
   stats: {

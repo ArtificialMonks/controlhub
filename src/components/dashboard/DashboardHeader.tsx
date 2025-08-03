@@ -4,6 +4,7 @@
 import { Button } from '@/components/ui/button'
 import { RefreshCw } from 'lucide-react'
 import { motion } from 'framer-motion'
+import { NotificationCenterWrapper } from '@/components/notifications/NotificationCenterWrapper'
 
 interface DashboardHeaderProps {
   onRefresh?: () => void
@@ -68,6 +69,9 @@ export function DashboardHeader({ onRefresh, isRefreshing = false }: DashboardHe
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
+          {/* Notification Center */}
+          <NotificationCenterWrapper />
+          
           {/* Enhanced refresh button */}
           <Button
             variant="outline"

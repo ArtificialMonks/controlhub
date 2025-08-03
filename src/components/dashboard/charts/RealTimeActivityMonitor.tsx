@@ -38,9 +38,9 @@ interface ActivityEvent {
   message?: string
 }
 
-export function RealTimeActivityMonitor({ 
-  maxDataPoints = 50, 
-  updateInterval = 1000 
+export function RealTimeActivityMonitor({
+  maxDataPoints = 30,
+  updateInterval = 3000
 }: RealTimeActivityMonitorProps) {
   const [data, setData] = useState<{
     time: number
@@ -86,7 +86,7 @@ export function RealTimeActivityMonitor({
     ]
     
     return {
-      id: Math.random().toString(36).substr(2, 9),
+      id: Math.random().toString(36).substring(2, 11),
       timestamp: new Date(),
       type,
       automationName: automations[Math.floor(Math.random() * automations.length)],
@@ -98,24 +98,30 @@ export function RealTimeActivityMonitor({
 
   // Real-time data updates
   useEffect(() => {
+    let isMounted = true
+
     const updateData = () => {
+      if (!isMounted) return
+
       const newPoint = generateActivityData()
-      
+
       setData(prevData => {
         const updated = [...prevData, newPoint]
-        return updated.slice(-maxDataPoints)
+        const sliced = updated.slice(-maxDataPoints)
+
+        // Update success rate using the current data
+        const recentData = sliced.slice(-10)
+        const totalActive = recentData.reduce((sum, d) => sum + d.active, 0)
+        const totalSuccess = recentData.reduce((sum, d) => sum + d.success, 0)
+        if (totalActive > 0) {
+          setSuccessRate(Math.round((totalSuccess / totalActive) * 100))
+        }
+
+        return sliced
       })
 
       // Update throughput
       setThroughput(newPoint.throughput)
-
-      // Update success rate
-      const recentData = data.slice(-10)
-      const totalActive = recentData.reduce((sum, d) => sum + d.active, 0)
-      const totalSuccess = recentData.reduce((sum, d) => sum + d.success, 0)
-      if (totalActive > 0) {
-        setSuccessRate(Math.round((totalSuccess / totalActive) * 100))
-      }
 
       // Generate events randomly
       if (Math.random() < 0.3) {
@@ -124,14 +130,50 @@ export function RealTimeActivityMonitor({
       }
     }
 
-    const interval = setInterval(updateData, updateInterval)
-    
-    // Initialize with some data
-    for (let i = 0; i < 20; i++) {
-      updateData()
+    // Initialize with some data gradually to avoid blocking
+    const initializeData = () => {
+      if (!isMounted) return
+
+      const initialData = []
+      for (let i = 0; i < 10; i++) { // Reduced from 20 to 10
+        const point = generateActivityData()
+        initialData.push(point)
+      }
+      setData(initialData)
+
+      // Initialize some events
+      const initialEvents = []
+      for (let i = 0; i < 2; i++) { // Reduced from 3 to 2
+        initialEvents.push(generateEvent())
+      }
+      setEvents(initialEvents)
     }
 
-    return () => clearInterval(interval)
+    // Initialize data with a small delay to avoid blocking
+    const initTimeout = setTimeout(() => {
+      if (isMounted) {
+        initializeData()
+      }
+    }, 100)
+
+    // Start the interval for updates with a longer delay
+    const intervalTimeout = setTimeout(() => {
+      if (isMounted) {
+        const interval = setInterval(() => {
+          if (isMounted) {
+            updateData()
+          }
+        }, updateInterval)
+
+        return () => clearInterval(interval)
+      }
+    }, 500)
+
+    return () => {
+      isMounted = false
+      clearTimeout(initTimeout)
+      clearTimeout(intervalTimeout)
+    }
   }, [updateInterval, maxDataPoints])
 
   // Custom tooltip
@@ -230,7 +272,7 @@ export function RealTimeActivityMonitor({
 
         <CardContent className="space-y-4">
           {/* Real-time Chart */}
-          <div className="h-32">
+          <div className="h-24 sm:h-32">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.2} />

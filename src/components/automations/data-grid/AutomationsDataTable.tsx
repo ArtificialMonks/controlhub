@@ -1,41 +1,21 @@
 'use client'
 
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { AnimatePresence } from 'framer-motion'
 import {
   Table,
   TableBody,
-  TableCell,
   TableHead,
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { 
-  MoreHorizontal, 
-  Play, 
-  Square, 
-  RefreshCw, 
-  Settings, 
-  Trash2,
   ChevronDown,
-  ChevronUp,
-  Clock,
-  Zap
+  ChevronUp
 } from 'lucide-react'
 import { Automation } from '@/lib/repositories/automation-repository'
 import { AutomationRow } from './AutomationRow'
-import { cn } from '@/lib/utils'
 
 interface Client {
   id: string

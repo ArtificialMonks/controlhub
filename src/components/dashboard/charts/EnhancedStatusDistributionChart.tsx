@@ -2,7 +2,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
@@ -18,8 +18,7 @@ import {
   Radar,
   RadarChart,
   ResponsiveContainer, 
-  Tooltip,
-  Sector
+  Tooltip
 } from 'recharts'
 import { 
   CheckCircle, 
@@ -49,7 +48,7 @@ type ChartType = 'pie' | 'radial' | 'radar'
 export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistributionChartProps) {
   const [chartType, setChartType] = useState<ChartType>('pie')
   const [activeIndex, setActiveIndex] = useState(0)
-  const [isAnimating, setIsAnimating] = useState(true)
+  const [isAnimating] = useState(true)
 
   const data = [
     { 
@@ -111,76 +110,23 @@ export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistrib
     }
   ]
 
-  // Animate through segments
+  // Re-enable animation with proper cleanup and longer intervals
   useEffect(() => {
     if (!isAnimating || data.length === 0) return
-    
-    const interval = setInterval(() => {
-      setActiveIndex((prevIndex) => (prevIndex + 1) % data.length)
-    }, 3000)
 
-    return () => clearInterval(interval)
+    let isMounted = true
+
+    const interval = setInterval(() => {
+      if (!isMounted) return
+      setActiveIndex((prevIndex) => (prevIndex + 1) % data.length)
+    }, 5000) // Increased from 3000ms to 5000ms
+
+    return () => {
+      isMounted = false
+      clearInterval(interval)
+    }
   }, [data.length, isAnimating])
 
-  // Custom active shape for pie chart
-  const renderActiveShape = (props: unknown) => {
-    const RADIAN = Math.PI / 180
-    const { cx, cy, midAngle, innerRadius, outerRadius, startAngle, endAngle, fill, payload, value } = props as {
-      cx: number
-      cy: number
-      midAngle: number
-      innerRadius: number
-      outerRadius: number
-      startAngle: number
-      endAngle: number
-      fill: string
-      payload: { name: string; percentage: string }
-      value: number
-    }
-    const sin = Math.sin(-RADIAN * midAngle)
-    const cos = Math.cos(-RADIAN * midAngle)
-    const sx = cx + (outerRadius + 10) * cos
-    const sy = cy + (outerRadius + 10) * sin
-    const mx = cx + (outerRadius + 30) * cos
-    const my = cy + (outerRadius + 30) * sin
-    const ex = mx + (cos >= 0 ? 1 : -1) * 22
-    const ey = my
-    const textAnchor = cos >= 0 ? 'start' : 'end'
-
-    return (
-      <g>
-        <text x={cx} y={cy} dy={8} textAnchor="middle" fill={fill} className="text-2xl font-bold">
-          {payload.percentage}%
-        </text>
-        <Sector
-          cx={cx}
-          cy={cy}
-          innerRadius={innerRadius}
-          outerRadius={outerRadius}
-          startAngle={startAngle}
-          endAngle={endAngle}
-          fill={fill}
-        />
-        <Sector
-          cx={cx}
-          cy={cy}
-          startAngle={startAngle}
-          endAngle={endAngle}
-          innerRadius={outerRadius + 6}
-          outerRadius={outerRadius + 10}
-          fill={fill}
-        />
-        <path d={`M${sx},${sy}L${mx},${my}L${ex},${ey}`} stroke={fill} fill="none" />
-        <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} textAnchor={textAnchor} fill="#333" className="text-sm font-medium">
-          {payload.name}
-        </text>
-        <text x={ex + (cos >= 0 ? 1 : -1) * 12} y={ey} dy={18} textAnchor={textAnchor} fill="#999" className="text-xs">
-          {`${value} automations`}
-        </text>
-      </g>
-    )
-  }
 
   // Enhanced tooltip
   const CustomTooltip = ({ active, payload }: {
@@ -382,7 +328,7 @@ export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistrib
             <div className="inline-flex items-center justify-center">
               <div className="text-center p-4 rounded-xl bg-white/5 dark:bg-black/20 backdrop-blur-sm border border-white/10">
                 <motion.p 
-                  className="text-4xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent mb-1"
+                  className="text-3xl sm:text-4xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent mb-1"
                   animate={{ 
                     backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
                     scale: [1, 1.05, 1]
@@ -419,7 +365,6 @@ export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistrib
               transition={{ delay: 0.6 }}
             >
               {data.map((item, index) => {
-                const Icon = item.icon
                 return (
                   <motion.div 
                     key={item.name}
@@ -463,7 +408,7 @@ export function EnhancedStatusDistributionChart({ stats }: EnhancedStatusDistrib
           {/* Performance Indicators for radar chart */}
           {chartType === 'radar' && (
             <motion.div 
-              className="grid grid-cols-3 gap-2 pt-4 border-t border-border/30"
+              className="grid grid-cols-2 sm:grid-cols-3 gap-2 pt-4 border-t border-border/30"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}

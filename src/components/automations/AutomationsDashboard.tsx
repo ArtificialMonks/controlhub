@@ -70,7 +70,7 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
           description: "Automation data has been updated successfully."
         })
       }
-    } catch (error) {
+    } catch {
       toast({
         title: "Refresh failed",
         description: "Unable to refresh automation data.",

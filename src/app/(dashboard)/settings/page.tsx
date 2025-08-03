@@ -1,7 +1,41 @@
 // src/app/(dashboard)/settings/page.tsx
+'use client'
+
+import { useState, useEffect } from 'react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { NotificationSettings } from '@/components/settings/NotificationSettings'
+import { Loader2 } from 'lucide-react'
 
 export default function SettingsPage() {
+  const [userEmail, setUserEmail] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch('/api/users/profile')
+        if (response.ok) {
+          const data = await response.json()
+          setUserEmail(data.email)
+        }
+      } catch (error) {
+        console.error('Failed to fetch user:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchUser()
+  }, [])
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    )
+  }
+
   return (
     <div className="container mx-auto p-6 max-w-4xl">
       <div className="space-y-6">
@@ -26,7 +60,7 @@ export default function SettingsPage() {
               <div className="space-y-4">
                 <div>
                   <label className="text-sm font-medium">Email</label>
-                  <p className="text-sm text-muted-foreground">john@example.com</p>
+                  <p className="text-sm text-muted-foreground">{userEmail || 'Loading...'}</p>
                 </div>
                 <div>
                   <label className="text-sm font-medium">Name</label>
@@ -37,36 +71,7 @@ export default function SettingsPage() {
           </Card>
 
           {/* Notifications */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Notifications</CardTitle>
-              <CardDescription>
-                Configure how you receive notifications
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium">Email notifications</p>
-                    <p className="text-sm text-muted-foreground">
-                      Receive notifications via email
-                    </p>
-                  </div>
-                  <div className="text-sm text-muted-foreground">Enabled</div>
-                </div>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium">Automation alerts</p>
-                    <p className="text-sm text-muted-foreground">
-                      Get notified when automations fail
-                    </p>
-                  </div>
-                  <div className="text-sm text-muted-foreground">Enabled</div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          {userEmail && <NotificationSettings userId={userEmail} />}
 
           {/* System Preferences */}
           <Card>
