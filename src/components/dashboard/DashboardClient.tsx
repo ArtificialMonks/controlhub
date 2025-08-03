@@ -8,11 +8,13 @@ import { MetricsCards } from '@/components/dashboard/MetricsCards'
 import { AutomationProgressSection } from '@/components/dashboard/AutomationProgressSection'
 import { AutomationChartsSection } from '@/components/dashboard/AutomationChartsSection'
 import { RecentAutomationsTable } from '@/components/dashboard/RecentAutomationsTable'
+import { RealTimeActivityMonitor } from '@/components/dashboard/charts/RealTimeActivityMonitor'
 import {
   MetricsCardsSkeleton,
   AutomationProgressSkeleton,
   AutomationChartsSkeleton,
-  RecentAutomationsTableSkeleton
+  RecentAutomationsTableSkeleton,
+  RealTimeActivitySkeleton
 } from '@/components/dashboard/skeletons'
 import type { Automation } from '@/lib/repositories/automation-repository'
 import { useState } from 'react'
@@ -139,7 +141,14 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
             <MetricsCardsSkeleton />
             <AutomationProgressSkeleton />
             <AutomationChartsSkeleton />
-            <RecentAutomationsTableSkeleton />
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              <div className="lg:col-span-1">
+                <RealTimeActivitySkeleton />
+              </div>
+              <div className="lg:col-span-2">
+                <RecentAutomationsTableSkeleton />
+              </div>
+            </div>
           </>
         ) : (
           <>
@@ -170,14 +179,28 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
               <AutomationChartsSection stats={stats} automations={automations} />
             </motion.div>
 
-            {/* Recent Automations Table */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.25 }}
-            >
-              <RecentAutomationsTable automations={automations} clients={clients} />
-            </motion.div>
+            {/* Real-time Activity Monitor and Recent Automations */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Real-time Activity Monitor */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.25 }}
+                className="lg:col-span-1"
+              >
+                <RealTimeActivityMonitor />
+              </motion.div>
+
+              {/* Recent Automations Table */}
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="lg:col-span-2"
+              >
+                <RecentAutomationsTable automations={automations} clients={clients} />
+              </motion.div>
+            </div>
           </>
         )}
       </div>

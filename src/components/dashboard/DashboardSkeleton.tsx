@@ -8,7 +8,8 @@ import {
   MetricsCardsSkeleton,
   AutomationProgressSkeleton,
   AutomationChartsSkeleton,
-  RecentAutomationsTableSkeleton
+  RecentAutomationsTableSkeleton,
+  RealTimeActivitySkeleton
 } from './skeletons'
 
 export function DashboardSkeleton() {
@@ -66,7 +67,14 @@ export function DashboardSkeleton() {
         <MetricsCardsSkeleton />
         <AutomationProgressSkeleton />
         <AutomationChartsSkeleton />
-        <RecentAutomationsTableSkeleton />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-1">
+            <RealTimeActivitySkeleton />
+          </div>
+          <div className="lg:col-span-2">
+            <RecentAutomationsTableSkeleton />
+          </div>
+        </div>
       </div>
     </div>
   )
