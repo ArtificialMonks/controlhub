@@ -70,14 +70,26 @@
   * {
     @apply border-border;
   }
+  
+  /* Ensure immediate theme application without flash */
+  html {
+    background-color: hsl(var(--background));
+  }
+  
   body {
     @apply bg-background text-foreground;
+    transition: none !important; /* Prevent transition flash on theme load */
   }
   
   /* Dark mode gradient background */
   .dark body {
     background: var(--background-gradient);
     min-height: 100vh;
+  }
+  
+  /* Ensure dark theme background is applied immediately */
+  .dark html {
+    background: #0a0b1f; /* Match dark theme background */
   }
 
   /* Layout utilities for sidebar integration */
@@ -112,13 +124,111 @@
 
   /* Futuristic font utilities */
   .font-futuristic {
-    font-family: 'Orbitron', monospace;
+    font-family: var(--font-orbitron), 'Orbitron', monospace;
   }
 
   .control-hub-title {
-    font-family: 'Orbitron', monospace;
+    font-family: var(--font-orbitron), 'Orbitron', monospace;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    background-size: 200% 100%;
+  }
+
+  .control-hub-title:hover {
+    text-shadow: 0 4px 8px rgba(0, 60, 255, 0.3), 0 0 20px rgba(0, 60, 255, 0.2);
+    filter: brightness(1.1);
+  }
+
+  /* Global page header styling for consistency */
+  .page-header-title {
+    font-family: var(--font-orbitron), 'Orbitron', monospace;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    background-size: 200% 100%;
+  }
+
+  .page-header-title:hover {
+    text-shadow: 0 4px 8px rgba(0, 60, 255, 0.3), 0 0 20px rgba(0, 60, 255, 0.2);
+    filter: brightness(1.1);
+  }
+
+  /* Enhanced animation utilities for consistent motion */
+  .animate-gradient-x {
+    background-size: 200% 100%;
+    animation: gradient-x 4s ease-in-out infinite;
+  }
+
+  @keyframes gradient-x {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  /* Enhanced separator utilities for consistent alignment */
+  .separator-gradient {
+    background: linear-gradient(90deg,
+      transparent 0%,
+      hsl(var(--border)) 20%,
+      hsl(var(--border)) 80%,
+      transparent 100%
+    );
+    opacity: 0.6;
+  }
+
+  .separator-glow {
+    box-shadow: 0 0 10px rgba(0, 60, 255, 0.1);
+  }
+
+  /* Enhanced button hover effects */
+  .btn-enhanced:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 60, 255, 0.15);
+  }
+
+  /* Consistent border alignment utilities */
+  .border-aligned {
+    border-color: hsl(var(--border) / 0.3);
+  }
+
+  /* Ensure theme toggle is always clickable */
+  [data-radix-dropdown-trigger] {
+    pointer-events: auto !important;
+    position: relative;
+    z-index: 100;
+  }
+
+  /* Ensure dropdown content is above everything */
+  [data-radix-dropdown-content] {
+    z-index: 200 !important;
+  }
+
+  /* Enhanced theme toggle animations */
+  .theme-toggle-glow {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .theme-toggle-glow:hover {
+    box-shadow:
+      0 0 20px rgba(var(--primary), 0.3),
+      0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Sun glow effect */
+  .sun-glow {
+    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.4));
+  }
+
+  /* Moon glow effect */
+  .moon-glow {
+    filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
   }
 }

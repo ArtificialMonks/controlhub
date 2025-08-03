@@ -62,11 +62,13 @@ export function AutomationProgressSection({ stats }: AutomationProgressSectionPr
       transition={{ delay: 0.3 }}
       className="mb-8"
     >
-      <Card className="border-0 bg-card/50 backdrop-blur-sm">
+      <Card className="border border-white/10 bg-white/5 dark:bg-black/20 backdrop-blur-md hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20 group">
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-xl font-semibold">Automation Status</CardTitle>
-            <Badge variant="secondary" className="bg-primary/10 text-primary border-0">
+            <CardTitle className="text-xl font-semibold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+              Automation Status
+            </CardTitle>
+            <Badge variant="secondary" className="bg-white/5 dark:bg-black/20 backdrop-blur-sm border border-white/10 text-primary">
               {stats.total} Total
             </Badge>
           </div>
@@ -87,14 +89,23 @@ export function AutomationProgressSection({ stats }: AutomationProgressSectionPr
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <item.icon className={`h-4 w-4 ${item.color.replace('bg-', 'text-')}`} />
+                    <motion.div
+                      whileHover={{ scale: 1.2, rotate: 360 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                    >
+                      <item.icon className={`h-4 w-4 ${item.color.replace('bg-', 'text-')} drop-shadow-lg`} />
+                    </motion.div>
                     <span className="text-sm font-medium text-foreground">
                       {item.label}
                     </span>
                   </div>
-                  <span className="text-sm font-bold text-foreground">
+                  <motion.span 
+                    className="text-sm font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent"
+                    whileHover={{ scale: 1.1 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                  >
                     {item.value}
-                  </span>
+                  </motion.span>
                 </div>
                 
                 <div className="space-y-2">
@@ -115,26 +126,38 @@ export function AutomationProgressSection({ stats }: AutomationProgressSectionPr
           </div>
 
           {/* Summary stats */}
-          <div className="pt-4 border-t border-border/50">
+          <div className="pt-4 border-t border-border/30">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-              <div>
-                <p className="text-2xl font-bold text-foreground">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                className="p-3 rounded-lg bg-white/5 dark:bg-black/20 backdrop-blur-sm border border-white/10 group hover:border-primary/30"
+              >
+                <p className="text-2xl font-bold bg-gradient-to-r from-green-400 to-green-600 bg-clip-text text-transparent">
                   {Math.round(stats.avgSuccessRate)}%
                 </p>
-                <p className="text-sm text-muted-foreground">Success Rate</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">
+                <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">Success Rate</p>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                className="p-3 rounded-lg bg-white/5 dark:bg-black/20 backdrop-blur-sm border border-white/10 group hover:border-primary/30"
+              >
+                <p className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-blue-600 bg-clip-text text-transparent">
                   {Math.round(stats.avgDuration)}ms
                 </p>
-                <p className="text-sm text-muted-foreground">Avg Duration</p>
-              </div>
-              <div>
-                <p className="text-2xl font-bold text-foreground">
+                <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">Avg Duration</p>
+              </motion.div>
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                className="p-3 rounded-lg bg-white/5 dark:bg-black/20 backdrop-blur-sm border border-white/10 group hover:border-primary/30"
+              >
+                <p className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-purple-600 bg-clip-text text-transparent">
                   {stats.running + stats.stopped}
                 </p>
-                <p className="text-sm text-muted-foreground">Active Workflows</p>
-              </div>
+                <p className="text-sm text-muted-foreground group-hover:text-foreground transition-colors">Active Workflows</p>
+              </motion.div>
             </div>
           </div>
         </CardContent>

@@ -25,8 +25,9 @@ export function ThemeProvider({ children, ...props }: ThemeProviderProps) {
   }, [])
 
   if (!mounted) {
-    // Return children with light theme class during SSR/hydration
-    return <div className="light">{children}</div>
+    // Return children without forcing any theme class during SSR/hydration
+    // The blocking script in layout.tsx will handle the initial theme application
+    return <>{children}</>
   }
 
   return <NextThemesProvider {...props}>{children}</NextThemesProvider>

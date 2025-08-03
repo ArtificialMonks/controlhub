@@ -14,11 +14,7 @@ import {
   TableHeader, 
   TableRow 
 } from '@/components/ui/table'
-import { 
-  MoreHorizontal, 
-  Play, 
-  Square, 
-  Settings,
+import {
   Clock,
   CheckCircle,
   XCircle,
@@ -88,27 +84,33 @@ export function RecentAutomationsTable({ automations, clients }: RecentAutomatio
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.7 }}
     >
-      <Card className="border-0 bg-card/50 backdrop-blur-sm">
-        <CardHeader className="pb-4">
+      <Card className="border border-white/10 bg-white/5 dark:bg-black/20 backdrop-blur-md hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20 group">
+        <CardHeader className="pb-6 space-y-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-xl font-semibold">Recent Automations</CardTitle>
-            <Button variant="outline" size="sm">
+            <CardTitle className="text-xl font-semibold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent">
+              Recent Automations
+            </CardTitle>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="bg-white/5 dark:bg-black/20 backdrop-blur-sm border border-white/10 hover:bg-primary/10 hover:border-primary/30 hover:scale-105 transition-all duration-300"
+            >
               View All
             </Button>
           </div>
-          <p className="text-sm text-muted-foreground">
-            Latest automation activity and status updates
+          <p className="text-sm text-muted-foreground leading-relaxed">
+            Monitor your most recent automation executions and performance metrics
           </p>
         </CardHeader>
-        <CardContent>
+        <CardContent className="px-6 pb-6">
           <Table>
             <TableHeader>
-              <TableRow className="border-border/50">
-                <TableHead className="text-muted-foreground font-medium">Client</TableHead>
-                <TableHead className="text-muted-foreground font-medium">Automation</TableHead>
-                <TableHead className="text-muted-foreground font-medium">Status</TableHead>
-                <TableHead className="text-muted-foreground font-medium">Last Run</TableHead>
-                <TableHead className="text-muted-foreground font-medium text-right">Actions</TableHead>
+              <TableRow className="border-border/30 hover:bg-muted/30">
+                <TableHead className="text-muted-foreground font-semibold text-xs uppercase tracking-wider">Client</TableHead>
+                <TableHead className="text-muted-foreground font-semibold text-xs uppercase tracking-wider">Automation</TableHead>
+                <TableHead className="text-muted-foreground font-semibold text-xs uppercase tracking-wider">Status</TableHead>
+                <TableHead className="text-muted-foreground font-semibold text-xs uppercase tracking-wider">Last Run</TableHead>
+                <TableHead className="text-muted-foreground font-semibold text-xs uppercase tracking-wider">Performance</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -120,7 +122,7 @@ export function RecentAutomationsTable({ automations, clients }: RecentAutomatio
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.8 + index * 0.1 }}
-                    className="border-border/50 hover:bg-muted/50 transition-colors"
+                    className="border-border/30 hover:bg-white/5 dark:hover:bg-black/20 hover:shadow-sm transition-all duration-200 group backdrop-blur-sm"
                   >
                     <TableCell>
                       <div className="flex items-center gap-3">
@@ -141,9 +143,14 @@ export function RecentAutomationsTable({ automations, clients }: RecentAutomatio
                     <TableCell>
                       <div>
                         <p className="font-medium text-foreground text-sm">{automation.name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          Success: {automation.success_rate}%
-                        </p>
+                        <div className="flex items-center gap-3 mt-1">
+                          <p className="text-xs text-muted-foreground">
+                            Success: {automation.success_rate}%
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            ID: {automation.id.slice(0, 8)}...
+                          </p>
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -157,21 +164,14 @@ export function RecentAutomationsTable({ automations, clients }: RecentAutomatio
                         {formatLastRun(automation.last_run_at)}
                       </p>
                     </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-1">
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          {automation.status === 'Running' ? (
-                            <Square className="h-3 w-3" />
-                          ) : (
-                            <Play className="h-3 w-3" />
-                          )}
-                        </Button>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <Settings className="h-3 w-3" />
-                        </Button>
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                          <MoreHorizontal className="h-3 w-3" />
-                        </Button>
+                    <TableCell>
+                      <div className="text-right">
+                        <p className="text-sm text-foreground font-medium">
+                          {automation.avg_duration_ms ? `${Math.round(automation.avg_duration_ms / 1000)}s` : 'N/A'}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          Avg Duration
+                        </p>
                       </div>
                     </TableCell>
                   </motion.tr>

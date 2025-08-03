@@ -123,11 +123,31 @@ communitee-control-hub/
 │   │   ├── dashboard/                 # Dashboard components
 │   │   │   ├── sidebar.tsx
 │   │   │   ├── header.tsx
-│   │   │   └── navigation.tsx
-│   │   └── automation/                # Automation-specific components
-│   │       ├── automation-card.tsx
-│   │       ├── automation-form.tsx
-│   │       └── workflow-builder.tsx
+│   │   │   ├── navigation.tsx
+│   │   │   ├── DashboardClient.tsx    # Client-side dashboard wrapper
+│   │   │   ├── DashboardHeader.tsx    # Dashboard header component
+│   │   │   ├── DashboardSkeleton.tsx  # Full dashboard skeleton loader
+│   │   │   ├── MetricsCards.tsx       # Key metrics display cards
+│   │   │   ├── AutomationProgressSection.tsx # Status distribution
+│   │   │   ├── AutomationChartsSection.tsx   # Charts and analytics
+│   │   │   ├── RecentAutomationsTable.tsx    # Recent activity table
+│   │   │   └── skeletons/             # Skeleton loaders for dashboard
+│   │   │       ├── index.ts           # Barrel export
+│   │   │       ├── MetricsCardsSkeleton.tsx
+│   │   │       ├── AutomationProgressSkeleton.tsx
+│   │   │       ├── AutomationChartsSkeleton.tsx
+│   │   │       └── RecentAutomationsTableSkeleton.tsx
+│   │   └── automations/               # Automation-specific components
+│   │       ├── AutomationsDashboard.tsx      # Main automations dashboard
+│   │       ├── AutomationsDataGridSkeleton.tsx # Data grid skeleton loader
+│   │       ├── data-grid/             # Data grid components
+│   │       │   ├── AutomationsDataTable.tsx
+│   │       │   ├── AutomationRow.tsx
+│   │       │   └── columns.tsx
+│   │       └── statistics/            # Statistics components
+│   │           ├── StatusDistributionChart.tsx
+│   │           ├── PerformanceTrendChart.tsx
+│   │           └── AutomationStatsCards.tsx
 │   │
 │   ├── lib/                           # Utility libraries and configurations
 │   │   ├── actions/                   # Server actions

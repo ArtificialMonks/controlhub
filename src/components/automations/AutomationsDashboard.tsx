@@ -11,7 +11,7 @@ import { AutomationFilters } from './data-grid/AutomationFilters'
 import { BulkToggleControls } from './controls/BulkToggleControls'
 import { Automation } from '@/lib/repositories/automation-repository'
 import { Button } from '@/components/ui/button'
-import { RefreshCw, Download } from 'lucide-react'
+import { RefreshCw } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
 
 interface Client {
@@ -81,27 +81,6 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
     }
   }
 
-  const handleExport = () => {
-    // Export functionality
-    const csvContent = [
-      ['Name', 'Client', 'Status', 'Success Rate', 'Avg Duration', 'Last Run'],
-      ...filteredAutomations.map(a => [
-        a.name,
-        clients.find(c => c.id === a.client_id)?.name || 'Unknown',
-        a.status,
-        `${a.success_rate}%`,
-        `${a.avg_duration_ms || 0}ms`,
-        a.last_run_at || 'Never'
-      ])
-    ].map(row => row.join(',')).join('\n')
-
-    const blob = new Blob([csvContent], { type: 'text/csv' })
-    const url = window.URL.createObjectURL(blob)
-    const link = document.createElement('a')
-    link.href = url
-    link.download = `automations-${new Date().toISOString().split('T')[0]}.csv`
-    link.click()
-  }
 
   const handleBulkAction = async (action: 'run' | 'stop', automationIds: string[]) => {
     console.log(`Making bulk ${action} request for ${automationIds.length} automations:`, automationIds)
@@ -191,12 +170,34 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
       <motion.div
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="border-b bg-background"
+        className="relative border-b bg-background"
       >
+        {/* Enhanced separator line aligned with sidebar */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent"></div>
+        
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">Automation Control Center</h1>
+              <motion.h1
+                className="control-hub-title text-3xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
+                animate={{
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                }}
+                transition={{
+                  duration: 5,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                }}
+                whileHover={{
+                  scale: 1.02,
+                  textShadow: "0 0 25px rgba(0, 60, 255, 0.4)"
+                }}
+                style={{
+                  backgroundSize: "200% 100%",
+                }}
+              >
+                AUTOMATION CONTROL CENTER
+              </motion.h1>
               <p className="text-muted-foreground">
                 Monitor and manage your automation workflows
               </p>
@@ -207,17 +208,10 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
                 size="sm"
                 onClick={handleRefresh}
                 disabled={isRefreshing}
+                className="hover:bg-primary/10 hover:border-primary/30 hover:shadow-md transition-all duration-300"
               >
-                <RefreshCw className={`h-4 w-4 mr-2 ${isRefreshing ? 'animate-spin' : ''}`} />
+                <RefreshCw className={`h-4 w-4 mr-2 transition-transform duration-300 ${isRefreshing ? 'animate-spin' : 'group-hover:rotate-180'}`} />
                 Refresh
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleExport}
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Export
               </Button>
             </div>
           </div>

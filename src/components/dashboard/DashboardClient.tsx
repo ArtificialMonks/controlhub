@@ -1,13 +1,22 @@
 // src/components/dashboard/DashboardClient.tsx
 'use client'
 
-import { Card } from '@/components/ui'
-import { DashboardHeader } from '@/components/dashboard/DashboardHeader'
+import { Button } from '@/components/ui/button'
+import { RefreshCw } from 'lucide-react'
+import { motion } from 'framer-motion'
 import { MetricsCards } from '@/components/dashboard/MetricsCards'
 import { AutomationProgressSection } from '@/components/dashboard/AutomationProgressSection'
 import { AutomationChartsSection } from '@/components/dashboard/AutomationChartsSection'
 import { RecentAutomationsTable } from '@/components/dashboard/RecentAutomationsTable'
+import {
+  MetricsCardsSkeleton,
+  AutomationProgressSkeleton,
+  AutomationChartsSkeleton,
+  RecentAutomationsTableSkeleton
+} from '@/components/dashboard/skeletons'
 import type { Automation } from '@/lib/repositories/automation-repository'
+import { useState } from 'react'
+import { useToast } from '@/components/ui/use-toast'
 
 interface Client {
   id: string
@@ -21,6 +30,10 @@ interface DashboardClientProps {
 }
 
 export function DashboardClient({ automations, clients, error }: DashboardClientProps) {
+  const [isRefreshing, setIsRefreshing] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const { toast } = useToast()
+
   // Calculate statistics from automation data
   const stats = {
     total: automations?.length || 0,
@@ -36,36 +49,137 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
       : 0
   }
 
-  const handleRefresh = () => {
-    // Refresh functionality - could trigger a router refresh or API call
-    window.location.reload()
+  const handleRefresh = async () => {
+    setIsRefreshing(true)
+    try {
+      // Refresh functionality - could trigger a router refresh or API call
+      window.location.reload()
+    } catch (error) {
+      toast({
+        title: "Refresh failed",
+        description: "Unable to refresh dashboard data.",
+        variant: "destructive"
+      })
+    } finally {
+      setIsRefreshing(false)
+    }
   }
 
   return (
-    <div className="h-full w-full">
-      <div className="p-6 space-y-6 h-full overflow-auto">
-        {/* Modern Dashboard Header */}
-        <DashboardHeader onRefresh={handleRefresh} />
+    <div className="h-full w-full bg-background">
+      {/* Page Header */}
+      <motion.div
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="relative border-b bg-background"
+      >
+        {/* Enhanced separator line aligned with sidebar */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-border/40 to-transparent"></div>
+        
+        <div className="px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div>
+              <motion.h1
+                className="control-hub-title text-3xl font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent"
+                animate={{
+                  backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+                }}
+                transition={{
+                  duration: 5,
+                  ease: "easeInOut",
+                  repeat: Infinity,
+                }}
+                whileHover={{
+                  scale: 1.02,
+                  textShadow: "0 0 25px rgba(0, 60, 255, 0.4)"
+                }}
+                style={{
+                  backgroundSize: "200% 100%",
+                }}
+              >
+                AUTOMATION DASHBOARD
+              </motion.h1>
+              <p className="text-muted-foreground">
+                Real-time insights and performance analytics for your automation ecosystem
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleRefresh}
+                disabled={isRefreshing}
+                className="hover:bg-primary/10 hover:border-primary/30 hover:shadow-md transition-all duration-300"
+              >
+                <RefreshCw className={`h-4 w-4 mr-2 transition-transform duration-300 ${isRefreshing ? 'animate-spin' : 'group-hover:rotate-180'}`} />
+                Refresh
+              </Button>
+            </div>
+          </div>
+        </div>
+      </motion.div>
 
+      <div className="px-6 py-6 space-y-6 h-full overflow-auto">
         {/* Error Display */}
         {error && (
-          <Card className="p-6 border-destructive bg-destructive/5">
-            <h3 className="text-lg font-semibold mb-2 text-destructive">Data Load Error</h3>
-            <p className="text-sm text-muted-foreground">{error}</p>
-          </Card>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="bg-destructive/10 border border-destructive/20 rounded-lg p-4"
+          >
+            <p className="text-sm text-destructive">
+              Error loading dashboard data: {error}
+            </p>
+          </motion.div>
         )}
 
-        {/* Key Metrics Cards */}
-        <MetricsCards stats={stats} />
+        {/* Show skeleton loaders when loading */}
+        {isLoading ? (
+          <>
+            <MetricsCardsSkeleton />
+            <AutomationProgressSkeleton />
+            <AutomationChartsSkeleton />
+            <RecentAutomationsTableSkeleton />
+          </>
+        ) : (
+          <>
+            {/* Key Metrics Cards */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+            >
+              <MetricsCards stats={stats} />
+            </motion.div>
 
-        {/* Automation Progress Section */}
-        <AutomationProgressSection stats={stats} />
+            {/* Automation Progress Section */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+            >
+              <AutomationProgressSection stats={stats} />
+            </motion.div>
 
-        {/* Charts Section */}
-        <AutomationChartsSection stats={stats} automations={automations} />
+            {/* Charts Section */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              <AutomationChartsSection stats={stats} automations={automations} />
+            </motion.div>
 
-        {/* Recent Automations Table */}
-        <RecentAutomationsTable automations={automations} clients={clients} />
+            {/* Recent Automations Table */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.25 }}
+            >
+              <RecentAutomationsTable automations={automations} clients={clients} />
+            </motion.div>
+          </>
+        )}
       </div>
     </div>
   )

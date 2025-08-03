@@ -84,36 +84,58 @@ export function MetricsCards({ stats }: MetricsCardsProps) {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: index * 0.1 }}
         >
-          <Card className="relative overflow-hidden border-0 bg-card/50 backdrop-blur-sm hover:bg-card/70 transition-all duration-300">
-            <CardContent className="p-6">
+          <Card className="relative overflow-hidden border border-white/10 bg-white/5 dark:bg-black/20 backdrop-blur-md hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20 hover:scale-[1.02] group">
+            {/* Gradient overlay */}
+            <div className={`absolute inset-0 bg-gradient-to-br ${card.color.replace('bg-', 'from-')}/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+            <CardContent className="p-6 relative z-10">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   {/* Icon */}
-                  <div className={`p-3 rounded-xl ${card.color} shadow-lg`}>
-                    <card.icon className="h-6 w-6 text-white" />
-                  </div>
+                  <motion.div 
+                    className={`p-3 rounded-xl ${card.color} shadow-lg relative overflow-hidden`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <card.icon className="h-6 w-6 text-white relative z-10" />
+                  </motion.div>
                   
                   {/* Content */}
                   <div>
-                    <p className="text-sm font-medium text-muted-foreground mb-1">
+                    <p className="text-sm font-medium text-muted-foreground mb-1 group-hover:text-foreground transition-colors">
                       {card.title}
                     </p>
-                    <p className="text-2xl font-bold text-foreground">
+                    <motion.p 
+                      className="text-2xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent"
+                      initial={{ scale: 1 }}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                    >
                       {card.value}
-                    </p>
+                    </motion.p>
                   </div>
                 </div>
 
                 {/* Trend indicator */}
-                <div className="flex items-center gap-1">
+                <motion.div 
+                  className="flex items-center gap-1"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 + 0.2 }}
+                >
                   <Badge 
                     variant="secondary" 
-                    className={`${getTrendColor(card.trend)} bg-transparent border-0 text-xs font-medium`}
+                    className={`${getTrendColor(card.trend)} bg-white/5 dark:bg-black/20 backdrop-blur-sm border border-white/10 text-xs font-medium group-hover:scale-110 transition-transform`}
                   >
-                    {getTrendIcon(card.trend)}
+                    <motion.div
+                      animate={card.trend === 'up' ? { y: [0, -2, 0] } : card.trend === 'down' ? { y: [0, 2, 0] } : {}}
+                      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                    >
+                      {getTrendIcon(card.trend)}
+                    </motion.div>
                     <span className="ml-1">{card.trendValue}</span>
                   </Badge>
-                </div>
+                </motion.div>
               </div>
             </CardContent>
           </Card>
