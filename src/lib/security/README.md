@@ -2,7 +2,8 @@
 
 ## Overview
 
-This module provides comprehensive security utilities for the Communitee Control Hub application, including both Node.js and Edge Runtime compatible implementations.
+This module provides comprehensive security utilities for the Communitee Control Hub application, including both Node.js
+and Edge Runtime compatible implementations.
 
 ## Files
 

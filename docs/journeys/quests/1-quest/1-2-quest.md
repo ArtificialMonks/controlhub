@@ -50,22 +50,22 @@ No specific automated tests are required for this scaffolding quest. The primary
 
 ## Quest 1.2: User Authentication Setup
 
-## Status: Approved
+## Status: Approved (Continued)
 
-## Quest
+## Quest (Continued)
 
 \* As a user,  
 \* I want to log in securely to the application,  
 \* so that I can access my private dashboard.
 
-## Acceptance Criteria (ACs)
+## Acceptance Criteria (ACs) (Continued)
 
 1\.  The application is integrated with the Supabase client, using the credentials from the \`.env\` file.  
 2\.  A login page is created with functional UI components for signing up or signing in.  
 3\.  The main dashboard is a protected route, redirecting unauthenticated users to the login page.  
 4\.  A functional logout button is present in the UI, which securely clears the user's session.
 
-## Tasks / Subtasks
+## Tasks / Subtasks (Continued)
 
 \- \[ \] Install the \`@supabase/supabase-js\` client library.  
 \- \[ \] Create a Supabase client helper in \`/src/lib/\` to initialize and export a singleton client instance.  
@@ -76,7 +76,7 @@ No specific automated tests are required for this scaffolding quest. The primary
     within the \`(dashboard)\` group.  
 \- \[ \] Add a "Logout" button to the main dashboard layout that calls the Supabase \`signOut()\` method.
 
-## Dev Notes
+## Dev Notes (Continued)
 
 \* \*\*Prerequisite:\*\* This quest assumes Quest 1.1 is complete. You must have a
   scaffolded Next.js project with valid Supabase environment variables in your
@@ -88,7 +88,7 @@ No specific automated tests are required for this scaffolding quest. The primary
   (\`\<Input\>\`, \`\<Button\>\`, \`\<Label\>\`, \`\<Card\>\`) to maintain consistency with the
   UI/UX Specification.
 
-## Testing
+## Testing (Continued)
 
 This is a critical feature and requires End-to-End (E2E) tests.
 

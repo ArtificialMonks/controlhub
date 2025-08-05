@@ -76,23 +76,25 @@ graph TD
     User \--\> Vercel\[Vercel Edge Network\];  
     Vercel \--\> App\[Next.js App (SSR Frontend)\];  
 
-    subgraph "User Interaction Flow"  
-        App \-- API Calls \--\> API\_Routes\[API Routes on Vercel\];  
-        API\_Routes \-- Triggers \--\> n8n\[n8n Instance\];  
-        API\_Routes \-- Reads/Writes via Repository \--\> Supabase\[Supabase (DB & Auth)\];  
-    end
+```
+subgraph "User Interaction Flow"  
+    App \-- API Calls \--\> API\_Routes\[API Routes on Vercel\];  
+    API\_Routes \-- Triggers \--\> n8n\[n8n Instance\];  
+    API\_Routes \-- Reads/Writes via Repository \--\> Supabase\[Supabase (DB & Auth)\];  
+end
 
-    subgraph "Webhook Flow"  
-        n8n \-- "Start/Completion" Webhooks \--\> Webhook\_Endpoint\[Webhook API Route\];  
-        Webhook\_Endpoint \-- Writes via Repository \--\> Supabase;  
-        Supabase \-- Real-time Update \--\> App;  
-    end
+subgraph "Webhook Flow"  
+    n8n \-- "Start/Completion" Webhooks \--\> Webhook\_Endpoint\[Webhook API Route\];  
+    Webhook\_Endpoint \-- Writes via Repository \--\> Supabase;  
+    Supabase \-- Real-time Update \--\> App;  
+end
 
-    subgraph "Monitoring"  
-        Heartbeat\[Scheduled Function on Vercel\] \-- Pings \--\> n8n;  
-        Heartbeat \-- Updates Status \--\> Supabase;  
-    end
+subgraph "Monitoring"  
+    Heartbeat\[Scheduled Function on Vercel\] \-- Pings \--\> n8n;  
+    Heartbeat \-- Updates Status \--\> Supabase;  
+end
 
+```
 ### **Architectural Patterns**
 
 * **Full-Stack Framework:** Using Next.js for both frontend and backend logic.  

@@ -1,0 +1,74 @@
+# **Quest 4.4: Data Grid and Action Button Integration**
+
+## **Status: Approved**
+
+## **Quest**
+
+* As an operator,  
+* I want every action button on the dashboard to be fully functional and provide clear feedback,  
+* so that I can confidently manage my automations.
+
+## **Acceptance Criteria (ACs)**
+
+1. The "Run" button on each row is correctly disabled when the automation's status is "Running".  
+2. The "Run" button, after confirmation, successfully triggers the target automation.  
+3. The "Stop" button successfully stops the target automation after confirmation.  
+4. The "Run All Filtered" button correctly identifies all visible automations and successfully starts the
+   bulk action process.  
+5. The "Stop All Filtered" button does the same for stopping.  
+6. The UI provides the correct loading states on all buttons during API calls.  
+7. The UI provides the correct feedback (Toast/Dialog) for both successful and failed actions, including
+   the final summary report for bulk actions.
+
+## **Tasks / Subtasks**
+
+* Review every `onClick` handler for all action buttons (individual Run/Stop, bulk Run/Stop).  
+* Verify that the confirmation dialogs appear correctly and display the correct information (e.g.,
+  automation name or count).  
+* Verify that the correct API endpoints are being called with the correct payloads.  
+* Check that the button loading states are correctly applied and removed.  
+* Verify that success and error notifications (Toasts) are displayed as expected.  
+* For bulk actions, confirm the throttling progress and final summary report are handled correctly by the UI.
+
+## **Dev Notes**
+
+* **Focus:** This is the core functional QA quest for the application's main purpose. It connects every
+  frontend click to its intended backend API call and ensures the loop is closed with proper user feedback.
+
+---
+
+## **Quest 4.5: End-to-End User Flow Validation**
+
+## **Status: Approved** (Continued)
+
+## **Quest** (Continued)
+
+* As a user,  
+* I want to perform my key tasks from start to finish without encountering any bugs or inconsistencies,  
+* so that I can trust the application.
+
+## **Acceptance Criteria (ACs)**
+
+1. The full user login flow is seamless, and session persistence works correctly.  
+2. A user can successfully find an automation using filters, run it, and see its status update in real-time.  
+3. A user can successfully perform a bulk action on a filtered set of automations and receive the final
+   summary report.  
+4. A user can switch themes, collapse the sidebar, and resize the screen, and the application state
+   remains stable and visually correct.  
+5. All interactive elements are fully accessible via keyboard and have proper focus states.
+
+## **Tasks / Subtasks**
+
+* Perform a full "smoke test" by running through all the user flows defined in the UI/UX Specification.  
+* **Flow 1:** Log in, log out, and log back in.  
+* **Flow 2:** Use every filter control to find a specific automation.  
+* **Flow 3:** Trigger a single automation and wait to see its status change to "Running" and then to
+  "success" or "error" in the grid via the real-time update.  
+* **Flow 4:** Perform a bulk action and verify the UI feedback and final report.  
+* **General:** While performing the flows, change the theme and collapse/expand the sidebar to check
+  for any visual or state-related bugs.
+
+## **Dev Notes**
+
+* **Focus:** This is the final integration test and quality check. It is not about finding small
+  component bugs but ensuring the major user journeys are solid, seamless, and deliver the intended value.

@@ -2,6 +2,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useDrillDownAnalytics } from '@/hooks/useDrillDownAnalytics'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { motion } from 'framer-motion'
@@ -34,6 +35,14 @@ interface MetricsCardsProps {
 
 export function MetricsCards({ stats, automations = [] }: MetricsCardsProps) {
   const [activeModal, setActiveModal] = useState<string | null>(null)
+  
+  // Enhanced analytics for automations drill-down
+  const {
+    dateRange,
+    selectedFilters,
+    updateDateRange,
+    updateFilters
+  } = useDrillDownAnalytics(automations)
   const cards = [
     {
       id: 'automations',
@@ -176,7 +185,7 @@ export function MetricsCards({ stats, automations = [] }: MetricsCardsProps) {
     <DrillDownModal
       isOpen={activeModal === 'automations'}
       onClose={() => setActiveModal(null)}
-      title="Automations Details"
+      title="Automations Analytics"
       icon={<Zap className="h-6 w-6 text-white" />}
       color="yellow"
       onExport={handleExport}
@@ -184,6 +193,13 @@ export function MetricsCards({ stats, automations = [] }: MetricsCardsProps) {
         { label: 'Dashboard', onClick: () => setActiveModal(null) },
         { label: 'Automations' }
       ]}
+      // Enhanced analytics features
+      enableDateFiltering={true}
+      enableAdvancedFiltering={true}
+      dateRange={dateRange}
+      onDateRangeChange={updateDateRange}
+      filterOptions={selectedFilters}
+      onFilterChange={updateFilters}
     >
       <AutomationsDrillDown
         automations={automations}

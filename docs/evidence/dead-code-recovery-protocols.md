@@ -6,7 +6,8 @@
 
 ## 🎯 Overview
 
-This document establishes comprehensive protocols for identifying, analyzing, and recovering isolated modules (dead code) within the codebase to achieve Zero Isolation Policy compliance.
+This document establishes comprehensive protocols for identifying, analyzing, and recovering isolated modules (dead
+code) within the codebase to achieve Zero Isolation Policy compliance.
 
 ## 🔍 Dead Code Identification
 
@@ -416,7 +417,8 @@ export class ConnectivityMonitor {
 
 ## 📋 Conclusion
 
-Dead code recovery is essential for maintaining a healthy, integrated codebase. These protocols provide systematic approaches for identifying, recovering, and preventing module isolation to achieve Zero Isolation Policy compliance.
+Dead code recovery is essential for maintaining a healthy, integrated codebase. These protocols provide systematic
+approaches for identifying, recovering, and preventing module isolation to achieve Zero Isolation Policy compliance.
 
 **Key Success Factors:**
 

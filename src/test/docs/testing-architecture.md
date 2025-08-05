@@ -288,7 +288,7 @@ npm run test:performance
 
 ### **Test File Structure**
 
-```
+```text
 src/
 ├── test/
 │   ├── utils/

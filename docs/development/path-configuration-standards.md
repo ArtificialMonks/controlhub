@@ -2,7 +2,8 @@
 
 ## Overview
 
-This document defines the path configuration standards for the Communitee Control Hub project to ensure consistent, maintainable, and project-agnostic file structure.
+This document defines the path configuration standards for the Communitee Control Hub project to ensure consistent,
+maintainable, and project-agnostic file structure.
 
 ## TypeScript Path Mapping
 

@@ -1,8 +1,10 @@
 // src/components/dashboard/drill-down/AutomationsDrillDown.tsx
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useState, useMemo, useEffect } from 'react'
 import { motion } from 'framer-motion'
+import { useDrillDownAnalytics } from '@/hooks/useDrillDownAnalytics'
+import { useUserPreferences } from '@/hooks/useUserPreferences'
 import { 
   DrillDownSection, 
   DrillDownMetric 
@@ -53,58 +55,103 @@ interface AutomationsDrillDownProps {
 }
 
 export function AutomationsDrillDown({ automations, totalCount }: AutomationsDrillDownProps) {
-  const [timeRange, setTimeRange] = useState('7d')
-  const [statusFilter, setStatusFilter] = useState('all')
   const [searchQuery, setSearchQuery] = useState('')
+  const { preferences, updateDrillDownSettings } = useUserPreferences()
+  const [visibleColumns, setVisibleColumns] = useState(preferences.drillDownSettings.visibleColumns)
 
-  // Calculate detailed metrics
+  // Sync visible columns with user preferences
+  useEffect(() => {
+    setVisibleColumns(preferences.drillDownSettings.visibleColumns)
+  }, [preferences.drillDownSettings.visibleColumns])
+
+  // Handle column visibility changes
+  const handleColumnVisibilityChange = (column: string) => {
+    const updated = {
+      ...visibleColumns,
+      [column]: !visibleColumns[column as keyof typeof visibleColumns]
+    }
+    setVisibleColumns(updated)
+    updateDrillDownSettings({ visibleColumns: updated })
+  }
+  
+  // Use enhanced analytics hook
+  const {
+    dateRange,
+    timeRange,
+    filteredAutomations,
+    analyticsData,
+    updateDateRange,
+    updateTimeRange
+  } = useDrillDownAnalytics(automations)
+
+  // Advanced date range presets
+  const dateRangePresets = [
+    {
+      label: 'Today',
+      range: {
+        from: new Date(new Date().setHours(0, 0, 0, 0)),
+        to: new Date(new Date().setHours(23, 59, 59, 999))
+      }
+    },
+    {
+      label: 'Yesterday', 
+      range: {
+        from: new Date(new Date().setDate(new Date().getDate() - 1)),
+        to: new Date(new Date().setDate(new Date().getDate() - 1))
+      }
+    },
+    {
+      label: 'Last 7 days',
+      range: {
+        from: new Date(new Date().setDate(new Date().getDate() - 7)),
+        to: new Date()
+      }
+    },
+    {
+      label: 'Last 30 days',
+      range: {
+        from: new Date(new Date().setDate(new Date().getDate() - 30)),
+        to: new Date()
+      }
+    },
+    {
+      label: 'This month',
+      range: {
+        from: new Date(new Date().getFullYear(), new Date().getMonth(), 1),
+        to: new Date()
+      }
+    }
+  ]
+
+  // Calculate detailed metrics using analytics data
   const metrics = useMemo(() => {
-    const running = automations.filter(a => a.status === 'Running').length
-    const stopped = automations.filter(a => a.status === 'Stopped').length
-    const error = automations.filter(a => a.status === 'Error').length
-    const stalled = automations.filter(a => a.status === 'Stalled').length
-    
-    const totalExecutions = automations.length * 12 // Estimated based on available data
-    const avgSuccessRate = automations.length > 0 
-      ? automations.reduce((sum, a) => sum + (a.success_rate || 0), 0) / automations.length 
-      : 0
+    const running = filteredAutomations.filter(a => a.status === 'Running').length
+    const stopped = filteredAutomations.filter(a => a.status === 'Stopped').length
+    const error = filteredAutomations.filter(a => a.status === 'Error').length
+    const stalled = filteredAutomations.filter(a => a.status === 'Stalled').length
 
     return {
       running,
       stopped,
       error,
       stalled,
-      totalExecutions,
-      avgSuccessRate,
+      totalExecutions: analyticsData.totalExecutions,
+      avgSuccessRate: analyticsData.successRate,
       utilizationRate: running / totalCount * 100,
-      errorRate: error / totalCount * 100
+      errorRate: analyticsData.errorRate
     }
-  }, [automations, totalCount])
+  }, [filteredAutomations, analyticsData, totalCount])
 
-  // Generate trend data
-  const trendData = useMemo(() => {
-    const days = timeRange === '7d' ? 7 : timeRange === '30d' ? 30 : 90
-    return Array.from({ length: days }, (_, i) => {
-      const date = new Date()
-      date.setDate(date.getDate() - (days - i - 1))
-      return {
-        date: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
-        total: Math.floor(Math.random() * 20) + totalCount - 10,
-        running: Math.floor(Math.random() * 10) + metrics.running - 5,
-        error: Math.floor(Math.random() * 3)
-      }
-    })
-  }, [timeRange, totalCount, metrics.running])
-
-  // Filter automations
-  const filteredAutomations = useMemo(() => {
-    return automations.filter(automation => {
-      const matchesStatus = statusFilter === 'all' || automation.status === statusFilter
+  // Apply search filter to analytics-filtered automations
+  const searchFilteredAutomations = useMemo(() => {
+    if (!searchQuery) return filteredAutomations
+    
+    return filteredAutomations.filter(automation => {
       const matchesSearch = automation.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                           automation.client_id?.toLowerCase().includes(searchQuery.toLowerCase())
-      return matchesStatus && matchesSearch
+      return matchesSearch
     })
-  }, [automations, statusFilter, searchQuery])
+  }, [filteredAutomations, searchQuery])
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -138,6 +185,56 @@ export function AutomationsDrillDown({ automations, totalCount }: AutomationsDri
 
   return (
     <div className="space-y-6">
+      {/* Advanced Date Range Filtering */}
+      <DrillDownSection 
+        title="Date Range Filtering"
+        action={
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => updateDateRange({ from: undefined, to: undefined })}
+              className="text-xs"
+            >
+              Clear Filter
+            </Button>
+          </div>
+        }
+      >
+        <div className="flex flex-wrap gap-2 mb-4">
+          {dateRangePresets.map((preset) => (
+            <Button
+              key={preset.label}
+              variant={
+                dateRange.from?.toDateString() === preset.range.from.toDateString() &&
+                dateRange.to?.toDateString() === preset.range.to.toDateString()
+                  ? "default" 
+                  : "outline"
+              }
+              size="sm"
+              onClick={() => updateDateRange(preset.range)}
+              className="text-xs"
+            >
+              {preset.label}
+            </Button>
+          ))}
+        </div>
+        
+        {(dateRange.from || dateRange.to) && (
+          <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg">
+            <p className="text-sm font-medium mb-1">Active Filter:</p>
+            <p className="text-xs text-muted-foreground">
+              {dateRange.from ? `From: ${dateRange.from.toLocaleDateString()}` : 'No start date'} 
+              {dateRange.from && dateRange.to && ' • '}
+              {dateRange.to ? `To: ${dateRange.to.toLocaleDateString()}` : 'No end date'}
+            </p>
+            <p className="text-xs text-muted-foreground mt-1">
+              Showing {filteredAutomations.length} of {automations.length} automations
+            </p>
+          </div>
+        )}
+      </DrillDownSection>
+
       {/* Overview Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <DrillDownMetric
@@ -170,7 +267,7 @@ export function AutomationsDrillDown({ automations, totalCount }: AutomationsDri
       <DrillDownSection 
         title="Automation Trends"
         action={
-          <Select value={timeRange} onValueChange={setTimeRange}>
+          <Select value={timeRange} onValueChange={(value: '7d' | '30d' | '90d') => updateTimeRange(value)}>
             <SelectTrigger className="w-32">
               <SelectValue />
             </SelectTrigger>
@@ -184,7 +281,7 @@ export function AutomationsDrillDown({ automations, totalCount }: AutomationsDri
       >
         <div className="h-64 w-full">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={trendData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+            <AreaChart data={analyticsData.trendData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
               <defs>
                 <linearGradient id="colorTotal" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8}/>
@@ -208,7 +305,7 @@ export function AutomationsDrillDown({ automations, totalCount }: AutomationsDri
               />
               <Area
                 type="monotone"
-                dataKey="total"
+                dataKey="executions"
                 stroke="#3b82f6"
                 fillOpacity={1}
                 fill="url(#colorTotal)"
@@ -216,7 +313,7 @@ export function AutomationsDrillDown({ automations, totalCount }: AutomationsDri
               />
               <Area
                 type="monotone"
-                dataKey="running"
+                dataKey="successRate"
                 stroke="#10b981"
                 fillOpacity={1}
                 fill="url(#colorRunning)"
@@ -239,8 +336,7 @@ export function AutomationsDrillDown({ automations, totalCount }: AutomationsDri
             <motion.div
               key={item.label}
               whileHover={{ scale: 1.02 }}
-              className={`p-4 rounded-lg bg-${item.color}-500/10 border border-${item.color}-500/20 cursor-pointer`}
-              onClick={() => setStatusFilter(item.label)}
+              className={`p-4 rounded-lg bg-${item.color}-500/10 border border-${item.color}-500/20`}
             >
               <p className={`text-sm font-medium text-${item.color}-500`}>{item.label}</p>
               <p className={`text-2xl font-bold text-${item.color}-600`}>{item.value}</p>
@@ -261,7 +357,26 @@ export function AutomationsDrillDown({ automations, totalCount }: AutomationsDri
       <DrillDownSection 
         title="Automation Details"
         action={
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-4">
+            {/* Column Customization */}
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">Columns:</span>
+              <div className="flex gap-1">
+                {Object.entries(visibleColumns).map(([key, visible]) => (
+                  <Button
+                    key={key}
+                    variant={visible ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => handleColumnVisibilityChange(key)}
+                    className="text-xs px-2 py-1 h-7"
+                  >
+                    {key.charAt(0).toUpperCase() + key.slice(1).replace(/([A-Z])/g, ' $1')}
+                  </Button>
+                ))}
+              </div>
+            </div>
+            
+            {/* Search */}
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -271,18 +386,6 @@ export function AutomationsDrillDown({ automations, totalCount }: AutomationsDri
                 className="pl-9 w-64"
               />
             </div>
-            <Select value={statusFilter} onValueChange={setStatusFilter}>
-              <SelectTrigger className="w-32">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="all">All Status</SelectItem>
-                <SelectItem value="Running">Running</SelectItem>
-                <SelectItem value="Stopped">Stopped</SelectItem>
-                <SelectItem value="Error">Error</SelectItem>
-                <SelectItem value="Stalled">Stalled</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
         }
       >
@@ -290,49 +393,61 @@ export function AutomationsDrillDown({ automations, totalCount }: AutomationsDri
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Name</TableHead>
-                <TableHead>Client</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Success Rate</TableHead>
-                <TableHead>Last Run</TableHead>
-                <TableHead>Executions</TableHead>
+                {visibleColumns.name && <TableHead>Name</TableHead>}
+                {visibleColumns.client && <TableHead>Client</TableHead>}
+                {visibleColumns.status && <TableHead>Status</TableHead>}
+                {visibleColumns.successRate && <TableHead>Success Rate</TableHead>}
+                {visibleColumns.lastRun && <TableHead>Last Run</TableHead>}
+                {visibleColumns.executions && <TableHead>Executions</TableHead>}
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredAutomations.slice(0, 10).map((automation) => (
+              {searchFilteredAutomations.slice(0, 10).map((automation) => (
                 <TableRow 
                   key={automation.id}
                   className="hover:bg-white/5 dark:hover:bg-black/20 cursor-pointer"
                 >
-                  <TableCell className="font-medium">{automation.name}</TableCell>
-                  <TableCell>{automation.client_id || '-'}</TableCell>
-                  <TableCell>
-                    <Badge 
-                      variant="secondary" 
-                      className={`${getStatusColor(automation.status)} flex items-center gap-1 w-fit`}
-                    >
-                      {getStatusIcon(automation.status)}
-                      {automation.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium">{automation.success_rate?.toFixed(1)}%</span>
-                      <div className="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-green-500"
-                          style={{ width: `${automation.success_rate}%` }}
-                        />
+                  {visibleColumns.name && (
+                    <TableCell className="font-medium">{automation.name}</TableCell>
+                  )}
+                  {visibleColumns.client && (
+                    <TableCell>{automation.client_id || '-'}</TableCell>
+                  )}
+                  {visibleColumns.status && (
+                    <TableCell>
+                      <Badge 
+                        variant="secondary" 
+                        className={`${getStatusColor(automation.status)} flex items-center gap-1 w-fit`}
+                      >
+                        {getStatusIcon(automation.status)}
+                        {automation.status}
+                      </Badge>
+                    </TableCell>
+                  )}
+                  {visibleColumns.successRate && (
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium">{automation.success_rate?.toFixed(1)}%</span>
+                        <div className="w-16 h-2 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
+                          <div 
+                            className="h-full bg-green-500"
+                            style={{ width: `${automation.success_rate}%` }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {automation.last_run_at 
-                      ? new Date(automation.last_run_at).toLocaleDateString()
-                      : 'Never'
-                    }
-                  </TableCell>
-                  <TableCell>{Math.floor(Math.random() * 50) + 10}</TableCell>
+                    </TableCell>
+                  )}
+                  {visibleColumns.lastRun && (
+                    <TableCell>
+                      {automation.last_run_at 
+                        ? new Date(automation.last_run_at).toLocaleDateString()
+                        : 'Never'
+                      }
+                    </TableCell>
+                  )}
+                  {visibleColumns.executions && (
+                    <TableCell>{Math.floor(Math.random() * 50) + 10}</TableCell>
+                  )}
                 </TableRow>
               ))}
             </TableBody>

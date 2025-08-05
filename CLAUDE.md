@@ -466,6 +466,83 @@ The Neo4j MCP server provides specialized graph database capabilities for:
 
 Always add new MCP servers to `.mcp.json` to maintain consistency across the system.
 
+## Parallel Agent Execution System
+
+The project includes a comprehensive parallel agent execution system that solves the blocking issue with Claude Code's native `/agents` command and `Task` tool.
+
+### The Problem
+
+The default Claude Code agent execution is **synchronous and blocking**:
+- When an agent is deployed via `/agents` or `Task` tool, it blocks the main terminal
+- No ability to run multiple agents simultaneously
+- Terminal becomes unresponsive until agent completion
+- Defeats the purpose of independent "worker" agents
+
+### The Solution
+
+Our Parallel Agent Execution System provides **true terminal independence**:
+
+```bash
+# List available agents
+npm run agent:list
+
+# Deploy agent in background (non-blocking)
+npm run agent:deploy markdown-qa-enforcer "Fix violations" "Scan and fix all markdown files"
+
+# Your terminal is immediately free! Agent works independently
+# Monitor progress without blocking
+npm run agent:status
+
+# Run multiple agents simultaneously
+npm run agent:deploy security-analyzer "Security scan" "Check for vulnerabilities" &
+npm run agent:deploy performance-optimizer "Optimize code" "Improve performance" &
+```
+
+### Key Benefits
+
+✅ **Terminal Independence** - Your terminal stays responsive while agents work  
+✅ **True Parallel Execution** - Run multiple agents simultaneously  
+✅ **Real-time Monitoring** - Progress updates without blocking input  
+✅ **Background Processing** - Agents run in separate processes  
+✅ **Full Compatibility** - Works with existing `.claude/agents/*.md` files  
+✅ **Proper Lifecycle Management** - Start, monitor, terminate, and cleanup agents
+
+### Command Reference
+
+| Command | Description |
+|---------|-------------|
+| `npm run agent:list` | List all available agents |
+| `npm run agent:deploy <name> "<desc>" "<prompt>"` | Deploy agent in background |
+| `npm run agent:status [id]` | Check agent status |
+| `npm run agent:terminate <id>` | Stop running agent |
+| `npm run agent:cleanup` | Remove completed agents |
+
+### Colony-Style Execution
+
+Aligns with A.V.A.R.I.C.E. Protocol's "colony queen with workers" architecture:
+
+```bash
+# Deploy multiple agents simultaneously (true parallel execution)
+npm run agent:deploy markdown-qa-enforcer "QA Worker" "Fix markdown violations" &
+npm run agent:deploy security-analyzer "Security Worker" "Scan for vulnerabilities" &
+npm run agent:deploy performance-optimizer "Performance Worker" "Optimize code performance" &
+
+# All agents work simultaneously without blocking
+# Terminal remains responsive for continued work
+```
+
+### Migration Guide
+
+```bash
+# Old way (blocking) - still works for simple tasks
+/agents markdown-qa-enforcer
+
+# New way (non-blocking) - recommended for long-running or parallel tasks
+npm run agent:deploy markdown-qa-enforcer "Description" "Same prompt you used before"
+```
+
+For complete documentation, see: `/docs/parallel-agent-system.md`
+
 ## A.V.A.R.I.C.E. Protocol Integration
 
 This repository contains both the Communitee Control Hub application and the A.V.A.R.I.C.E. Protocol framework.

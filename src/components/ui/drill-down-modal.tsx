@@ -12,6 +12,8 @@ import {
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
+import { DatePickerWithRange } from '@/components/ui/date-range-picker'
+import { Checkbox } from '@/components/ui/checkbox'
 import { 
   X, 
   Download, 
@@ -32,6 +34,13 @@ interface DrillDownModalProps {
   children: React.ReactNode
   onExport?: () => void
   breadcrumbs?: Array<{ label: string; onClick?: () => void }>
+  // Enhanced analytics features
+  enableDateFiltering?: boolean
+  enableAdvancedFiltering?: boolean
+  dateRange?: { from: Date | undefined; to: Date | undefined }
+  onDateRangeChange?: (range: { from: Date | undefined; to: Date | undefined }) => void
+  filterOptions?: Array<{ label: string; value: string; selected: boolean }>
+  onFilterChange?: (filters: Array<{ label: string; value: string; selected: boolean }>) => void
 }
 
 export function DrillDownModal({
@@ -42,7 +51,14 @@ export function DrillDownModal({
   color = 'primary',
   children,
   onExport,
-  breadcrumbs = []
+  breadcrumbs = [],
+  // Enhanced analytics features
+  enableDateFiltering = false,
+  enableAdvancedFiltering = false,
+  dateRange,
+  onDateRangeChange,
+  filterOptions = [],
+  onFilterChange
 }: DrillDownModalProps) {
   return (
     <AnimatePresence>
@@ -129,6 +145,54 @@ export function DrillDownModal({
                     </Button>
                   </div>
                 </div>
+
+                {/* Enhanced Analytics Controls */}
+                {(enableDateFiltering || enableAdvancedFiltering) && (
+                  <motion.div 
+                    initial={{ opacity: 0, y: -10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="flex flex-wrap items-center gap-4 px-6 pb-4 border-b border-border/30"
+                  >
+                    {enableDateFiltering && dateRange && onDateRangeChange && (
+                      <div className="flex items-center gap-2">
+                        <Calendar className="h-4 w-4 text-muted-foreground" />
+                        <DatePickerWithRange
+                          date={dateRange}
+                          onDateChange={onDateRangeChange}
+                          className="w-auto"
+                        />
+                      </div>
+                    )}
+                    
+                    {enableAdvancedFiltering && filterOptions.length > 0 && onFilterChange && (
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Filter className="h-4 w-4 text-muted-foreground" />
+                        <div className="flex gap-2 flex-wrap">
+                          {filterOptions.map((filter, index) => (
+                            <div key={filter.value} className="flex items-center space-x-2">
+                              <Checkbox
+                                id={`filter-${filter.value}`}
+                                checked={filter.selected}
+                                onCheckedChange={(checked) => {
+                                  const updated = [...filterOptions]
+                                  updated[index] = { ...filter, selected: checked as boolean }
+                                  onFilterChange(updated)
+                                }}
+                              />
+                              <label
+                                htmlFor={`filter-${filter.value}`}
+                                className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                              >
+                                {filter.label}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
               </DialogHeader>
             </div>
 

@@ -9,6 +9,8 @@
     "lint": "next lint",
     "lint:md": "markdownlint \"**/*.md\"",
     "lint:md:fix": "markdownlint \"**/*.md\" --fix",
+    "markdown:enforce": "tsx scripts/markdown-qa-enforcer.ts",
+    "markdown:fix": "tsx scripts/markdown-qa-enforcer.ts && npm run lint:md:fix",
     "lint:all": "npm run lint && npm run lint:md",
     "prebuild": "echo 'Skipping prebuild linting for Supabase integration testing'",
     "test": "vitest",
@@ -50,7 +52,15 @@
     "spell:avarice": "cspell 'avarice-protocol/**/*.md' 'docs/evidence/**/*.md' --no-progress",
     "db:init": "npx tsx scripts/init-supabase-direct.ts",
     "db:init:sample": "npx tsx scripts/init-supabase.ts --with-sample-data",
-    "db:seed": "npx tsx scripts/seed-sample-data.ts"
+    "db:seed": "npx tsx scripts/seed-sample-data.ts",
+    "agent:deploy": "tsx scripts/parallel-agent-wrapper.ts deploy",
+    "agent:status": "tsx scripts/parallel-agent-wrapper.ts status",
+    "agent:list": "tsx scripts/parallel-agent-wrapper.ts list",
+    "agent:terminate": "tsx scripts/agent-dispatcher.ts terminate",
+    "agent:cleanup": "tsx scripts/agent-dispatcher.ts cleanup",
+    "agent:test": "tsx scripts/parallel-agent-wrapper.ts deploy markdown-qa-enforcer \"Test parallel execution\" \"Test that the agent runs in background without blocking the terminal\"",
+    "analyzer:deploy": "tsx scripts/deploy-long-running-markdown-analyzer.ts deploy /Users/wildone/Desktop/artificialmonks/chub-communitee/avarice-protocol 5",
+    "analyzer:monitor": "tail -f logs/markdown-analysis-progress.log"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",
