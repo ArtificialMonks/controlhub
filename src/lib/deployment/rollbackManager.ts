@@ -391,7 +391,7 @@ export class RollbackManager {
   /**
    * Capture rollback data
    */
-  private async captureRollbackData(version: string, commit: string): Promise<RollbackData> {
+  private async captureRollbackData(_version: string, _commit: string): Promise<RollbackData> {
     return {
       previousVersion: '0.9.0',
       previousCommit: 'prev123',

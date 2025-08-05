@@ -1,6 +1,6 @@
 // src/lib/middleware/error-handler.ts
 import { NextRequest, NextResponse } from 'next/server'
-import { config } from '@/lib/config'
+import { config } from '@/lib/core/config'
 
 /**
  * Standard error response interface

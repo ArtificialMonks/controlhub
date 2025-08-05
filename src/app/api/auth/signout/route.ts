@@ -1,5 +1,5 @@
 // src/app/api/auth/signout/route.ts
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/integrations/supabase/server'
 import { NextResponse } from 'next/server'
 
 /**

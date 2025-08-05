@@ -76,18 +76,24 @@ prevention of future violations through multiple layers of validation.
 #### Daily Workflow
 
 ```bash
-# Check markdown quality before committing
+
+## Check markdown quality before committing
+
 npm run lint:md
 
-# Fix auto-fixable issues
+## Fix auto-fixable issues
+
 npm run lint:md:fix
 
-# Run spell check
+## Run spell check
+
 npx cspell "**/*.md" --no-progress
 
-# Commit (pre-commit hook runs automatically)
+## Commit (pre-commit hook runs automatically)
+
 git commit -m "Your commit message"
-```
+
+```text
 
 #### Adding New Technical Terms
 
@@ -107,13 +113,17 @@ git commit -m "Your commit message"
 #### System Validation
 
 ```bash
-# Run comprehensive system validation
+
+## Run comprehensive system validation
+
 ./scripts/validate-markdown-quality.sh
 
-# Check specific files
+## Check specific files
+
 npx cspell "path/to/file.md" --no-progress
 markdownlint "path/to/file.md"
-```
+
+```text
 
 #### Updating Standards
 

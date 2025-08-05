@@ -21,7 +21,7 @@ vi.mock('@/lib/repositories/automation-repository', () => ({
 }))
 
 import { verifySession } from '@/lib/dal'
-import { AutomationRepository } from '@/lib/repositories/automation-repository'
+import { AutomationRepository } from '@/lib/data/repositories/automation-repository'
 
 describe('/api/automations route', () => {
   let mockVerifySession: Mock

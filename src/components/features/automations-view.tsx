@@ -4,11 +4,11 @@
 import * as React from "react"
 import { Grid3X3, List } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/core/utils"
 import { AutomationsDataTable } from "@/components/features/automations-data-table"
-import { AutomationCard } from "@/components/automation/automation-card"
+import { AutomationCard } from "@/components/features/automations/automation-card"
 import { AutomationActionButtons } from "@/components/features/automation-action-buttons"
-import type { Automation } from "@/lib/types/automation"
+import type { Automation } from "@/lib/core/types/automation"
 
 export type ViewMode = "list" | "grid"
 

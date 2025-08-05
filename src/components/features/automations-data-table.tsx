@@ -37,13 +37,11 @@ import {
   AutomationTableRow,
   AutomationStatus,
   STATUS_VARIANTS
-} from "@/lib/types/automation"
+} from "@/lib/core/types/automation"
 import {
-  mockAutomations,
-  mockClients,
   formatDuration,
   formatLastRun
-} from "@/lib/data/mock-automations"
+} from "@/lib/core/utils/client-safe"
 
 /**
  * Status badge component with proper accessibility and color coding
@@ -82,6 +80,7 @@ const StatusBadge: React.FC<{ status: AutomationStatus }> = ({ status }) => {
  */
 interface AutomationsDataTableProps {
   automations?: Automation[]
+  clients?: Array<{ id: string; name: string }>
   loading?: boolean
   error?: Error | null
   onStatusUpdate?: (automationId: string, status: 'Running' | 'Stopped' | 'Error' | 'Stalled') => void
@@ -89,11 +88,14 @@ interface AutomationsDataTableProps {
 
 /**
  * Transform automation data for table display
- * Now accepts automations array parameter for real data support
+ * Now accepts automations array and clients array for real data support
  */
-const transformAutomationData = (automations: Automation[] = mockAutomations): AutomationTableRow[] => {
+const transformAutomationData = (
+  automations: Automation[] = [],
+  clients: Array<{ id: string; name: string }> = []
+): AutomationTableRow[] => {
   return automations.map(automation => {
-    const client = mockClients.find(c => c.id === automation.client_id)
+    const client = clients.find(c => c.id === automation.client_id)
 
     return {
       id: automation.id,
@@ -101,8 +103,8 @@ const transformAutomationData = (automations: Automation[] = mockAutomations): A
       client: client?.name || 'Unknown Client',
       status: automation.status,
       lastRun: formatLastRun(automation.last_run_at),
-      avgDuration: formatDuration(automation.avg_duration_ms),
-      successRate: `${automation.success_rate.toFixed(1)}%`
+      avgDuration: formatDuration(automation.avg_duration_ms || 0),
+      successRate: `${(automation.success_rate || 0).toFixed(1)}%`
     }
   })
 }
@@ -298,6 +300,7 @@ function createColumns(
  */
 export function AutomationsDataTable({
   automations,
+  clients,
   loading = false,
   error = null,
   onStatusUpdate
@@ -305,7 +308,7 @@ export function AutomationsDataTable({
   const [sorting, setSorting] = React.useState<SortingState>([])
 
   // Prepare data (must be before early returns to avoid hook order issues)
-  const data = React.useMemo(() => transformAutomationData(automations), [automations])
+  const data = React.useMemo(() => transformAutomationData(automations, clients), [automations, clients])
   const columns = React.useMemo(() => createColumns(automations, onStatusUpdate), [automations, onStatusUpdate])
 
   const table = useReactTable({

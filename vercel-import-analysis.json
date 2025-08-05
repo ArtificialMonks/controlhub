@@ -1,0 +1,57 @@
+{
+  "name": "vercel-import-analysis",
+  "version": "1.0.0",
+  "description": "Vercel integration for automated import/export analysis",
+  "framework": "nextjs",
+  "buildCommand": "npm run build:analyze",
+  "installCommand": "npm ci --force",
+  "outputDirectory": ".next",
+  "scripts": {
+    "analyze:imports": "npx tsx scripts/analysis/enterprise-import-export-analyzer.ts --output-dir=.vercel/output/analysis --format=json",
+    "analyze:bundle": "npx @next/bundle-analyzer",
+    "analyze:performance": "npx tsx scripts/reports/performance-impact-analyzer.ts --output-dir=.vercel/output/performance"
+  },
+  "env": {
+    "ANALYZE_BUNDLE": "true",
+    "NEXT_ANALYZE": "true"
+  },
+  "functions": {
+    "api/analysis/import-export.ts": {
+      "runtime": "nodejs18.x",
+      "memory": 1024,
+      "maxDuration": 30
+    }
+  },
+  "headers": [
+    {
+      "source": "/analysis/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "s-maxage=3600, stale-while-revalidate"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/api/analysis/import-export",
+      "destination": "/api/analysis/import-export"
+    }
+  ],
+  "builds": [
+    {
+      "src": "scripts/analysis/**",
+      "use": "@vercel/node",
+      "config": {
+        "includeFiles": "scripts/**"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "^/analysis/import-export$",
+      "dest": "/api/analysis/import-export"
+    }
+  ]
+}

@@ -200,9 +200,9 @@ export class MobileValidationEngine {
   /**
    * Test individual mobile device
    */
-  private async testDevice(device: MobileDevice, url: string): Promise<MobileTestResult> {
+  private async testDevice(device: MobileDevice, _url: string): Promise<MobileTestResult> {
     const issues: MobileIssue[] = []
-    const startTime = Date.now()
+    const _startTime = Date.now()
 
     // Simulate device testing
     await this.simulateDeviceSetup(device)
@@ -235,7 +235,7 @@ export class MobileValidationEngine {
   /**
    * Simulate device setup
    */
-  private async simulateDeviceSetup(device: MobileDevice): Promise<void> {
+  private async simulateDeviceSetup(_device: MobileDevice): Promise<void> {
     // Simulate device setup time
     await new Promise(resolve => setTimeout(resolve, Math.random() * 100))
   }

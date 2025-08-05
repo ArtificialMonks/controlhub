@@ -8,27 +8,27 @@
 import { NextResponse } from 'next/server'
 
 // Import monitoring and logging modules for health check functionality
-import { logger } from '@/lib/monitoring/logger'
-import { config } from '@/lib/config'
-import { createClient } from '@/lib/supabase/client'
+import { logger } from '@/lib/infrastructure/monitoring/logger'
+import { config } from '@/lib/core/config'
+import { createClient } from '@/lib/integrations/supabase/client'
 
 // Import performance monitoring
-import '@/lib/performance-monitor'
-import '@/lib/performance-optimization'
+import '@/lib/infrastructure/performance/monitor'
+import '@/lib/infrastructure/performance/optimization'
 
 // Import quality monitoring
-import '@/lib/quality/codeQualityMonitor'
-import '@/lib/quality/mutationTesting'
+import '@/lib/development/quality/codeQualityMonitor'
+import '@/lib/development/quality/mutationTesting'
 
 // Import security modules
-import '@/lib/security/encryption'
-import '@/lib/security/filterSecurity'
+import '@/lib/infrastructure/security/encryption'
+import '@/lib/infrastructure/security/filterSecurity'
 
 // Import architecture validation
-import '@/lib/architecture/designPatternValidator'
+import '@/lib/development/architecture/designPatternValidator'
 
 // Import protocol validation
-import '@/lib/protocol/avariceProtocolValidator'
+import '@/lib/development/protocol/avariceProtocolValidator'
 
 // ============================================================================
 // TYPES & INTERFACES

@@ -3,95 +3,134 @@
 ## Quick Commands
 
 ```bash
-# Fix violations automatically
+
+## Fix violations automatically
+
 npm run markdown:fix
 
-# Run enforcement system
+## Run enforcement system
+
 npm run markdown:enforce
 
-# Standard linting
+## Standard linting
+
 npm run lint:md
 npm run lint:md:fix
-```
+
+```text
 
 ## Common Violations & Quick Fixes
 
 ### MD013 - Line Too Long
+
 **Problem**: Line exceeds 120 characters
 **Quick Fix**: Break long lines at logical points
-```markdown
-# ❌ Wrong
-This is a very long line that exceeds the 120 character limit and needs to be broken into multiple lines for better readability.
 
-# ✅ Correct
+```markdown
+
+## ❌ Wrong
+
+This is a very long line that exceeds the 120 character limit and needs to be broken into multiple lines for better
+readability.
+
+## ✅ Correct
+
 This is a very long line that exceeds the 120 character limit and needs to be broken into
 multiple lines for better readability.
-```
+
+```text
 
 ### MD040 - Missing Code Language
+
 **Problem**: Code block without language specification
 **Quick Fix**: Add language identifier
+
 ```markdown
-# ❌ Wrong
-```
+
+## ❌ Wrong
+
+```text
 function example() {
   return "hello";
 }
-```
 
-# ✅ Correct
+```text
+
+## ✅ Correct
+
 ```javascript
 function example() {
   return "hello";
 }
-```
+
+```text
 
 ### MD022 - Missing Blank Lines Around Headings
+
 **Problem**: No blank lines before/after headings
 **Quick Fix**: Add blank lines
+
 ```markdown
-# ❌ Wrong
-Some text here.
-## Heading
-More text here.
 
-# ✅ Correct
+## ❌ Wrong
+
 Some text here.
 
 ## Heading
 
 More text here.
-```
+
+## ✅ Correct
+
+Some text here.
+
+## Heading
+
+More text here.
+
+```text
 
 ### MD036 - Emphasis Instead of Heading
+
 **Problem**: Using bold text instead of proper heading
 **Quick Fix**: Use heading syntax
-```markdown
-# ❌ Wrong
-**Important Section**
 
-# ✅ Correct
+```markdown
+
+## ❌ Wrong
+
+### Important Section
+
+## ✅ Correct
 ## Important Section
-```
+
+```text
 
 ### MD029 - Wrong List Numbering
+
 **Problem**: Incorrect ordered list numbering
 **Quick Fix**: Use sequential numbering
-```markdown
-# ❌ Wrong
-1. First item
-3. Second item
-5. Third item
 
-# ✅ Correct
+```markdown
+
+## ❌ Wrong
+
 1. First item
 2. Second item
 3. Third item
-```
+
+## ✅ Correct
+
+1. First item
+2. Second item
+3. Third item
+
+```text
 
 ## Pre-commit Hook Messages
 
 ### When Commit is Blocked
+
 ```text
 🚨 COMMIT BLOCKED: X markdown files have violations
 
@@ -99,29 +138,41 @@ More text here.
    1. Run: npm run markdown:fix
    2. Or run: npx tsx scripts/markdown-qa-enforcer.ts
    3. Review and commit your changes
-```
 
+```text
 **Action**: Run the suggested commands and fix violations before committing.
 
 ## Emergency Procedures
 
 ### Bypass Pre-commit Hook (Emergency Only)
+
 ```bash
-# Only for emergency situations - NOT recommended
+
+## Only for emergency situations - NOT recommended
+
 git commit --no-verify -m "Emergency commit message"
-```
+
+```text
 
 ### Quick Health Check
+
 ```bash
-# Check current violation status
+
+## Check current violation status
+
 npx tsx scripts/markdown-qa-enforcer.ts --scan-only
-```
+
+```text
 
 ### View Recent Violations Report
+
 ```bash
-# View last report
+
+## View last report
+
 cat logs/markdown-violations-report.json | head -20
-```
+
+```text
 
 ## File Locations
 
@@ -131,7 +182,7 @@ cat logs/markdown-violations-report.json | head -20
 - **Violation Logs**: `/logs/markdown-violations-report.json`
 - **Documentation**: `/docs/markdown-qa-enforcer-system-documentation.md`
 
-## Need Help?
+## Need Help
 
 1. **Check Logs**: Review `/logs/markdown-violations-report.json`
 2. **Run Diagnostics**: `npm run markdown:enforce --verbose`

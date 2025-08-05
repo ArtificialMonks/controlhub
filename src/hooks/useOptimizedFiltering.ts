@@ -12,12 +12,12 @@
 
 import { useMemo, useCallback } from 'react'
 import { usePerformanceMonitor } from '@/hooks/usePerformanceMonitor'
-import FilterSecurityValidator from '@/lib/security/filterSecurity'
+import FilterSecurityValidator from '@/lib/infrastructure/security/filterSecurity'
 import { 
   FilterState, 
   FilterPerformanceMetrics 
-} from '@/lib/types/filtering'
-import { Automation, Client } from '@/lib/types/automation'
+} from '@/lib/core/types/filtering'
+import { Automation, Client } from '@/lib/core/types/automation'
 
 // ============================================================================
 // OPTIMIZED FILTERING CONFIGURATION

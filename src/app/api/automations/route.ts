@@ -7,7 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { verifySession } from '@/lib/dal'
-import { AutomationRepository } from '@/lib/repositories/automation-repository'
+import { AutomationRepository } from '@/lib/data/repositories/automation-repository'
 
 /**
  * GET /api/automations

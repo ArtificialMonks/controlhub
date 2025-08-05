@@ -4,7 +4,7 @@
  * Matches the Client interface from automation.ts
  */
 
-import type { Client } from '@/lib/types/automation'
+import type { Client } from '@/lib/core/types/automation'
 
 export const mockClients: Client[] = [
   {

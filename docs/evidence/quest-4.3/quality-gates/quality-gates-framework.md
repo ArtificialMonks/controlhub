@@ -34,10 +34,13 @@ testing and implementation.
 **Validation Commands**:
 
 ```bash
-# Test search functionality
+
+## Test search functionality
+
 npm test -- --run src/components/dashboard/__tests__/dashboard-content.test.tsx
 npm test -- --run src/components/features/automations-toolbar/__tests__/AutomationsToolbar.test.tsx
-```
+
+```text
 
 ### **AC #2: Client Dropdown Filter Validation**
 
@@ -53,9 +56,12 @@ npm test -- --run src/components/features/automations-toolbar/__tests__/Automati
 **Validation Commands**:
 
 ```bash
-# Test client filtering
+
+## Test client filtering
+
 npm test -- --run src/components/dashboard/__tests__/client-filtering.test.tsx
-```
+
+```text
 
 ### **AC #3: Status Filter Validation**
 
@@ -72,9 +78,12 @@ npm test -- --run src/components/dashboard/__tests__/client-filtering.test.tsx
 **Validation Commands**:
 
 ```bash
-# Test status filtering
+
+## Test status filtering
+
 npm test -- --run src/components/features/automations-toolbar/__tests__/status-filtering.test.tsx
-```
+
+```text
 
 ### **AC #4: Combined Filter Validation**
 
@@ -92,9 +101,12 @@ npm test -- --run src/components/features/automations-toolbar/__tests__/status-f
 **Validation Commands**:
 
 ```bash
-# Test combined filtering
+
+## Test combined filtering
+
 npm test -- --run src/components/dashboard/__tests__/combined-filtering.test.tsx
-```
+
+```text
 
 ### **AC #5: Clear Filters Validation**
 
@@ -112,9 +124,12 @@ npm test -- --run src/components/dashboard/__tests__/combined-filtering.test.tsx
 **Validation Commands**:
 
 ```bash
-# Test clear filters functionality
+
+## Test clear filters functionality
+
 npm test -- --run src/components/features/automations-toolbar/__tests__/clear-filters.test.tsx
-```
+
+```text
 
 ### **AC #6: Mobile Filter Validation**
 
@@ -133,11 +148,13 @@ npm test -- --run src/components/features/automations-toolbar/__tests__/clear-fi
 **Validation Commands**:
 
 ```bash
-# Test mobile filtering
+
+## Test mobile filtering
+
 npm test -- --run src/components/automation/__tests__/mobile-filtering.test.tsx
 npx playwright test tests/mobile-filtering.spec.ts
-```
 
+```text
 ---
 
 ## 🔧 Technical Quality Gates
@@ -157,7 +174,8 @@ npx playwright test tests/mobile-filtering.spec.ts
 
 ```bash
 npx tsc --noEmit --strict
-```
+
+```text
 
 ### **ESLint Compliance**
 
@@ -174,7 +192,8 @@ npx tsc --noEmit --strict
 
 ```bash
 npx eslint src --ext .ts,.tsx --max-warnings 0
-```
+
+```text
 
 ### **Test Coverage**
 
@@ -192,8 +211,8 @@ npx eslint src --ext .ts,.tsx --max-warnings 0
 
 ```bash
 npm test -- --coverage --run
-```
 
+```text
 ---
 
 ## 📱 Mobile-Specific Quality Gates
@@ -211,7 +230,8 @@ npm test -- --coverage --run
 
 ```bash
 npx playwright test tests/responsive-filtering.spec.ts
-```
+
+```text
 
 ### **Accessibility Validation**
 
@@ -226,8 +246,8 @@ npx playwright test tests/responsive-filtering.spec.ts
 
 ```bash
 npx playwright test tests/accessibility-filtering.spec.ts
-```
 
+```text
 ---
 
 ## ⚡ Performance Quality Gates
@@ -245,8 +265,8 @@ npx playwright test tests/accessibility-filtering.spec.ts
 
 ```bash
 npm run test:performance
-```
 
+```text
 ---
 
 ## 🚀 QUALITY GATES FRAMEWORK COMPLETE

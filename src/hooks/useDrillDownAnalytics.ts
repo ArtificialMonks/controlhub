@@ -2,7 +2,7 @@
 'use client'
 
 import { useState, useMemo, useCallback } from 'react'
-import type { Automation } from '@/lib/repositories/automation-repository'
+import type { Automation } from '@/lib/data/repositories/automation-repository'
 
 interface DrillDownAnalyticsState {
   dateRange: { from: Date | undefined; to: Date | undefined }

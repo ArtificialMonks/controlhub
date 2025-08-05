@@ -1,8 +1,9 @@
+// src/components/dashboard/dashboard-data-provider.tsx
 import 'server-only'
 import { User } from '@supabase/supabase-js'
-import { serverAutomationService } from '@/lib/services/server-automation-service'
-import { DashboardFilterContainer } from './DashboardFilterContainer'
-import { Automation } from '@/lib/repositories/automation-repository'
+import { serverAutomationService } from '@/lib/data/services/server-automation-service'
+import { DashboardFilterContainer } from '../features/dashboard/DashboardFilterContainer'
+import { Automation } from '@/lib/data/repositories/automation-repository'
 
 interface DashboardDataProviderProps {
   user: User

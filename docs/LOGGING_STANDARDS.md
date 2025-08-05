@@ -37,40 +37,64 @@ import { Logger, LogLevel } from '@/lib/monitoring/logger'
 // A.V.A.R.I.C.E. Protocol Logger Extension
 export class AvariceProtocolLogger extends Logger {
   constructor(
-    private questId: string,
-    private phase: string,
-    private agent: string,
-    component?: string
+
+```text
+private questId: string,
+private phase: string,
+private agent: string,
+component?: string
+
+```text
+
   ) {
-    super(component)
+
+```text
+super(component)
+
+```text
+
   }
 
   // Evidence logging with quest-specific paths
   async logEvidence(
-    category: 'phase-evidence' | 'agent-reports' | 'quality-gates' | 'memorization',
-    subcategory: string,
-    evidence: any,
-    metadata?: Record<string, unknown>
+
+```text
+category: 'phase-evidence' | 'agent-reports' | 'quality-gates' | 'memorization',
+subcategory: string,
+evidence: any,
+metadata?: Record<string, unknown>
+
+```text
+
   ): Promise<void> {
-    const evidencePath = `docs/evidence/${this.questId}/${category}/${subcategory}`
-    const logEntry = {
-      timestamp: new Date().toISOString(),
-      questId: this.questId,
-      phase: this.phase,
-      agent: this.agent,
-      category,
-      subcategory,
-      evidence,
-      metadata,
-      evidencePath
-    }
-    
-    // Log to both application logs and evidence directory
-    this.info('Evidence logged', logEntry)
-    await this.writeEvidenceFile(evidencePath, logEntry)
+
+```text
+const evidencePath = `docs/evidence/${this.questId}/${category}/${subcategory}`
+const logEntry = {
+  timestamp: new Date().toISOString(),
+  questId: this.questId,
+  phase: this.phase,
+  agent: this.agent,
+  category,
+  subcategory,
+  evidence,
+  metadata,
+  evidencePath
+}
+
+```text
+
+```text
+// Log to both application logs and evidence directory
+this.info('Evidence logged', logEntry)
+await this.writeEvidenceFile(evidencePath, logEntry)
+
+```text
+
   }
 }
-```
+
+```text
 
 ## Logging Standards by Category
 
@@ -98,18 +122,29 @@ export class AvariceProtocolLogger extends Logger {
   "operation": "strategic-planning-execution",
   "status": "success",
   "details": {
-    "tasksCreated": 8,
-    "validationScore": 95.5,
-    "neo4jOperations": ["validate_data_model_neo4j"],
-    "executionTime": 1847
+
+```text
+"tasksCreated": 8,
+"validationScore": 95.5,
+"neo4jOperations": ["validate_data_model_neo4j"],
+"executionTime": 1847
+
+```text
+
   },
   "evidence": {
-    "taskManagerScreenshots": ["task-breakdown-complete.png"],
-    "validationResults": ["strategic-plan-validation.json"],
-    "neo4jConfirmations": ["data-model-validation.json"]
+
+```text
+"taskManagerScreenshots": ["task-breakdown-complete.png"],
+"validationResults": ["strategic-plan-validation.json"],
+"neo4jConfirmations": ["data-model-validation.json"]
+
+```text
+
   }
 }
-```
+
+```text
 
 #### Phase 5: Multi-Layer Verification
 
@@ -177,12 +212,16 @@ export class AvariceProtocolLogger extends Logger {
 **Required Logs**:
 
 ```bash
-# Compilation results
+
+## Compilation results
+
 npx tsc --noEmit --strict > compilation-results/tsc-validation-$(date +%Y%m%d-%H%M%S).log 2>&1
 
-# Type checking results
+## Type checking results
+
 npx tsc --noEmit --strict --listFiles > type-checking/type-validation-$(date +%Y%m%d-%H%M%S).log 2>&1
-```
+
+```text
 
 #### ESLint Compliance
 
@@ -191,12 +230,16 @@ npx tsc --noEmit --strict --listFiles > type-checking/type-validation-$(date +%Y
 **Required Logs**:
 
 ```bash
-# ESLint validation
+
+## ESLint validation
+
 npx eslint src --ext .ts --format json > linting-results/eslint-results-$(date +%Y%m%d-%H%M%S).json
 
-# Code quality metrics
+## Code quality metrics
+
 npx eslint src --ext .ts --format unix > code-quality/eslint-quality-$(date +%Y%m%d-%H%M%S).log
-```
+
+```text
 
 ### Neo4j Memory Logging
 
@@ -221,17 +264,28 @@ npx eslint src --ext .ts --format unix > code-quality/eslint-quality-$(date +%Y%
   "tool": "validate_data_model_neo4j",
   "status": "success",
   "dataModel": {
-    "nodes": 5,
-    "relationships": 8,
-    "validationScore": 100
+
+```text
+"nodes": 5,
+"relationships": 8,
+"validationScore": 100
+
+```text
+
   },
   "evidence": {
-    "validationResults": "data-model-validation-20250108-120000.json",
-    "cypherQueries": "storage-queries-20250108-120000.cypher",
-    "storageConfirmation": "neo4j-storage-confirmation-20250108-120000.json"
+
+```text
+"validationResults": "data-model-validation-20250108-120000.json",
+"cypherQueries": "storage-queries-20250108-120000.cypher",
+"storageConfirmation": "neo4j-storage-confirmation-20250108-120000.json"
+
+```text
+
   }
 }
-```
+
+```text
 
 ## Logging Implementation Guidelines
 
@@ -266,25 +320,31 @@ try {
   await executePhaseOperation()
 } catch (error) {
   const errorLog = {
-    timestamp: new Date().toISOString(),
-    questId: this.questId,
-    phase: this.phase,
-    agent: this.agent,
-    error: {
-      message: error instanceof Error ? error.message : 'Unknown error',
-      stack: error instanceof Error ? error.stack : undefined,
-      type: typeof error
-    },
-    context: {
-      operation: 'phase-execution',
-      evidencePath: `docs/evidence/${this.questId}/phase-evidence/${this.phase}/`
-    }
+
+```text
+timestamp: new Date().toISOString(),
+questId: this.questId,
+phase: this.phase,
+agent: this.agent,
+error: {
+  message: error instanceof Error ? error.message : 'Unknown error',
+  stack: error instanceof Error ? error.stack : undefined,
+  type: typeof error
+},
+context: {
+  operation: 'phase-execution',
+  evidencePath: `docs/evidence/${this.questId}/phase-evidence/${this.phase}/`
+}
+
+```text
+
   }
   
   this.error('Phase execution failed', errorLog)
   throw error
 }
-```
+
+```text
 
 ## Audit Trail Requirements
 

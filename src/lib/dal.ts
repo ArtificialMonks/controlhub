@@ -1,7 +1,7 @@
 import 'server-only'
 import { cache } from 'react'
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient } from '@/lib/integrations/supabase/server'
 import { User } from '@supabase/supabase-js'
 
 export const verifySession = cache(async (): Promise<User | null> => {

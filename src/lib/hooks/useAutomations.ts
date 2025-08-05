@@ -8,8 +8,8 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
-import { Automation } from '@/lib/types/automation'
+import { createClient } from '@/lib/integrations/supabase/client'
+import { Automation } from '@/lib/core/types/automation'
 
 /**
  * Hook state interface for type safety

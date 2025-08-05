@@ -4,8 +4,8 @@
 
 import * as React from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { cn } from "@/lib/utils"
-import { useAppStore } from "@/lib/stores/app-store"
+import { cn } from "@/lib/core/utils"
+import { useAppStore } from "@/lib/data/stores/app-store"
 import { useTheme } from "next-themes"
 import {
   sidebarVariants,

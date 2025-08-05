@@ -21,8 +21,8 @@ Subdirectories:
 
 ```bash
 npx tsc --noEmit --strict
-```
 
+```text
 **Success Criteria**:
 
 - Zero compilation errors
@@ -43,8 +43,8 @@ Subdirectories:
 
 ```bash
 npx eslint src --ext .ts --max-warnings 0
-```
 
+```text
 **Success Criteria**:
 
 - Zero ESLint errors
@@ -67,8 +67,8 @@ Subdirectories:
 pnpm run test
 pnpm run test:coverage
 pnpm run test:e2e
-```
 
+```text
 **Success Criteria**:
 
 - 100% test pass rate

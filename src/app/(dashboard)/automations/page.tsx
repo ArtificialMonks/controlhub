@@ -1,7 +1,7 @@
 // src/app/(dashboard)/automations/page.tsx
 import { redirect } from 'next/navigation'
 import { verifySession, getUserProfile } from '@/lib/dal'
-import { AutomationDataProvider } from '@/components/automations/automation-data-provider'
+import { AutomationDataProvider } from '@/components/features/automations/automation-data-provider'
 
 export default async function AutomationsPage() {
   const user = await verifySession()

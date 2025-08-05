@@ -6,90 +6,13 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { SkipNavigation } from "@/components/ui/skip-navigation";
 
 // Import utilities and configurations to connect isolated modules
-import "@/lib/config"; // Import for side effects to connect module
-import "@/lib/monitoring/logger"; // Import for side effects to connect module
+import "@/lib/core/config"; // Import for side effects to connect module
+import "@/lib/infrastructure/monitoring/logger"; // Import for side effects to connect module
 
-// Import additional modules to connect them to the application
-import "@/lib/utils";
-import "@/lib/dal";
-import "@/lib/performance-optimization";
-import "@/lib/advanced-monitoring";
+// Removed side-effect imports - these should be imported where actually needed
+// This follows proper separation of concerns and dependency injection patterns
 
-// Import services to connect them
-import "@/lib/services/automation-service";
-import "@/lib/services/n8n-webhook-service";
-import "@/lib/services/audit-logger";
-
-// Import security modules
-import "@/lib/security/encryption";
-import "@/lib/security/filterSecurity";
-
-// Import stores
-import "@/lib/stores/auth-store";
-import "@/lib/stores/automation-store";
-import "@/lib/stores/app-store";
-
-// Import repositories
-import "@/lib/repositories/automation-repository";
-
-// Import hooks
-import "@/lib/hooks/useAutomations";
-import "@/hooks/usePerformanceMonitor";
-import "@/hooks/useOptimizedFiltering";
-import "@/hooks/useFilterState";
-import "@/hooks/useDebounce";
-import "@/hooks/useAutomationState";
-
-// Import data utilities
-import "@/lib/data/mock-clients";
-import "@/lib/data/mock-automations";
-
-// Import utilities
-import "@/lib/utils/date-formatting";
-
-// Import quality modules
-import "@/lib/quality/mutationTesting";
-import "@/lib/quality/codeQualityMonitor";
-
-// Import architecture validation
-import "@/lib/architecture/designPatternValidator";
-
-// Import accessibility modules
-import "@/lib/accessibility/wcagAudit";
-import "@/lib/accessibility/accessibilityFixes";
-
-// Import memory modules
-import "@/lib/memory/knowledgeMemorization";
-
-// Import integration modules
-import "@/lib/integration/integrationValidator";
-
-// Import deployment modules
-import "@/lib/deployment/rollbackManager";
-
-// Import protocol modules
-import "@/lib/protocol/avariceProtocolValidator";
-
-// Import performance modules
-import "@/lib/performance/filterBenchmarks";
-import "@/lib/performance/webhook-performance-monitor";
-
-// Import mobile modules
-import "@/lib/mobile/mobileValidation";
-
-// Import middleware
-import "@/lib/middleware/error-handler";
-
-// Import verification modules
-import "@/lib/verification/formalVerification";
-
-// Import termination modules
-import "@/lib/termination/autonomousTermination";
-
-// Import Supabase modules
-import "@/lib/supabase/client";
-
-// Test utilities are not imported in production builds to avoid Vitest conflicts
+// All side-effect imports removed for proper separation of concerns
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

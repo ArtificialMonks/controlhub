@@ -863,7 +863,7 @@ const result = await testUtils.testActionButtonInteraction(mockData)
 
 ### **Performance Optimization Usage**
 \`\`\`typescript
-import { usePerformanceOptimization } from '@/lib/performance-optimization'
+import { usePerformanceOptimization } from '@/lib/infrastructure/performance/optimization'
 
 // React hook for performance optimization
 const { cache, metrics, generateReport } = usePerformanceOptimization()

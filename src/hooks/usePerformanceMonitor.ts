@@ -14,7 +14,7 @@ import { useState, useCallback, useRef, useMemo } from 'react'
 import { 
   FilterPerformanceMetrics, 
   PerformanceMonitor 
-} from '@/lib/types/filtering'
+} from '@/lib/core/types/filtering'
 
 // ============================================================================
 // PERFORMANCE MONITORING CONFIGURATION

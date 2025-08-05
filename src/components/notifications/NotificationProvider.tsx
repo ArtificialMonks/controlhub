@@ -2,10 +2,10 @@
 'use client'
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { createClient } from '@/lib/integrations/supabase/client'
 import { NotificationToast } from './NotificationToast'
 import { useToast } from '@/components/ui/use-toast'
-import type { Notification } from '@/lib/repositories/notification-repository'
+import type { Notification } from '@/lib/data/repositories/notification-repository'
 
 interface NotificationContextType {
   notifications: Notification[]

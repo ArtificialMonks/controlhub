@@ -16,7 +16,11 @@
 4\.  A \`.env.example\` file is created at the project root, documenting all required environment variables.  
 5\.  A local \`.env\` file is created and populated with valid development credentials for both Supabase and n8n.  
 6\.  A basic "Hello World" version of the app, capable of loading these environment variables, is
-    successfully deployed to a development environment (Vercel).
+
+```text
+successfully deployed to a development environment (Vercel).
+
+```text
 
 ## Tasks / Subtasks
 
@@ -25,24 +29,29 @@
 \- \[ \] Install core dependencies (\`shadcn-ui\`, \`zustand\`, \`@supabase/supabase-js\`, \`playwright\`).  
 \- \[ \] Initialize \`shadcn-ui\`.  
 \- \[ \] Create the top-level directory structure as defined in the Architecture Document (e.g.,
-    \`/src/components\`, \`/src/lib\`, \`/docs\`, \`/supabase\`).  
+
+```text
+\`/src/components\`, \`/src/lib\`, \`/docs\`, \`/supabase\`).  
+
+```text
+
 \- \[ \] Create the \`.env.example\` and \`.env.local\` files with the required variables.  
 \- \[ \] Make an initial commit with the scaffolded project.  
 \- \[ \] Link the repository to a new Vercel project and confirm a successful initial deployment.
 
 ## Dev Notes
 
-\* \*\*Architecture:\*\* This project is a Next.js App Router application. The full architecture is
-  defined in \`docs/fullstack-architecture.md\`. Please adhere to the \*\*Unified Project Structure\*\*
+\_ \_\_Architecture:\_\* This project is a Next.js App Router application. The full architecture is
+  defined in \`docs/fullstack-architecture.md\`. Please adhere to the \_\_Unified Project Structure\_\_
   outlined in that document.  
-\* \*\*Credentials:\*\* You will need to populate your local \`.env.local\` file with credentials from your
+\_ \_\_Credentials:\_\* You will need to populate your local \`.env.local\` file with credentials from your
   Supabase project (URL, anon key, service role key) and a generated secret for the n8n webhook.
 
 ## Testing
 
 No specific automated tests are required for this scaffolding quest. The primary validation is a successful deployment.
 
-\*\*Manual Test Steps:\*\*  
+\_\_Manual Test Steps:\_\_  
 \* Success is verified by visiting the Vercel preview URL generated from the initial
   deployment and seeing the default Next.js starter page.
 
@@ -70,21 +79,31 @@ No specific automated tests are required for this scaffolding quest. The primary
 \- \[ \] Install the \`@supabase/supabase-js\` client library.  
 \- \[ \] Create a Supabase client helper in \`/src/lib/\` to initialize and export a singleton client instance.  
 \- \[ \] Create the UI for the login page at \`/src/app/(auth)/login/page.tsx\` using
-    \`shadcn/ui\` components for inputs and buttons.  
+
+```text
+\`shadcn/ui\` components for inputs and buttons.  
+
+```text
+
 \- \[ \] Implement the client-side logic for both sign-up and sign-in using the Supabase client methods.  
 \- \[ \] Implement a Next.js middleware at \`/src/middleware.ts\` to protect all routes
-    within the \`(dashboard)\` group.  
+
+```text
+within the \`(dashboard)\` group.  
+
+```text
+
 \- \[ \] Add a "Logout" button to the main dashboard layout that calls the Supabase \`signOut()\` method.
 
 ## Dev Notes (Continued)
 
-\* \*\*Prerequisite:\*\* This quest assumes Quest 1.1 is complete. You must have a
+\_ \_\_Prerequisite:\_\* This quest assumes Quest 1.1 is complete. You must have a
   scaffolded Next.js project with valid Supabase environment variables in your
   \`.env.local\` file.  
-\* \*\*Architecture:\*\* Authentication is handled exclusively by Supabase Auth. Refer to
+\_ \_\_Architecture:\_\* Authentication is handled exclusively by Supabase Auth. Refer to
   the official Supabase documentation for the latest best practices on implementing auth
   within the Next.js App Router.  
-\* \*\*UI:\*\* The login form and buttons should be built using \`shadcn/ui\` components
+\_ \_\_UI:\_\* The login form and buttons should be built using \`shadcn/ui\` components
   (\`\<Input\>\`, \`\<Button\>\`, \`\<Label\>\`, \`\<Card\>\`) to maintain consistency with the
   UI/UX Specification.
 
@@ -92,11 +111,15 @@ No specific automated tests are required for this scaffolding quest. The primary
 
 This is a critical feature and requires End-to-End (E2E) tests.
 
-\* \*\*E2E Tests (Playwright):\*\*  
-    \* A test case for a successful user login and redirection to \`/dashboard\`.  
-    \* A test case for a failed login attempt with incorrect credentials.  
-    \* A test case verifying that an unauthenticated user attempting to access
-      \`/dashboard\` is redirected to \`/login\`.
+\_ \_\_E2E Tests (Playwright):\_\*  
+
+```text
+\* A test case for a successful user login and redirection to \`/dashboard\`.  
+\* A test case for a failed login attempt with incorrect credentials.  
+\* A test case verifying that an unauthenticated user attempting to access
+  \`/dashboard\` is redirected to \`/login\`.
+
+```text
 
 ## Manual Test Steps  
 

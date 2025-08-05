@@ -2,7 +2,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import type { Automation } from '@/lib/repositories/automation-repository'
+import type { Automation } from '@/lib/data/repositories/automation-repository'
 
 interface AutomationStats {
   total: number

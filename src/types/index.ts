@@ -2,7 +2,7 @@
 // Comprehensive barrel export for all type definitions
 
 // Core automation types
-export type { Automation, AutomationRun, AutomationRunStatus, AutomationStatus, Client } from '../lib/types/automation'
+export type { Automation, AutomationRun, AutomationRunStatus, AutomationStatus, Client } from '../lib/core/types/automation'
 
 // Filtering types
 export type {
@@ -17,10 +17,10 @@ export type {
   FilterError,
   ErrorBoundaryProps,
   ErrorBoundaryConfig
-} from '../lib/types/filtering'
+} from '../lib/core/types/filtering'
 
 // Database types
-export type { Database, Json, Tables, TablesInsert, TablesUpdate } from '../lib/types/database'
+export type { Database, Json, Tables, TablesInsert, TablesUpdate } from '../lib/core/types/database'
 
 // Webhook types
 export type {
@@ -30,4 +30,4 @@ export type {
   CreateAutomationRunRequest,
   RepositoryError,
   UpdateAutomationRequest
-} from '../lib/types/webhook-types'
+} from '../lib/core/types/webhook-types'

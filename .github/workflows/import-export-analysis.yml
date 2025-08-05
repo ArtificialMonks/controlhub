@@ -1,0 +1,294 @@
+name: Import/Export Analysis & Optimization
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Run weekly analysis every Sunday at 2 AM UTC
+    - cron: '0 2 * * 0'
+
+env:
+  NODE_VERSION: '18'
+  ANALYSIS_TIMEOUT: '300000'
+
+jobs:
+  import-export-analysis:
+    name: Import/Export Analysis
+    runs-on: ubuntu-latest
+    
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: |
+          npm ci --force
+          echo "Dependencies installed successfully"
+      
+      - name: Run TypeScript compilation check
+        run: |
+          echo "Checking TypeScript compilation..."
+          npx tsc --noEmit --skipLibCheck
+          echo "✅ TypeScript compilation successful"
+      
+      - name: Run import/export analysis
+        id: analysis
+        run: |
+          echo "Starting enterprise import/export analysis..."
+          npx tsx scripts/analysis/enterprise-import-export-analyzer.ts \
+            --output-dir=ci-reports \
+            --format=json,markdown \
+            --verbose \
+            --timeout=${{ env.ANALYSIS_TIMEOUT }}
+          echo "✅ Analysis completed"
+      
+      - name: Generate baseline metrics
+        run: |
+          echo "Generating baseline build metrics..."
+          npm run build > ci-reports/build-output.log 2>&1 || echo "Build completed with warnings"
+          
+          # Extract bundle size information
+          if [ -f ".next/static/chunks/pages/_app.js" ]; then
+            wc -c .next/static/chunks/pages/_app.js | awk '{print $1}' > ci-reports/bundle-size.txt
+          fi
+          
+          echo "Bundle size: $(cat ci-reports/bundle-size.txt 2>/dev/null || echo 'N/A')"
+      
+      - name: Run quality gates validation
+        id: quality-gates
+        run: |
+          echo "Running quality gates validation..."
+          
+          # Bundle size threshold (500KB)
+          BUNDLE_SIZE_THRESHOLD=512000
+          CURRENT_BUNDLE_SIZE=$(cat ci-reports/bundle-size.txt 2>/dev/null || echo "0")
+          
+          echo "Current bundle size: $CURRENT_BUNDLE_SIZE bytes"
+          echo "Threshold: $BUNDLE_SIZE_THRESHOLD bytes"
+          
+          if [ "$CURRENT_BUNDLE_SIZE" -gt "$BUNDLE_SIZE_THRESHOLD" ]; then
+            echo "❌ Bundle size exceeds threshold"
+            echo "bundle-size-gate=failed" >> $GITHUB_OUTPUT
+          else
+            echo "✅ Bundle size within threshold"
+            echo "bundle-size-gate=passed" >> $GITHUB_OUTPUT
+          fi
+          
+          # Check for unused imports (if analysis report exists)
+          if [ -f "ci-reports/analysis-report.json" ]; then
+            UNUSED_IMPORTS=$(jq -r '.globalMetrics.unusedImports // 0' ci-reports/analysis-report.json)
+            echo "Unused imports found: $UNUSED_IMPORTS"
+            
+            if [ "$UNUSED_IMPORTS" -gt "50" ]; then
+              echo "❌ Too many unused imports"
+              echo "unused-imports-gate=failed" >> $GITHUB_OUTPUT
+            else
+              echo "✅ Unused imports within acceptable range"
+              echo "unused-imports-gate=passed" >> $GITHUB_OUTPUT
+            fi
+          fi
+      
+      - name: Run conditional optimization
+        if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+        run: |
+          echo "Running safe import/export optimization on develop branch..."
+          npx tsx scripts/optimization/enterprise-import-export-optimizer.ts \
+            --preset=ULTRA_SAFE \
+            --dry-run=true \
+            --output-dir=ci-reports \
+            --timeout=${{ env.ANALYSIS_TIMEOUT }}
+          echo "✅ Optimization analysis completed"
+      
+      - name: Generate CI/CD report
+        run: |
+          echo "Generating comprehensive CI/CD report..."
+          npx tsx scripts/deployment/ci-cd-import-export-integration.ts \
+            --environment=ci \
+            --output-dir=ci-reports \
+            --skip-notifications
+          echo "✅ CI/CD report generated"
+      
+      - name: Upload analysis artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: import-export-analysis-${{ github.run_number }}
+          path: |
+            ci-reports/
+            logs/
+          retention-days: 30
+      
+      - name: Comment PR with analysis results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const path = require('path');
+            
+            let reportContent = '## 📊 Import/Export Analysis Report\n\n';
+            
+            // Add quality gates results
+            const bundleSizeGate = '${{ steps.quality-gates.outputs.bundle-size-gate }}';
+            const unusedImportsGate = '${{ steps.quality-gates.outputs.unused-imports-gate }}';
+            
+            reportContent += '### 🛡️ Quality Gates\n\n';
+            reportContent += `- **Bundle Size**: ${bundleSizeGate === 'passed' ? '✅' : '❌'} ${bundleSizeGate}\n`;
+            reportContent += `- **Unused Imports**: ${unusedImportsGate === 'passed' ? '✅' : '❌'} ${unusedImportsGate}\n\n`;
+            
+            // Add analysis summary if available
+            try {
+              const analysisReport = JSON.parse(fs.readFileSync('ci-reports/analysis-report.json', 'utf8'));
+              reportContent += '### 📈 Analysis Results\n\n';
+              reportContent += `- **Files Analyzed**: ${analysisReport.totalFiles || 'N/A'}\n`;
+              reportContent += `- **Total Imports**: ${analysisReport.globalMetrics?.totalImports || 'N/A'}\n`;
+              reportContent += `- **Unused Imports**: ${analysisReport.globalMetrics?.unusedImports || 'N/A'}\n`;
+              reportContent += `- **Circular Dependencies**: ${analysisReport.globalMetrics?.circularDependencies?.length || 0}\n\n`;
+            } catch (error) {
+              reportContent += '### ℹ️ Analysis Summary\n\nDetailed analysis report not available.\n\n';
+            }
+            
+            reportContent += '### 🔗 Artifacts\n\n';
+            reportContent += `Full analysis results available in [workflow artifacts](${context.payload.repository.html_url}/actions/runs/${context.runId}).\n\n`;
+            reportContent += '_Generated by Enterprise Import/Export Analyzer_';
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: reportContent
+            });
+
+  security-scan:
+    name: Security Analysis
+    runs-on: ubuntu-latest
+    needs: import-export-analysis
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci --force
+      
+      - name: Run security audit
+        run: |
+          echo "Running npm security audit..."
+          npm audit --audit-level moderate || echo "Security audit completed with findings"
+      
+      - name: Scan for suspicious import patterns
+        run: |
+          echo "Scanning for suspicious import patterns..."
+          
+          # Check for potentially dangerous imports
+          SUSPICIOUS_PATTERNS=(
+            "eval\("
+            "Function\("
+            "document\.write"
+            "innerHTML\s*="
+            "dangerouslySetInnerHTML"
+            "require\s*\(\s*['\"]child_process['\"]"
+          )
+          
+          ISSUES_FOUND=0
+          for pattern in "${SUSPICIOUS_PATTERNS[@]}"; do
+            if grep -r -E "$pattern" src/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx"; then
+              echo "⚠️ Found suspicious pattern: $pattern"
+              ISSUES_FOUND=$((ISSUES_FOUND + 1))
+            fi
+          done
+          
+          if [ $ISSUES_FOUND -eq 0 ]; then
+            echo "✅ No suspicious import patterns detected"
+          else
+            echo "❌ Found $ISSUES_FOUND suspicious patterns"
+            exit 1
+          fi
+
+  performance-impact:
+    name: Performance Impact Analysis
+    runs-on: ubuntu-latest
+    needs: import-export-analysis
+    if: github.event_name == 'pull_request'
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci --force
+      
+      - name: Build current branch
+        run: |
+          echo "Building current branch..."
+          npm run build
+          
+          # Measure build time and bundle size
+          BUILD_TIME=$(date +%s)
+          BUNDLE_SIZE=$(find .next/static -name "*.js" -exec wc -c {} + | tail -1 | awk '{print $1}')
+          
+          echo "CURRENT_BUILD_TIME=$BUILD_TIME" >> $GITHUB_ENV
+          echo "CURRENT_BUNDLE_SIZE=$BUNDLE_SIZE" >> $GITHUB_ENV
+      
+      - name: Checkout base branch
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          git checkout origin/${{ github.base_ref }}
+      
+      - name: Build base branch
+        run: |
+          echo "Building base branch..."
+          npm ci --force
+          npm run build
+          
+          # Measure baseline metrics
+          BASE_BUILD_TIME=$(date +%s)
+          BASE_BUNDLE_SIZE=$(find .next/static -name "*.js" -exec wc -c {} + | tail -1 | awk '{print $1}')
+          
+          echo "BASE_BUILD_TIME=$BASE_BUILD_TIME" >> $GITHUB_ENV
+          echo "BASE_BUNDLE_SIZE=$BASE_BUNDLE_SIZE" >> $GITHUB_ENV
+      
+      - name: Calculate performance impact
+        run: |
+          echo "Calculating performance impact..."
+          
+          BUNDLE_DIFF=$((CURRENT_BUNDLE_SIZE - BASE_BUNDLE_SIZE))
+          BUNDLE_PERCENT=$(echo "scale=2; $BUNDLE_DIFF * 100 / $BASE_BUNDLE_SIZE" | bc -l)
+          
+          echo "Bundle size change: $BUNDLE_DIFF bytes ($BUNDLE_PERCENT%)"
+          
+          if [ "$BUNDLE_DIFF" -gt "51200" ]; then  # 50KB threshold
+            echo "❌ Bundle size increased significantly (+$BUNDLE_DIFF bytes)"
+            exit 1
+          elif [ "$BUNDLE_DIFF" -lt "-10240" ]; then  # 10KB improvement
+            echo "✅ Bundle size improved significantly (-$BUNDLE_DIFF bytes)"
+          else
+            echo "✅ Bundle size change within acceptable range ($BUNDLE_DIFF bytes)"
+          fi

@@ -1,3 +1,4 @@
+// src/components/ui/auth-dropdown.tsx
 'use client'
 
 import { motion } from 'framer-motion'

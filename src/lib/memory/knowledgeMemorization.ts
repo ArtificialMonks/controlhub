@@ -352,7 +352,7 @@ export class KnowledgeMemorizationEngine {
         confidence: item.confidence,
         timestamp: new Date()
       }
-    } catch (error) {
+    } catch (_error) {
       return {
         itemId: item.id,
         status: 'failed',

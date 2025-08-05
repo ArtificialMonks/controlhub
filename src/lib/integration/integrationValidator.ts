@@ -1,4 +1,4 @@
-// src/lls ib/integration/integrationValidator.ts
+// src/lib/integration/integrationValidator.ts
 /**
  * Integration Validation System
  * Quest 4.3 - Expert Council Validated Implementation
@@ -11,7 +11,7 @@
 import { RollbackManager, DeploymentSnapshot } from '../deployment/rollbackManager'
 import { WCAGAuditEngine } from '../accessibility/wcagAudit'
 import { MobileValidationEngine } from '../mobile/mobileValidation'
-import { CodeQualityMonitor } from '../quality/codeQualityMonitor'
+import { CodeQualityMonitor } from '../development/quality/codeQualityMonitor'
 
 // ============================================================================
 // INTEGRATION VALIDATION INTERFACES

@@ -17,9 +17,9 @@ import {
   RepositoryError,
   type WebhookResponse,
   type WebhookErrorResponse
-} from '@/lib/types/webhook-types'
-import { automationRepository } from '@/lib/repositories/automation-repository'
-import { createPerformanceMonitor } from '@/lib/performance/webhook-performance-monitor'
+} from '@/lib/core/types/webhook-types'
+import { automationRepository } from '@/lib/data/repositories/automation-repository'
+import { createPerformanceMonitor } from '@/lib/infrastructure/performance/webhook-performance-monitor'
 
 // ============================================================================
 // SECURITY CONFIGURATION

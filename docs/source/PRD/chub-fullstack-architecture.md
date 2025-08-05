@@ -15,13 +15,13 @@ high-performance, serverless application.
 **Recommendation:** The project will be initialized using the standard **Next.js App Router** starter
 (npx create-next-app@latest).
 
-**Rationale:**
+### Rationale
 
-* **Alignment:** Next.js is the leading framework for production React applications and integrates seamlessly
+- **Alignment:** Next.js is the leading framework for production React applications and integrates seamlessly
   with our chosen UI library, **shadcn/ui**.
-* **Serverless by Default:** It is designed for a serverless deployment model, which directly aligns with
+- **Serverless by Default:** It is designed for a serverless deployment model, which directly aligns with
   the PRD's technical recommendation.
-* **Full-Stack Capabilities:** The framework's API routes provide a natural and efficient way to build our
+- **Full-Stack Capabilities:** The framework's API routes provide a natural and efficient way to build our
   backend, including the critical "Enhanced Telemetry" webhook endpoint.
 
 ### **Project Overview**
@@ -53,59 +53,92 @@ a **"n8n Heartbeat Checker"** service to monitor the upstream n8n instance.
 
 ### **Platform and Infrastructure Choice**
 
-* **Platform:** **Vercel**  
-  * **Rationale:** Provides a seamless, zero-configuration deployment experience for Next.js, a global edge
-    network for performance, integrated CI/CD, and native support for our serverless API routes.
-* **Key Services:**  
-  * **Vercel:** For application hosting, serverless function execution, and CI/CD.  
-  * **Supabase:** For the Postgres database, user authentication, and real-time data subscriptions. _(Note: A
-    post-MVP "Load Testing" quest will be added to the roadmap to validate performance under high write-volume
-    scenarios)._
+- **Platform:** **Vercel**  
+  - **Rationale:** Provides a seamless, zero-configuration deployment experience for Next.js, a global edge
+
+```text
+network for performance, integrated CI/CD, and native support for our serverless API routes.
+
+```text
+
+- **Key Services:**  
+  - **Vercel:** For application hosting, serverless function execution, and CI/CD.  
+  - **Supabase:** For the Postgres database, user authentication, and real-time data subscriptions. _(Note: A
+
+```text
+post-MVP "Load Testing" quest will be added to the roadmap to validate performance under high write-volume
+scenarios)._
+
+```text
 
 ### **Repository Structure**
 
-* **Structure:** A single **Next.js application repository**.  
-  * **Rationale:** Co-locating frontend and backend code simplifies development and allows for end-to-end type
-    safety between the UI and the API.
+- **Structure:** A single **Next.js application repository**.  
+  - **Rationale:** Co-locating frontend and backend code simplifies development and allows for end-to-end type
+
+```text
+safety between the UI and the API.
+
+```text
 
 ### **High Level Architecture Diagram**
 
 Code snippet
 
 graph TD  
-    User \--\> Vercel\[Vercel Edge Network\];  
-    Vercel \--\> App\[Next.js App (SSR Frontend)\];  
 
-```
+```text
+User \--\> Vercel\[Vercel Edge Network\];  
+Vercel \--\> App\[Next.js App (SSR Frontend)\];  
+
+```text
+
+```text
 subgraph "User Interaction Flow"  
-    App \-- API Calls \--\> API\_Routes\[API Routes on Vercel\];  
-    API\_Routes \-- Triggers \--\> n8n\[n8n Instance\];  
-    API\_Routes \-- Reads/Writes via Repository \--\> Supabase\[Supabase (DB & Auth)\];  
+
+```text
+App \-- API Calls \--\> API\_Routes\[API Routes on Vercel\];  
+API\_Routes \-- Triggers \--\> n8n\[n8n Instance\];  
+API\_Routes \-- Reads/Writes via Repository \--\> Supabase\[Supabase (DB & Auth)\];  
+
+```text
+
 end
 
 subgraph "Webhook Flow"  
-    n8n \-- "Start/Completion" Webhooks \--\> Webhook\_Endpoint\[Webhook API Route\];  
-    Webhook\_Endpoint \-- Writes via Repository \--\> Supabase;  
-    Supabase \-- Real-time Update \--\> App;  
+
+```text
+n8n \-- "Start/Completion" Webhooks \--\> Webhook\_Endpoint\[Webhook API Route\];  
+Webhook\_Endpoint \-- Writes via Repository \--\> Supabase;  
+Supabase \-- Real-time Update \--\> App;  
+
+```text
+
 end
 
 subgraph "Monitoring"  
-    Heartbeat\[Scheduled Function on Vercel\] \-- Pings \--\> n8n;  
-    Heartbeat \-- Updates Status \--\> Supabase;  
+
+```text
+Heartbeat\[Scheduled Function on Vercel\] \-- Pings \--\> n8n;  
+Heartbeat \-- Updates Status \--\> Supabase;  
+
+```text
+
 end
 
-```
+```text
+
 ### **Architectural Patterns**
 
-* **Full-Stack Framework:** Using Next.js for both frontend and backend logic.  
-* **Server-Side Rendering (SSR):** For the initial page load to improve performance.  
-* **API Routes:** All backend logic will be implemented as serverless functions. _(Note: Post-MVP, the
+- **Full-Stack Framework:** Using Next.js for both frontend and backend logic.  
+- **Server-Side Rendering (SSR):** For the initial page load to improve performance.  
+- **API Routes:** All backend logic will be implemented as serverless functions. _(Note: Post-MVP, the
   critical webhook ingestion service will be considered for extraction into a separate function for fault
   isolation)._
-* **Repository Layer:** All database and auth calls **must** be wrapped in a dedicated data access layer.
+- **Repository Layer:** All database and auth calls **must** be wrapped in a dedicated data access layer.
   This abstracts the data source and mitigates long-term vendor lock-in.
-* **Component-Based UI:** The frontend will be composed of reusable React components from shadcn/ui.  
-* **Database as a Service (DBaaS):** We will use Supabase to offload database management.
+- **Component-Based UI:** The frontend will be composed of reusable React components from shadcn/ui.  
+- **Database as a Service (DBaaS):** We will use Supabase to offload database management.
 
 ## **Tech Stack**
 
@@ -114,26 +147,69 @@ end
 | **Frontend Language** | TypeScript | 5.5.3 | For type-safe development, catching errors early. |
 | **Frontend Framework** | Next.js (App Router) | 14.2.5 | Production-grade React framework with SSR and
 
-                                                             serverless functions. |
+```text
+                                                         serverless functions. |
+
+```text
+
 | **UI Component Library** | shadcn/ui | Latest | A collection of accessible and composable components
-                                                  for rapid UI development. |
+
+```text
+                                              for rapid UI development. |
+
+```text
+
 | **State Management** | Zustand | 4.5.2 | Simple, unopinionated state management for React that
-                                        avoids boilerplate. |
+
+```text
+                                    avoids boilerplate. |
+
+```text
+
 | **CSS Framework** | Tailwind CSS | 3.4.4 | A utility-first CSS framework for creating custom designs
-                                             efficiently. |
+
+```text
+                                         efficiently. |
+
+```text
+
 | **Backend Language** | TypeScript | 5.5.3 | Aligns with the frontend for a consistent, type-safe
-                                            monorepo experience. |
+
+```text
+                                        monorepo experience. |
+
+```text
+
 | **Backend Framework** | Next.js API Routes | 14.2.5 | Provides a simple, serverless-first way to build our backend. |
 | **API Style** | REST API | N/A | Well-understood, standard approach for web APIs. |
 | **Database** | PostgreSQL (via Supabase) | 16.x | Powerful, reliable, and feature-rich open-source
-                                                   relational database. |
+
+```text
+                                               relational database. |
+
+```text
+
 | **Authentication** | Supabase Auth | \~2.x | Manages user sign-up, login, and session management securely. |
 | **Frontend Testing** | Vitest \+ React Testing Library | 1.6.0 | Modern, fast test runner and library for testing
-                                                              components from a user's perspective. |
+
+```text
+                                                          components from a user's perspective. |
+
+```text
+
 | **E2E Testing** | Playwright | 1.45.1 | For robust, end-to-end testing of critical user flows
-                                        across different browsers. |
+
+```text
+                                    across different browsers. |
+
+```text
+
 | **CI/CD Platform** | Vercel CI | N/A | Natively integrated with our host, providing seamless
-                                       automated deployments. |
+
+```text
+                                   automated deployments. |
+
+```text
 
 ## **Data Models**
 
@@ -152,10 +228,10 @@ Telemetry Ingestion Service, and Heartbeat Checker, including a component diagra
 
 ### **n8n Instance (via Webhooks)**
 
-* **Purpose:** To trigger and stop the user's automation workflows.  
-* **Documentation:** https://docs.n8n.io/webhooks/  
-* **Authentication:** A secret token sent in the request headers.  
-* **Integration Notes:** The n8n Webhook Service component is responsible for managing these outbound calls.
+- **Purpose:** To trigger and stop the user's automation workflows.  
+- **Documentation:** https://docs.n8n.io/webhooks/  
+- **Authentication:** A secret token sent in the request headers.  
+- **Integration Notes:** The n8n Webhook Service component is responsible for managing these outbound calls.
   URLs are stored encrypted.
 
 ## **Core Workflows**
@@ -240,14 +316,14 @@ communitee-control-hub/
 
 ### **Local Development Setup**
 
-**Prerequisites:**
+### Prerequisites
 
-* Node.js (LTS version)  
-* pnpm (or npm/yarn)  
-* Vercel CLI  
-* A Supabase account and a new project created.
+- Node.js (LTS version)  
+- pnpm (or npm/yarn)  
+- Vercel CLI  
+- A Supabase account and a new project created.
 
-**Initial Setup:**
+### Initial Setup
 
 1. Clone the repository: git clone ...  
 2. Install dependencies: pnpm install  
@@ -255,12 +331,12 @@ communitee-control-hub/
 4. Run database migrations: pnpm dlx supabase db push (requires Supabase CLI)  
 5. Start the development server: pnpm dev
 
-**Development Commands:**
+### Development Commands
 
-* pnpm dev: Starts the Next.js development server on localhost:3000.  
-* pnpm build: Creates a production-ready build of the application.  
-* pnpm test: Runs the test suite using Vitest.  
-* pnpm lint: Lints the codebase for errors and style issues.
+- pnpm dev: Starts the Next.js development server on localhost:3000.  
+- pnpm build: Creates a production-ready build of the application.  
+- pnpm test: Runs the test suite using Vitest.  
+- pnpm lint: Lints the codebase for errors and style issues.
 
 ### **Environment Configuration**
 
@@ -284,8 +360,8 @@ NEXTAUTH\_SECRET="generate\_a\_strong\_random\_secret\_for\_session\_encryption"
 
 ### **Deployment Strategy**
 
-* **Frontend Deployment:** The Next.js frontend application will be deployed to **Vercel's global Edge Network**.  
-* **Backend Deployment:** All backend logic within the Next.js API Routes will be deployed as individual
+- **Frontend Deployment:** The Next.js frontend application will be deployed to **Vercel's global Edge Network**.  
+- **Backend Deployment:** All backend logic within the Next.js API Routes will be deployed as individual
   **Serverless Functions** on Vercel's infrastructure.
 
 ### **CI/CD Pipeline**
@@ -298,25 +374,27 @@ We will use Vercel's native, Git-integrated CI/CD pipeline. Every Pull Request w
 | Environment | Frontend URL | Backend URL | Purpose & Trigger |
 | :---- | :---- | :---- | :---- |
 | **Development** | http://localhost:3000 | http://localhost:3000 | Local development by the team. |
-| **Preview** | \[branch-name\]-project.vercel.app | (Same as Frontend) | Automatically deployed from every Pull Request for testing and review. |
-| **Production** | \[your-production-domain.com\] | (Same as Frontend) | The live application for end-users. Automatically deployed from main. |
+| **Preview** | \[branch-name\]-project.vercel.app | (Same as Frontend) | Automatically deployed from every Pull Request
+for testing and review. |
+| **Production** | \[your-production-domain.com\] | (Same as Frontend) | The live application for end-users.
+Automatically deployed from main. |
 
 ## **Security and Performance**
 
 ### **Security Requirements**
 
-* **Frontend Security:** A strict Content Security Policy (CSP) will be implemented. JWTs will be stored in
+- **Frontend Security:** A strict Content Security Policy (CSP) will be implemented. JWTs will be stored in
   secure, HttpOnly cookies.  
-* **Backend Security:** All API inputs will be rigorously validated. Vercel's built-in rate limiting will be
+- **Backend Security:** All API inputs will be rigorously validated. Vercel's built-in rate limiting will be
   configured for sensitive endpoints.  
-* **Authentication Security:** Secure session and token refresh logic will be handled by the official
+- **Authentication Security:** Secure session and token refresh logic will be handled by the official
   Supabase client library.
 
 ### **Performance Optimization**
 
-* **Frontend Performance:** We will use Server-Side Rendering (SSR), code-splitting, and skeleton loaders to
+- **Frontend Performance:** We will use Server-Side Rendering (SSR), code-splitting, and skeleton loaders to
   achieve our Core Web Vitals goals.  
-* **Backend Performance:** The 95th percentile (P95) latency for all core API routes should remain under
+- **Backend Performance:** The 95th percentile (P95) latency for all core API routes should remain under
   500ms. Database indexes will be used for all frequently queried columns.
 
 ## **Testing Strategy**
@@ -328,9 +406,9 @@ tests, and a select few end-to-end tests.
 
 ### **Test Organization**
 
-* **Frontend Unit/Integration Tests:** Co-located with the component files.  
-* **Backend Unit/Integration Tests:** Located in \_\_tests\_\_ subdirectories within the API route structure.  
-* **End-to-End (E2E) Tests:** Located in a separate top-level /tests directory.
+- **Frontend Unit/Integration Tests:** Co-located with the component files.  
+- **Backend Unit/Integration Tests:** Located in \_\_tests\_\_ subdirectories within the API route structure.  
+- **End-to-End (E2E) Tests:** Located in a separate top-level /tests directory.
 
 ### **Test Examples**
 
@@ -377,10 +455,10 @@ classes will be used to map to specific HTTP status codes.
 
 ### **Monitoring Stack**
 
-* **Frontend Monitoring:** **Vercel Analytics** for Core Web Vitals.  
-* **Backend Monitoring:** **Vercel's Function Logs** for serverless function health.  
-* **Error Tracking:** A dedicated service like **Sentry** will be integrated for detailed error reports.  
-* **Database Monitoring:** **Supabase's built-in dashboard** for database health.
+- **Frontend Monitoring:** **Vercel Analytics** for Core Web Vitals.  
+- **Backend Monitoring:** **Vercel's Function Logs** for serverless function health.  
+- **Error Tracking:** A dedicated service like **Sentry** will be integrated for detailed error reports.  
+- **Database Monitoring:** **Supabase's built-in dashboard** for database health.
 
 ### **Key Metrics**
 

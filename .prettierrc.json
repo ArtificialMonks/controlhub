@@ -12,7 +12,7 @@
     {
       "files": "*.md",
       "options": {
-        "printWidth": 80,
+        "printWidth": 222,
         "proseWrap": "always"
       }
     }

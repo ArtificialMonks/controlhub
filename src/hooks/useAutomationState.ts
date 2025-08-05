@@ -7,7 +7,7 @@
 "use client"
 
 import { useState, useCallback } from 'react'
-import type { Automation, AutomationStatus } from '@/lib/types/automation'
+import type { Automation, AutomationStatus } from '@/lib/core/types/automation'
 
 export interface UseAutomationStateReturn {
   automations: Automation[]

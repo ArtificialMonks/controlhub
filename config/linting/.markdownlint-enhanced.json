@@ -1,0 +1,210 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DavidAnson/markdownlint/main/schema/markdownlint-config-schema.json",
+  "extends": "./.markdownlint.json",
+  "default": true,
+  "MD001": {
+    "level": 1
+  },
+  "MD003": { 
+    "style": "atx" 
+  },
+  "MD004": { 
+    "style": "asterisk" 
+  },
+  "MD005": true,
+  "MD007": { 
+    "indent": 2,
+    "start_indented": false,
+    "start_indent": 2
+  },
+  "MD009": {
+    "br_spaces": 2,
+    "list_item_empty_lines": false,
+    "strict": false
+  },
+  "MD010": {
+    "spaces_per_tab": 2,
+    "code_blocks": true,
+    "ignore_code_languages": []
+  },
+  "MD011": true,
+  "MD012": {
+    "maximum": 1
+  },
+  "MD013": {
+    "line_length": 222,
+    "code_blocks": false,
+    "tables": false,
+    "headings": false,
+    "headers": false,
+    "stern": true
+  },
+  "MD014": true,
+  "MD018": true,
+  "MD019": true,
+  "MD020": true,
+  "MD021": true,
+  "MD022": { 
+    "lines_above": 1,
+    "lines_below": 1 
+  },
+  "MD023": true,
+  "MD024": { 
+    "allow_different_nesting": true,
+    "siblings_only": true 
+  },
+  "MD025": { 
+    "level": 1,
+    "front_matter_title": ""
+  },
+  "MD026": { 
+    "punctuation": ".,;:!?" 
+  },
+  "MD027": true,
+  "MD028": true,
+  "MD029": { 
+    "style": "ordered" 
+  },
+  "MD030": {
+    "ul_single": 1,
+    "ol_single": 1,
+    "ul_multi": 1,
+    "ol_multi": 1
+  },
+  "MD031": {
+    "list_items": true
+  },
+  "MD032": {
+    "list_items": true
+  },
+  "MD033": { 
+    "allowed_elements": [
+      "details", 
+      "summary", 
+      "br", 
+      "hr", 
+      "img", 
+      "div", 
+      "span", 
+      "sup", 
+      "sub",
+      "kbd",
+      "mark",
+      "a"
+    ] 
+  },
+  "MD034": false,
+  "MD035": {
+    "style": "---"
+  },
+  "MD036": { 
+    "punctuation": ".,;:!?" 
+  },
+  "MD037": true,
+  "MD038": true,
+  "MD039": true,
+  "MD040": {
+    "allowed_languages": [
+      "bash",
+      "sh", 
+      "shell",
+      "javascript",
+      "js",
+      "typescript", 
+      "ts",
+      "python",
+      "py",
+      "json",
+      "yaml",
+      "yml",
+      "html",
+      "css",
+      "scss",
+      "markdown",
+      "md",
+      "sql",
+      "xml",
+      "text",
+      "txt",
+      "dockerfile",
+      "makefile",
+      "console",
+      "powershell",
+      "cmd"
+    ],
+    "language_only": false
+  },
+  "MD041": { 
+    "level": 1,
+    "front_matter_title": ""
+  },
+  "MD042": true,
+  "MD043": {
+    "headings": [],
+    "match_case": false
+  },
+  "MD044": {
+    "names": [
+      "A.V.A.R.I.C.E.",
+      "TypeScript",
+      "JavaScript", 
+      "Node.js",
+      "Next.js",
+      "React",
+      "Supabase",
+      "PostgreSQL",
+      "GitHub",
+      "VS Code",
+      "Markdown",
+      "JSON",
+      "YAML",
+      "HTML",
+      "CSS",
+      "Neo4j",
+      "Playwright",
+      "Vitest",
+      "ESLint",
+      "Prettier",
+      "Tailwind",
+      "shadcn/ui",
+      "Zustand",
+      "n8n",
+      "Vercel"
+    ],
+    "code_blocks": false,
+    "html_elements": false
+  },
+  "MD045": true,
+  "MD046": { 
+    "style": "fenced" 
+  },
+  "MD047": true,
+  "MD048": {
+    "style": "backtick"
+  },
+  "MD049": { 
+    "style": "asterisk" 
+  },
+  "MD050": { 
+    "style": "asterisk" 
+  },
+  "MD051": true,
+  "MD052": true,
+  "MD053": {
+    "ignored_definitions": [
+      "//:"
+    ]
+  },
+  "MD054": {
+    "autolink": true,
+    "inline": true,
+    "full": true,
+    "collapsed": true,
+    "shortcut": true,
+    "url_inline": true
+  },
+  "MD055": {
+    "style": "leading_and_trailing"
+  },
+  "MD056": true
+}

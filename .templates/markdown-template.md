@@ -25,20 +25,24 @@ interface ExampleInterface {
   property: string;
   method(): void;
 }
-```
+
+```text
 
 ```bash
-# Example shell commands
+
+## Example shell commands
+
 npm install
 npm run build
-```
+
+```text
 
 ### Lists and Formatting
 
 Use consistent formatting for lists:
 
 - **Bold text** for important terms and concepts
-- *Italic text* for emphasis
+- _Italic text_ for emphasis
 - `Code snippets` for inline code references
 - Line length must not exceed 120 characters
 
@@ -97,24 +101,36 @@ Use tables for structured data with proper alignment:
 {
   "setting": "value",
   "array": [
-    "item1",
-    "item2"
+
+```text
+
+"item1",
+"item2"
+
+```text
+
   ]
 }
-```
+
+```text
 
 ### Command Line Instructions
 
 ```bash
-# Install dependencies
+
+## Install dependencies
+
 npm install
 
-# Run development server
+## Run development server
+
 npm run dev
 
-# Build for production
+## Build for production
+
 npm run build
-```
+
+```text
 
 ## Conclusion
 

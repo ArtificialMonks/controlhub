@@ -21,7 +21,8 @@ The following path aliases are configured in `tsconfig.json` and `vitest.config.
   "@/types/*": ["./src/lib/types/*"],    // TypeScript type definitions
   "@/test/*": ["./src/test/*"]           // Test utilities
 }
-```
+
+```text
 
 ### Usage Examples
 
@@ -35,7 +36,8 @@ import type { Automation } from "@/types/automation"
 // ❌ WRONG: Relative paths for cross-directory imports
 import { Button } from "../../components/ui/button"
 import { AutomationService } from "../../../lib/services/automation-service"
-```
+
+```text
 
 ## Directory Structure Standards
 
@@ -55,7 +57,8 @@ const config = {
   testDir: '/Users/username/project/tests',
   outputFolder: '/Users/username/project/playwright-report'
 }
-```
+
+```text
 
 ### Environment-Specific Paths
 
@@ -67,7 +70,8 @@ const config = {
   baseUrl: process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000',
   apiUrl: process.env.NEXT_PUBLIC_API_URL || '/api'
 }
-```
+
+```text
 
 ## Configuration Files
 
@@ -107,12 +111,13 @@ import { automationService } from "@/lib/services/automation-service"
 import { useToast } from "@/hooks/use-toast"
 
 import type { Automation } from "@/types/automation"
-```
+
+```text
 
 ### Path Consistency
 
 - Always use the most specific alias available
-- Prefer `@/components/*` over `@/*` for component imports
+- Prefer `@/components/_` over `@/_` for component imports
 - Use `@/types/*` for all type imports
 
 ### Configuration Portability
@@ -126,15 +131,20 @@ import type { Automation } from "@/types/automation"
 ### Build Verification
 
 ```bash
-# Verify TypeScript compilation
+
+## Verify TypeScript compilation
+
 npm run build
 
-# Verify test configuration
+## Verify test configuration
+
 npm run test
 
-# Verify linting
+## Verify linting
+
 npm run lint
-```
+
+```text
 
 ### Path Resolution Testing
 
@@ -146,10 +156,16 @@ import type { Automation } from "@/types/automation"
 
 describe('Path Resolution', () => {
   it('should resolve component imports', () => {
-    expect(Button).toBeDefined()
+
+```text
+expect(Button).toBeDefined()
+
+```text
+
   })
 })
-```
+
+```text
 
 ## Troubleshooting
 

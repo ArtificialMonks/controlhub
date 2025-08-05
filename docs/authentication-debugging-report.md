@@ -42,13 +42,24 @@ async fillSignupForm(email: string, password: string) {
   const passwordFieldCount = await passwordFields.count();
   
   if (passwordFieldCount >= 2) {
-    await passwordFields.first().fill(password);  // Password
-    await passwordFields.last().fill(password);   // Confirm Password
+
+```text
+await passwordFields.first().fill(password);  // Password
+await passwordFields.last().fill(password);   // Confirm Password
+
+```text
+
   } else {
-    await passwordFields.fill(password);
+
+```text
+await passwordFields.fill(password);
+
+```text
+
   }
 }
-```
+
+```text
 
 ## ✅ **PHASE 2: UI/UX BRAND COMPLIANCE INTEGRATION - COMPLETED**
 
@@ -56,7 +67,7 @@ async fillSignupForm(email: string, password: string) {
 
 Successfully implemented the complete Communitee Control Hub brand color palette:
 
-**✅ Brand Colors Applied:**
+### ✅ Brand Colors Applied:
 
 - **Dark Background Gradient:** `#0a0b1f` → `#002bff`
 - **Light Background:** `#ffffff`
@@ -76,7 +87,7 @@ Successfully implemented the complete Communitee Control Hub brand color palette
 
 ### **2.3 UI Compliance Test Results**
 
-**🎉 ALL BRAND COMPLIANCE TESTS PASSING:**
+### 🎉 ALL BRAND COMPLIANCE TESTS PASSING:
 
 ```text
 ✅ Login page color scheme compliance (868ms)
@@ -91,7 +102,8 @@ Successfully implemented the complete Communitee Control Hub brand color palette
 ✅ Gradient implementation compliance (878ms)
    - Background: linear-gradient(to right bottom, rgb(10, 11, 31), rgb(0, 43, 255))
    - Button: linear-gradient(to right, rgb(0, 60, 255), rgb(0, 102, 255))
-```
+
+```text
 
 ## 📊 **TEST RESULTS BREAKDOWN**
 
@@ -104,7 +116,7 @@ Successfully implemented the complete Communitee Control Hub brand color palette
 
 ### **❌ FAILING TESTS (24/57 - 42%)**
 
-**Primary Issues Identified:**
+### Primary Issues Identified:
 
 1. **Page Title Expectations:** Tests expect specific titles that don't match current implementation
 2. **Multiple Element Selection:** Playwright strict mode violations with multiple matching elements
@@ -127,7 +139,8 @@ Successfully implemented the complete Communitee Control Hub brand color palette
   --warning: 43 96% 56%; /* #FAAD14 */
   --border: 220 13% 91%; /* #e5e7eb */
 }
-```
+
+```text
 
 ### **Gradient Implementation**
 
@@ -137,7 +150,8 @@ bg-gradient-to-br from-chub-dark-bg to-chub-dark-bg-end
 
 /* Button Gradient */
 bg-gradient-to-r from-[#003cff] to-[#0066ff] hover:from-[#002bff] hover:to-[#0052cc]
-```
+
+```text
 
 ## 🎯 **SUCCESS CRITERIA ACHIEVED**
 
@@ -193,7 +207,7 @@ authentication flow is working end-to-end, and the Communitee Control Hub brand 
 implemented and tested. While some E2E tests need refinement, the fundamental functionality and brand
 compliance are solid.
 
-**Key Achievements:**
+### Key Achievements:
 
 - ✅ 100% authentication flow working
 - ✅ 100% brand compliance implemented

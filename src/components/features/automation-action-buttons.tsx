@@ -17,8 +17,8 @@ import { Play, Square, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/hooks/use-toast'
 import { AutomationActionDialog } from '@/components/ui/confirmation-dialog'
-import { automationService, AutomationServiceError } from '@/lib/services/automation-service'
-import type { Automation } from '@/lib/types/automation'
+import { automationService, AutomationServiceError } from '@/lib/data/services/automation-service'
+import type { Automation } from '@/lib/core/types/automation'
 
 /**
  * Automation action buttons props interface

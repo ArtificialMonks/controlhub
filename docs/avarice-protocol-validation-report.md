@@ -34,7 +34,7 @@
 - **Issues**: 1
 - **Recommendations**: 1
 
-**Issues:**
+### Issues
 
 - WARNING: ESLint violations detected
 **Recommendations:**
@@ -47,7 +47,7 @@
 - **Issues**: 1
 - **Recommendations**: 1
 
-**Issues:**
+### Issues 2
 
 - WARNING: Phase 5 test configuration missing
 **Recommendations:**

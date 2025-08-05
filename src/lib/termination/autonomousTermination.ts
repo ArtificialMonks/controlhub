@@ -115,7 +115,7 @@ export class AutonomousTerminationEngine {
     const systemValidation = await this.executeSystemValidation()
     
     // Step 2: Compile Final Evidence
-    const evidenceSummary = await this.compileEvidence()
+    const _evidenceSummary = await this.compileEvidence()
     
     // Step 3: Calculate Final Metrics
     const finalMetrics = await this.calculateFinalMetrics()

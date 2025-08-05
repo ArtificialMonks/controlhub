@@ -161,7 +161,7 @@ export class FormalVerificationEngine {
         duration,
         timestamp: new Date()
       }
-    } catch (error) {
+    } catch (_error) {
       const duration = Date.now() - startTime
       
       return {
@@ -328,7 +328,7 @@ export class FormalVerificationEngine {
   /**
    * Theorem proving verification
    */
-  private async theoremProving(assertion: LogicalAssertion): Promise<{
+  private async theoremProving(_assertion: LogicalAssertion): Promise<{
     status: VerificationProof['status']
     steps: ProofStep[]
     confidence: number
@@ -376,7 +376,7 @@ export class FormalVerificationEngine {
   /**
    * Bounded checking verification
    */
-  private async boundedChecking(assertion: LogicalAssertion): Promise<{
+  private async boundedChecking(_assertion: LogicalAssertion): Promise<{
     status: VerificationProof['status']
     steps: ProofStep[]
     confidence: number

@@ -1,10 +1,10 @@
 // src/app/(dashboard)/dashboard/page.tsx
 import { redirect } from 'next/navigation'
 import { verifySession } from '@/lib/dal'
-import { logger } from '@/lib/monitoring/logger'
-import { serverAutomationService } from '@/lib/services/server-automation-service'
-import { DashboardClient } from '@/components/dashboard/DashboardClient'
-import type { Automation } from '@/lib/repositories/automation-repository'
+import { logger } from '@/lib/infrastructure/monitoring/logger'
+import { serverAutomationService } from '@/lib/data/services/server-automation-service'
+import { DashboardClient } from '@/components/features/dashboard/DashboardClient'
+import type { Automation } from '@/lib/data/repositories/automation-repository'
 
 interface Client {
   id: string

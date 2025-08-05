@@ -1,4 +1,4 @@
-// src/test/integration/automation-actions-integration.test.ts
+// src/test/integration/automation-actions-integration.test.tsx
 /**
  * Automation Actions Integration Tests - Quest 4.4
  * Implements expert council integration testing requirements

@@ -5,7 +5,7 @@ import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, AlertCircle, CheckCircle, XCircle, Info, Zap, Wrench } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import type { Notification } from '@/lib/repositories/notification-repository'
+import type { Notification } from '@/lib/data/repositories/notification-repository'
 
 interface NotificationToastProps {
   notification: Notification | null

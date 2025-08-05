@@ -1,3 +1,4 @@
+// src/test/sidebar-animations.test.tsx
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render, screen, fireEvent } from '@testing-library/react'
 import { userEvent } from '@testing-library/user-event'
@@ -21,20 +22,31 @@ Object.defineProperty(window, 'matchMedia', {
 })
 
 // Mock Framer Motion to avoid animation timing issues in tests
+interface MockMotionProps {
+  children?: React.ReactNode
+  animate?: unknown
+  variants?: unknown
+  initial?: unknown
+  drag?: unknown
+  dragConstraints?: unknown
+  dragElastic?: unknown
+  onDragEnd?: unknown
+  whileHover?: unknown
+  whileTap?: unknown
+  transition?: unknown
+  [key: string]: unknown
+}
+
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement> & { children?: React.ReactNode }) => (
+    div: ({ children, ...props }: MockMotionProps) => (
       <div {...props}>{children}</div>
     ),
-    button: ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { children?: React.ReactNode }) => (
+    button: ({ children, ...props }: MockMotionProps) => (
       <button {...props}>{children}</button>
     ),
-    span: ({ children, ...props }: React.HTMLAttributes<HTMLSpanElement> & { children?: React.ReactNode }) => (
-      <span {...props}>{children}</span>
-    ),
-    svg: ({ children, ...props }: React.SVGProps<SVGSVGElement> & { children?: React.ReactNode }) => (
-      <svg {...props}>{children}</svg>
-    ),
+    span: ({ children, ...props }: MockMotionProps) => <span {...props}>{children}</span>,
+    svg: ({ children, ...props }: MockMotionProps) => <svg {...props}>{children}</svg>,
   },
   AnimatePresence: ({ children }: { children?: React.ReactNode }) => <>{children}</>,
 }))

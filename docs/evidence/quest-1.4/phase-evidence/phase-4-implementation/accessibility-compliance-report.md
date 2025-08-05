@@ -2,7 +2,8 @@
 
 ## Executive Summary
 
-The AutomationsDataTable component has been implemented with comprehensive WCAG 2.1 AA accessibility compliance. This report documents the accessibility features implemented and validation results.
+The AutomationsDataTable component has been implemented with comprehensive WCAG 2.1 AA accessibility compliance. This
+report documents the accessibility features implemented and validation results.
 
 **Compliance Status**: ✅ WCAG 2.1 AA COMPLIANT
 **Validation Method**: Automated testing with jest-axe + Manual validation
@@ -16,48 +17,73 @@ The AutomationsDataTable component has been implemented with comprehensive WCAG 
 ### 1. Semantic HTML Structure ✅
 
 **Implementation**:
+
 - Proper table structure with `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>` elements
 - Semantic heading hierarchy for table headers
 - Proper form controls with associated labels
 
 **WCAG Guidelines Addressed**:
+
 - **1.3.1 Info and Relationships** - Content structure is programmatically determinable
 - **4.1.1 Parsing** - Valid HTML markup with proper nesting
 
 **Code Evidence**:
+
 ```tsx
 <Table>
   <TableHeader>
-    {table.getHeaderGroups().map((headerGroup) => (
-      <TableRow key={headerGroup.id}>
-        {headerGroup.headers.map((header) => (
-          <TableHead key={header.id} className="font-medium">
-            {/* Proper table header content */}
-          </TableHead>
-        ))}
-      </TableRow>
-    ))}
+
+```text
+{table.getHeaderGroups().map((headerGroup) => (
+  <TableRow key={headerGroup.id}>
+
+```text
+
+{headerGroup.headers.map((header) => (
+  <TableHead key={header.id} className="font-medium">
+```
+{/_ Proper table header content _/}
+```
+  </TableHead>
+))}
+
+```text
+
+  </TableRow>
+))}
+
+```text
+
   </TableHeader>
   <TableBody>
-    {/* Proper table body structure */}
+
+```text
+{/_ Proper table body structure _/}
+
+```text
+
   </TableBody>
 </Table>
-```
+
+```text
 
 ### 2. Keyboard Navigation Support ✅
 
 **Implementation**:
+
 - All interactive elements are keyboard accessible
 - Proper tab order through table controls
 - Sort buttons accessible via keyboard
 - Dropdown menus keyboard navigable
 
 **WCAG Guidelines Addressed**:
+
 - **2.1.1 Keyboard** - All functionality available via keyboard
 - **2.1.2 No Keyboard Trap** - Keyboard focus not trapped
 - **2.4.3 Focus Order** - Logical focus order maintained
 
 **Code Evidence**:
+
 ```tsx
 <Button
   variant="ghost"
@@ -68,22 +94,26 @@ The AutomationsDataTable component has been implemented with comprehensive WCAG 
   Automation Name
   <ArrowUpDown className="ml-2 h-4 w-4" aria-hidden="true" />
 </Button>
-```
+
+```text
 
 ### 3. ARIA Labels and Descriptions ✅
 
 **Implementation**:
+
 - Comprehensive ARIA labels for all interactive elements
 - Status badges with proper ARIA labels
 - Screen reader announcements for dynamic content
 - Proper ARIA roles and properties
 
 **WCAG Guidelines Addressed**:
+
 - **1.3.1 Info and Relationships** - Relationships conveyed programmatically
 - **2.4.6 Headings and Labels** - Descriptive headings and labels
 - **4.1.2 Name, Role, Value** - Proper name, role, and value for UI components
 
 **Code Evidence**:
+
 ```tsx
 // Status badges with ARIA labels
 <Badge 
@@ -103,21 +133,25 @@ The AutomationsDataTable component has been implemented with comprehensive WCAG 
   className="max-w-sm"
   aria-label="Filter automations by name"
 />
-```
+
+```text
 
 ### 4. Screen Reader Support ✅
 
 **Implementation**:
+
 - Screen reader only content with `.sr-only` class
 - Live regions for dynamic updates
 - Proper table captions and descriptions
 - Status announcements for filtering and sorting
 
 **WCAG Guidelines Addressed**:
+
 - **1.3.1 Info and Relationships** - Information conveyed to assistive technologies
 - **4.1.3 Status Messages** - Status messages programmatically determinable
 
 **Code Evidence**:
+
 ```tsx
 // Screen reader status updates
 <div className="sr-only" role="status" aria-live="polite">
@@ -130,47 +164,63 @@ The AutomationsDataTable component has been implemented with comprehensive WCAG 
   <span className="sr-only">Open menu</span>
   <MoreHorizontal className="h-4 w-4" aria-hidden="true" />
 </Button>
-```
+
+```text
 
 ### 5. Color and Contrast Compliance ✅
 
 **Implementation**:
+
 - Success rates color-coded with sufficient contrast ratios
 - Status badges use both color and icons for differentiation
 - Focus indicators with high contrast
 - Text meets minimum contrast requirements
 
 **WCAG Guidelines Addressed**:
+
 - **1.4.1 Use of Color** - Color not the only means of conveying information
 - **1.4.3 Contrast (Minimum)** - 4.5:1 contrast ratio for normal text
 - **1.4.11 Non-text Contrast** - 3:1 contrast ratio for UI components
 
 **Code Evidence**:
+
 ```tsx
 // Color coding with additional visual indicators
 const colorClass = numericRate >= 95 ? "text-green-600" : 
-                  numericRate >= 85 ? "text-yellow-600" : "text-red-600"
+
+```text
+              numericRate >= 85 ? "text-yellow-600" : "text-red-600"
+
+```text
 
 // Status badges with icons AND color
 const getStatusIcon = (status: AutomationStatus) => {
   switch (status) {
-    case 'Running': return <Play className="h-3 w-3" aria-hidden="true" />
-    case 'Stopped': return <Square className="h-3 w-3" aria-hidden="true" />
-    case 'Error': return <AlertCircle className="h-3 w-3" aria-hidden="true" />
-    case 'Stalled': return <Clock className="h-3 w-3" aria-hidden="true" />
+
+```text
+case 'Running': return <Play className="h-3 w-3" aria-hidden="true" />
+case 'Stopped': return <Square className="h-3 w-3" aria-hidden="true" />
+case 'Error': return <AlertCircle className="h-3 w-3" aria-hidden="true" />
+case 'Stalled': return <Clock className="h-3 w-3" aria-hidden="true" />
+
+```text
+
   }
 }
-```
+
+```text
 
 ### 6. Responsive Design Accessibility ✅
 
 **Implementation**:
+
 - Table responsive across all device sizes
 - Touch targets meet minimum size requirements (44x44px)
 - Content reflows without horizontal scrolling
 - Mobile-friendly interaction patterns
 
 **WCAG Guidelines Addressed**:
+
 - **1.4.4 Resize Text** - Text can be resized up to 200% without loss of functionality
 - **1.4.10 Reflow** - Content reflows for 320px viewport width
 - **2.5.5 Target Size** - Touch targets at least 44x44 CSS pixels
@@ -182,16 +232,22 @@ const getStatusIcon = (status: AutomationStatus) => {
 ### jest-axe Validation ✅
 
 **Test Implementation**:
+
 ```tsx
 describe('Accessibility', () => {
   it('should not have any accessibility violations', async () => {
-    const { container } = render(<AutomationsDataTable />)
-    const results = await axe(container)
-    expect(results).toHaveNoViolations()
+
+```text
+const { container } = render(<AutomationsDataTable />)
+const results = await axe(container)
+expect(results).toHaveNoViolations()
+
+```text
+
   })
 })
-```
 
+```text
 **Results**: ✅ PASSED - No accessibility violations detected
 
 ### Manual Validation Checklist ✅
@@ -212,6 +268,7 @@ describe('Accessibility', () => {
 ### WCAG 2.1 AA Guidelines Compliance
 
 #### Level A Compliance ✅
+
 - **1.1.1 Non-text Content** - All images have alt text or aria-hidden
 - **1.3.1 Info and Relationships** - Structure programmatically determinable
 - **1.4.1 Use of Color** - Information not conveyed by color alone
@@ -223,6 +280,7 @@ describe('Accessibility', () => {
 - **4.1.2 Name, Role, Value** - Proper ARIA implementation
 
 #### Level AA Compliance ✅
+
 - **1.4.3 Contrast (Minimum)** - 4.5:1 contrast ratio maintained
 - **1.4.4 Resize Text** - Text resizable to 200% without loss
 - **2.4.6 Headings and Labels** - Descriptive headings and labels
@@ -251,15 +309,18 @@ describe('Accessibility', () => {
 ## Testing Evidence
 
 ### Automated Test Results ✅
+
 ```bash
 ✓ AutomationsDataTable > Accessibility > should not have any accessibility violations
 ✓ AutomationsDataTable > Accessibility > has proper ARIA labels for interactive elements  
 ✓ AutomationsDataTable > Accessibility > has proper status labels for screen readers
 ✓ AutomationsDataTable > Accessibility > provides screen reader status updates
 ✓ AutomationsDataTable > Accessibility > has proper table structure for screen readers
-```
+
+```text
 
 ### Manual Testing Evidence ✅
+
 - **Keyboard Navigation**: All interactive elements accessible via Tab, Enter, Space, Arrow keys
 - **Screen Reader Testing**: Content properly announced by NVDA and VoiceOver
 - **Focus Indicators**: Clear visual focus indicators on all interactive elements
@@ -271,12 +332,14 @@ describe('Accessibility', () => {
 ## Recommendations for Future Enhancements
 
 ### Optional Improvements (Beyond WCAG 2.1 AA)
+
 1. **High Contrast Mode Support** - Enhanced contrast for users with low vision
 2. **Reduced Motion Support** - Respect `prefers-reduced-motion` setting
 3. **Voice Control Optimization** - Enhanced voice navigation support
 4. **Cognitive Load Reduction** - Simplified interaction patterns for cognitive accessibility
 
 ### Maintenance Guidelines
+
 1. **Regular Testing** - Run jest-axe tests in CI/CD pipeline
 2. **Manual Validation** - Quarterly manual accessibility testing
 3. **User Feedback** - Collect feedback from users with disabilities
@@ -286,7 +349,8 @@ describe('Accessibility', () => {
 
 ## Conclusion
 
-The AutomationsDataTable component successfully achieves **WCAG 2.1 AA compliance** with comprehensive accessibility features including:
+The AutomationsDataTable component successfully achieves **WCAG 2.1 AA compliance** with comprehensive accessibility
+features including:
 
 - ✅ **Semantic HTML Structure** with proper table markup
 - ✅ **Keyboard Navigation** for all interactive elements  

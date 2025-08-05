@@ -54,40 +54,59 @@ import {
 
 function Layout({ children }) {
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen">
-        <Sidebar>
-          <SidebarHeader>
-            {/* Logo and branding */}
-          </SidebarHeader>
-          
-          <SidebarContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <Icon />
-                  <span>Menu Item</span>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarContent>
-          
-          <SidebarFooter>
-            {/* User info and actions */}
-          </SidebarFooter>
-        </Sidebar>
-        
-        <div className="flex-1">
-          <header>
-            <SidebarTrigger />
-          </header>
-          <main>{children}</main>
-        </div>
-      </div>
-    </SidebarProvider>
+
+```text
+
+  <div className="flex min-h-screen">
+
+```text
+
+  
+```
+
+{/_Logo and branding_/}
+
+```text
+  
+  
+  
+```
+
+```text
+  <span>Menu Item</span>
+```
+    
+  
+```text
+  
+  
+  
+```
+
+{/_User info and actions_/}
+
+```text
+  
+
+<div className="flex-1">
+  
+```
+
+```text
+  
+  {children}
+</div>
+
+```text
+
+  </div>
+
+```text
+
   )
 }
-```
+
+```text
 
 ## Animation Configuration
 
@@ -100,7 +119,8 @@ export const springConfig = {
   damping: 20,
   mass: 1
 }
-```
+
+```text
 
 ### Width Constants
 
@@ -110,7 +130,8 @@ export const SIDEBAR_WIDTH = {
   COLLAPSED: 64,
   MOBILE: 280
 }
-```
+
+```text
 
 ## Gesture Controls
 
@@ -135,7 +156,8 @@ background: linear-gradient(180deg,
   rgba(248, 249, 250, 0.95) 50%,
   rgba(243, 244, 246, 0.92) 100%
 );
-```
+
+```text
 
 ### Dark Mode
 
@@ -145,7 +167,8 @@ background: linear-gradient(180deg,
   rgba(17, 24, 39, 0.95) 50%,
   rgba(0, 43, 255, 0.08) 100%
 );
-```
+
+```text
 
 ## Accessibility
 
@@ -182,7 +205,7 @@ background: linear-gradient(180deg,
 ### From Static Sidebar
 
 1. Wrap your layout with `SidebarProvider`
-2. Replace static sidebar div with `<Sidebar>` component
+2. Replace static sidebar div with `` component
 3. Use `SidebarMenuButton` for menu items
 4. Add `SidebarTrigger` to your header
 
@@ -198,7 +221,8 @@ const {
   toggleSidebar,
   toggleCollapsed 
 } = useSidebar()
-```
+
+```text
 
 ## Troubleshooting
 

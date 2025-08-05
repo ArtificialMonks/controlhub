@@ -13,15 +13,20 @@ This project uses **markdownlint** to enforce consistent markdown formatting acr
 ### Available Commands
 
 ```bash
-# Lint all markdown files
+
+## Lint all markdown files
+
 npm run lint:md
 
-# Auto-fix markdown issues (where possible)
+## Auto-fix markdown issues (where possible)
+
 npm run lint:md:fix
 
-# Run both ESLint and markdownlint
+## Run both ESLint and markdownlint
+
 npm run lint:all
-```
+
+```text
 
 ## Rule Explanations
 
@@ -29,13 +34,13 @@ npm run lint:all
 
 - **MD022** - Headings must have blank lines above and below
 - **MD032** - Lists must be surrounded by blank lines  
-- **MD013** - Line length limited to 120 characters (excluding code blocks)
+- **MD013** - Tiered line length system: 222 chars (optimal), 444 chars (max), 999 chars (exceptional)
 - **MD024** - Duplicate headings allowed in different sections
 - **MD033** - Allows specific HTML elements (details, summary, br, etc.)
 
 ### Customized Settings
 
-- **Line Length**: 120 characters (more reasonable than default 80)
+- **Line Length**: Tiered system - 222 chars (optimal), 444 chars (max), 999 chars (exceptional)
 - **HTML Elements**: Allows common elements like `<details>`, `<div>`, `<img>`
 - **Code Blocks**: Excluded from line length rules
 - **Tables**: Excluded from line length rules
@@ -45,18 +50,24 @@ npm run lint:all
 ### Before (Incorrect)
 
 ```markdown
-# Heading
+
+## Heading
+
 Some text
+
 ## Another Heading
+
 - List item
 - Another item
 Text immediately after
-```
+
+```text
 
 ### After (Correct)
 
 ```markdown
-# Heading
+
+## Heading
 
 Some text
 
@@ -66,7 +77,8 @@ Some text
 - Another item
 
 Text immediately after
-```
+
+```text
 
 ## Exclusions
 
@@ -85,7 +97,8 @@ Install the **markdownlint** extension for real-time validation:
 
 ```bash
 ext install DavidAnson.vscode-markdownlint
-```
+
+```text
 
 ### Pre-commit Hook (Optional)
 
@@ -93,7 +106,8 @@ Add to your git hooks or CI/CD pipeline:
 
 ```bash
 npm run lint:md || exit 1
-```
+
+```text
 
 ## Fixing Issues
 
@@ -103,7 +117,8 @@ Many issues can be auto-fixed:
 
 ```bash
 npm run lint:md:fix
-```
+
+```text
 
 ### Manual Fixes Required
 
@@ -131,8 +146,8 @@ To modify rules, edit `.markdownlint.json`:
   "MD022": false,                   // Disable heading blank lines
   "MD032": true                     // Enable list blank lines
 }
-```
 
+```text
 For more rule details, see: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
 
 ---
@@ -157,11 +172,14 @@ and CI/CD quality gates.
 - Covers all project-specific terms (Supabase, webhook, API, etc.)
 
 ```bash
-# Run spell check
+
+## Run spell check
+
 npx cspell "**/*.md" --no-progress
 
-# Add new technical terms to .cspell.json manually
-```
+## Add new technical terms to .cspell.json manually
+
+```text
 
 #### 2. Pre-commit Hook System
 
@@ -173,28 +191,41 @@ set -e
 
 echo "🔍 Running markdown quality validation..."
 
-# Run markdownlint
+## Run markdownlint
+
 npm run lint:md
 if [ $? -ne 0 ]; then
-    echo "❌ Markdown linting failed. Please fix violations before committing."
-    exit 1
+
+```text
+echo "❌ Markdown linting failed. Please fix violations before committing."
+exit 1
+
+```text
+
 fi
 
-# Run spell check
+## Run spell check
+
 npx cspell "**/*.md" --no-progress --exclude "node_modules/**"
 if [ $? -ne 0 ]; then
-    echo "❌ Spell check failed. Add legitimate terms to .cspell.json or fix typos."
-    exit 1
+
+```text
+echo "❌ Spell check failed. Add legitimate terms to .cspell.json or fix typos."
+exit 1
+
+```text
+
 fi
 
 echo "✅ Markdown quality validation passed"
-```
 
+```text
 **Setup**:
 
 ```bash
 chmod +x .git/hooks/pre-commit
-```
+
+```text
 
 #### 3. CI/CD Quality Gates
 
@@ -206,7 +237,7 @@ chmod +x .git/hooks/pre-commit
 
 **Current Settings**:
 
-- **Line Length**: 120 characters (strict enforcement with `stern: true`)
+- **Line Length**: Tiered system - 222 chars (optimal), 444 chars (max), 999 chars (exceptional)
 - **Blank Lines**: Required around headings, code blocks, and lists
 - **Code Blocks**: Must specify language for syntax highlighting
 - **Spell Check**: Comprehensive technical dictionary
@@ -231,8 +262,8 @@ chmod +x .git/hooks/pre-commit
 
 #### Line Length (MD013)
 
-**Problem**: Lines > 120 characters
-**Solution**: Break at natural points, use lists, reference-style links
+**Problem**: Lines > 222 characters (optimal target)
+**Solution**: Use tiered approach - aim for 222, allow up to 444, exceptional cases up to 999
 
 #### Missing Blank Lines (MD022, MD031, MD032)
 
@@ -254,7 +285,7 @@ chmod +x .git/hooks/pre-commit
 #### Before Writing
 
 1. Use template from `.templates/markdown-template.md`
-2. Configure editor for 120-character line length
+2. Configure editor for 222-character line length (tiered system)
 3. Install VS Code markdownlint extension
 
 #### During Writing

@@ -33,9 +33,16 @@ const mockAutomations = [
   }
 ]
 
+// Mock clients for testing
+const mockClients = [
+  { id: 'client-001', name: 'Test Client 1', created_at: '2024-01-01T00:00:00Z' },
+  { id: 'client-002', name: 'Test Client 2', created_at: '2024-01-02T00:00:00Z' }
+]
+
 // Default props for testing
 const defaultProps = {
   automations: mockAutomations,
+  clients: mockClients,
   searchTerm: '',
   selectedClient: null,
   selectedStatuses: [],

@@ -1,0 +1,1002 @@
+{
+  "totalFiles": 142,
+  "totalSize": 1404018,
+  "relocatedFiles": [
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/CLAUDE.md.backup-1754365192497",
+      "relativePath": "CLAUDE.md.backup-1754365192497",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/CLAUDE.md.backup-1754365192497",
+      "size": 23471,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/avarice-protocol/avarice-phases/frameworks/testing/phase-1-tests.json.backup",
+      "relativePath": "avarice-protocol/avarice-phases/frameworks/testing/phase-1-tests.json.backup",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/avarice-protocol/avarice-phases/frameworks/testing/phase-1-tests.json.backup",
+      "size": 1549,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/avarice-protocol/avarice-phases/frameworks/testing/phase-2-tests.json.backup",
+      "relativePath": "avarice-protocol/avarice-phases/frameworks/testing/phase-2-tests.json.backup",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/avarice-protocol/avarice-phases/frameworks/testing/phase-2-tests.json.backup",
+      "size": 1559,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/avarice-protocol/avarice-phases/frameworks/testing/phase-3-tests.json.backup",
+      "relativePath": "avarice-protocol/avarice-phases/frameworks/testing/phase-3-tests.json.backup",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/avarice-protocol/avarice-phases/frameworks/testing/phase-3-tests.json.backup",
+      "size": 1560,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/avarice-protocol/avarice-phases/frameworks/testing/phase-4-tests.json.backup",
+      "relativePath": "avarice-protocol/avarice-phases/frameworks/testing/phase-4-tests.json.backup",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/avarice-protocol/avarice-phases/frameworks/testing/phase-4-tests.json.backup",
+      "size": 2073,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/avarice-protocol/avarice-phases/frameworks/testing/phase-5-tests.json.backup",
+      "relativePath": "avarice-protocol/avarice-phases/frameworks/testing/phase-5-tests.json.backup",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/avarice-protocol/avarice-phases/frameworks/testing/phase-5-tests.json.backup",
+      "size": 2450,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/avarice-protocol/avarice-phases/frameworks/testing/phase-6-tests.json.backup",
+      "relativePath": "avarice-protocol/avarice-phases/frameworks/testing/phase-6-tests.json.backup",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/avarice-protocol/avarice-phases/frameworks/testing/phase-6-tests.json.backup",
+      "size": 1858,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/avarice-protocol/avarice-phases/frameworks/testing/phase-7-tests.json.backup",
+      "relativePath": "avarice-protocol/avarice-phases/frameworks/testing/phase-7-tests.json.backup",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/avarice-protocol/avarice-phases/frameworks/testing/phase-7-tests.json.backup",
+      "size": 1946,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/avarice-protocol/avarice-phases/frameworks/testing/phase-8-tests.json.backup",
+      "relativePath": "avarice-protocol/avarice-phases/frameworks/testing/phase-8-tests.json.backup",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/avarice-protocol/avarice-phases/frameworks/testing/phase-8-tests.json.backup",
+      "size": 1747,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/avarice-protocol/avarice-phases/frameworks/testing/phase-9-tests.json.backup",
+      "relativePath": "avarice-protocol/avarice-phases/frameworks/testing/phase-9-tests.json.backup",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/avarice-protocol/avarice-phases/frameworks/testing/phase-9-tests.json.backup",
+      "size": 2110,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295563077",
+      "relativePath": "docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295563077",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295563077",
+      "size": 15232,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571082",
+      "relativePath": "docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571082",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571082",
+      "size": 15232,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571106",
+      "relativePath": "docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571106",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571106",
+      "size": 15232,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571107",
+      "relativePath": "docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571107",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571107",
+      "size": 15236,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571108",
+      "relativePath": "docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571108",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754295571108",
+      "size": 15240,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754365192499",
+      "relativePath": "docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754365192499",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754365192499",
+      "size": 15240,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754365192521",
+      "relativePath": "docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754365192521",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/ENHANCED_ANALYTICS_IMPLEMENTATION.md.backup-1754365192521",
+      "size": 15240,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/avarice-protocol/test-integration/agent-memory-patterns.md.backup-1754295563074",
+      "relativePath": "docs/avarice-protocol/test-integration/agent-memory-patterns.md.backup-1754295563074",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/avarice-protocol/test-integration/agent-memory-patterns.md.backup-1754295563074",
+      "size": 5492,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/avarice-protocol/test-integration/agent-test-script-integration-guide.md.backup-1754295563075",
+      "relativePath": "docs/avarice-protocol/test-integration/agent-test-script-integration-guide.md.backup-1754295563075",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/avarice-protocol/test-integration/agent-test-script-integration-guide.md.backup-1754295563075",
+      "size": 8108,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/avarice-protocol/test-integration/agent-test-script-integration-guide.md.backup-1754295571080",
+      "relativePath": "docs/avarice-protocol/test-integration/agent-test-script-integration-guide.md.backup-1754295571080",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/avarice-protocol/test-integration/agent-test-script-integration-guide.md.backup-1754295571080",
+      "size": 8108,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/avarice-protocol/test-integration/agent-test-script-integration-guide.md.backup-1754365192499",
+      "relativePath": "docs/avarice-protocol/test-integration/agent-test-script-integration-guide.md.backup-1754365192499",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/avarice-protocol/test-integration/agent-test-script-integration-guide.md.backup-1754365192499",
+      "size": 8108,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/development/path-configuration-standards.md.backup-1754295563076",
+      "relativePath": "docs/development/path-configuration-standards.md.backup-1754295563076",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/development/path-configuration-standards.md.backup-1754295563076",
+      "size": 4943,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/eslint-configuration-optimization-report.md.backup-1754295563079",
+      "relativePath": "docs/eslint-configuration-optimization-report.md.backup-1754295563079",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/eslint-configuration-optimization-report.md.backup-1754295563079",
+      "size": 5284,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/eslint-configuration-optimization-report.md.backup-1754295571083",
+      "relativePath": "docs/eslint-configuration-optimization-report.md.backup-1754295571083",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/eslint-configuration-optimization-report.md.backup-1754295571083",
+      "size": 5284,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/dead-code-recovery-protocols.md.backup-1754295563080",
+      "relativePath": "docs/evidence/dead-code-recovery-protocols.md.backup-1754295563080",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/dead-code-recovery-protocols.md.backup-1754295563080",
+      "size": 11146,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/dead-code-recovery-protocols.md.backup-1754295571084",
+      "relativePath": "docs/evidence/dead-code-recovery-protocols.md.backup-1754295571084",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/dead-code-recovery-protocols.md.backup-1754295571084",
+      "size": 11146,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295563082",
+      "relativePath": "docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295563082",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295563082",
+      "size": 9739,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571085",
+      "relativePath": "docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571085",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571085",
+      "size": 9739,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571108",
+      "relativePath": "docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571108",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571108",
+      "size": 9739,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571109",
+      "relativePath": "docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571109",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571109",
+      "size": 9743,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571110",
+      "relativePath": "docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571110",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754295571110",
+      "size": 9751,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754365192501",
+      "relativePath": "docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754365192501",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4-4/quality-gates/phase-5-quality-gates-validation.md.backup-1754365192501",
+      "size": 9755,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.2/memorization/knowledge-memorization-evidence.md.backup-1754295563083",
+      "relativePath": "docs/evidence/quest-4.2/memorization/knowledge-memorization-evidence.md.backup-1754295563083",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.2/memorization/knowledge-memorization-evidence.md.backup-1754295563083",
+      "size": 29912,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.2/memorization/knowledge-memorization-evidence.md.backup-1754295571086",
+      "relativePath": "docs/evidence/quest-4.2/memorization/knowledge-memorization-evidence.md.backup-1754295571086",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.2/memorization/knowledge-memorization-evidence.md.backup-1754295571086",
+      "size": 29912,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.2/memorization/knowledge-memorization-evidence.md.backup-1754365192502",
+      "relativePath": "docs/evidence/quest-4.2/memorization/knowledge-memorization-evidence.md.backup-1754365192502",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.2/memorization/knowledge-memorization-evidence.md.backup-1754365192502",
+      "size": 29912,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295563085",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295563085",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295563085",
+      "size": 10413,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571090",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571090",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571090",
+      "size": 10413,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571111",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571111",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571111",
+      "size": 10413,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571112",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571112",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571112",
+      "size": 10412,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571113",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571113",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571113",
+      "size": 10412,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571114",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571114",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571114",
+      "size": 10412,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571119",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571119",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571119",
+      "size": 10412,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571120",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571120",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571120",
+      "size": 10412,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571121",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571121",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571121",
+      "size": 10412,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571122",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571122",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571122",
+      "size": 10411,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571123",
+      "relativePath": "docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571123",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/FINAL-AUTONOMOUS-TERMINATION-REPORT.md.backup-1754295571123",
+      "size": 10415,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295563086",
+      "relativePath": "docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295563086",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295563086",
+      "size": 10316,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571091",
+      "relativePath": "docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571091",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571091",
+      "size": 10316,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571124",
+      "relativePath": "docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571124",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571124",
+      "size": 10315,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571125",
+      "relativePath": "docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571125",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571125",
+      "size": 10319,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571126",
+      "relativePath": "docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571126",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/INTEGRATION-VERIFICATION-REPORT.md.backup-1754295571126",
+      "size": 10323,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295563087",
+      "relativePath": "docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295563087",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295563087",
+      "size": 7858,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571092",
+      "relativePath": "docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571092",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571092",
+      "size": 7858,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571126",
+      "relativePath": "docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571126",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571126",
+      "size": 7858,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571127",
+      "relativePath": "docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571127",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571127",
+      "size": 7862,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571128",
+      "relativePath": "docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571128",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571128",
+      "size": 7870,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571129",
+      "relativePath": "docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571129",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-5-verification-report.md.backup-1754295571129",
+      "size": 7874,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295563088",
+      "relativePath": "docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295563088",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295563088",
+      "size": 10587,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571093",
+      "relativePath": "docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571093",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571093",
+      "size": 10587,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571133",
+      "relativePath": "docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571133",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571133",
+      "size": 10591,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571134",
+      "relativePath": "docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571134",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571134",
+      "size": 10595,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571135",
+      "relativePath": "docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571135",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571135",
+      "size": 10599,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571139",
+      "relativePath": "docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571139",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754295571139",
+      "size": 10603,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754365192503",
+      "relativePath": "docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754365192503",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-6-architectural-review-report.md.backup-1754365192503",
+      "size": 10607,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295563089",
+      "relativePath": "docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295563089",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295563089",
+      "size": 9608,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571094",
+      "relativePath": "docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571094",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571094",
+      "size": 9608,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571139",
+      "relativePath": "docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571139",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571139",
+      "size": 9608,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571140",
+      "relativePath": "docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571140",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571140",
+      "size": 9612,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571141",
+      "relativePath": "docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571141",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571141",
+      "size": 9620,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571142",
+      "relativePath": "docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571142",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-7-protocol-validation-report.md.backup-1754295571142",
+      "size": 9624,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295563089",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295563089",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295563089",
+      "size": 11038,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571095",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571095",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571095",
+      "size": 11038,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571143",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571143",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571143",
+      "size": 11038,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571144",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571144",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571144",
+      "size": 11046,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571145",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571145",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571145",
+      "size": 11050,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571146",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571146",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571146",
+      "size": 11054,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571147",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571147",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571147",
+      "size": 11054,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571148",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571148",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571148",
+      "size": 11054,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571149",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571149",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754295571149",
+      "size": 11054,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192505",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192505",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192505",
+      "size": 11054,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192522",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192522",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192522",
+      "size": 11054,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192523",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192523",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192523",
+      "size": 11054,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192524",
+      "relativePath": "docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192524",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/phase-8-knowledge-memorization-report.md.backup-1754365192524",
+      "size": 11054,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/quality-gates/quality-gates-framework.md.backup-1754295563093",
+      "relativePath": "docs/evidence/quest-4.3/quality-gates/quality-gates-framework.md.backup-1754295563093",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/quality-gates/quality-gates-framework.md.backup-1754295563093",
+      "size": 6019,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/quest-4.3/quality-gates/quality-gates-framework.md.backup-1754295571149",
+      "relativePath": "docs/evidence/quest-4.3/quality-gates/quality-gates-framework.md.backup-1754295571149",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/quest-4.3/quality-gates/quality-gates-framework.md.backup-1754295571149",
+      "size": 6019,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754295563094",
+      "relativePath": "docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754295563094",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754295563094",
+      "size": 9770,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754295571096",
+      "relativePath": "docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754295571096",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754295571096",
+      "size": 9770,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754295571150",
+      "relativePath": "docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754295571150",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754295571150",
+      "size": 9770,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754365192506",
+      "relativePath": "docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754365192506",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/evidence/zero-isolation-policy-compliance-audit-report.md.backup-1754365192506",
+      "size": 9774,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/implementation/quest-4.4-implementation-report.md.backup-1754295563095",
+      "relativePath": "docs/implementation/quest-4.4-implementation-report.md.backup-1754295563095",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/implementation/quest-4.4-implementation-report.md.backup-1754295563095",
+      "size": 7758,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/implementation/quest-4.4-implementation-report.md.backup-1754295571097",
+      "relativePath": "docs/implementation/quest-4.4-implementation-report.md.backup-1754295571097",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/implementation/quest-4.4-implementation-report.md.backup-1754295571097",
+      "size": 7758,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/implementation/quest-4.4-implementation-report.md.backup-1754365192507",
+      "relativePath": "docs/implementation/quest-4.4-implementation-report.md.backup-1754365192507",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/implementation/quest-4.4-implementation-report.md.backup-1754365192507",
+      "size": 7758,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571150",
+      "relativePath": "docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571150",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571150",
+      "size": 5113,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571152",
+      "relativePath": "docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571152",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571152",
+      "size": 5125,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571153",
+      "relativePath": "docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571153",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571153",
+      "size": 5149,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571154",
+      "relativePath": "docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571154",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571154",
+      "size": 5161,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571155",
+      "relativePath": "docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571155",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/journeys/quests/1-quest/1-2-quest.md.backup-1754295571155",
+      "size": 5173,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571155",
+      "relativePath": "docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571155",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571155",
+      "size": 3550,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571163",
+      "relativePath": "docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571163",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571163",
+      "size": 3562,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571164",
+      "relativePath": "docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571164",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571164",
+      "size": 3574,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571165",
+      "relativePath": "docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571165",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/journeys/quests/4-quest/4.4-quest.md.backup-1754295571165",
+      "size": 3598,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/maintenance/dead-code-recovery-report.md.backup-1754295563095",
+      "relativePath": "docs/maintenance/dead-code-recovery-report.md.backup-1754295563095",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/maintenance/dead-code-recovery-report.md.backup-1754295563095",
+      "size": 8351,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/maintenance/dead-code-recovery-report.md.backup-1754295571098",
+      "relativePath": "docs/maintenance/dead-code-recovery-report.md.backup-1754295571098",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/maintenance/dead-code-recovery-report.md.backup-1754295571098",
+      "size": 8351,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/maintenance/dead-code-recovery-report.md.backup-1754295571166",
+      "relativePath": "docs/maintenance/dead-code-recovery-report.md.backup-1754295571166",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/maintenance/dead-code-recovery-report.md.backup-1754295571166",
+      "size": 8351,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/maintenance/dead-code-recovery-report.md.backup-1754365192508",
+      "relativePath": "docs/maintenance/dead-code-recovery-report.md.backup-1754365192508",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/maintenance/dead-code-recovery-report.md.backup-1754365192508",
+      "size": 8355,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-qa-enforcer-system-documentation.md.backup-1754365192509",
+      "relativePath": "docs/markdown-qa-enforcer-system-documentation.md.backup-1754365192509",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-qa-enforcer-system-documentation.md.backup-1754365192509",
+      "size": 14923,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-qa-enforcer-system-documentation.md.backup-1754365192525",
+      "relativePath": "docs/markdown-qa-enforcer-system-documentation.md.backup-1754365192525",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-qa-enforcer-system-documentation.md.backup-1754365192525",
+      "size": 14930,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-qa-quick-reference.md.backup-1754365192511",
+      "relativePath": "docs/markdown-qa-quick-reference.md.backup-1754365192511",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-qa-quick-reference.md.backup-1754365192511",
+      "size": 3140,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-qa-quick-reference.md.backup-1754365192525",
+      "relativePath": "docs/markdown-qa-quick-reference.md.backup-1754365192525",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-qa-quick-reference.md.backup-1754365192525",
+      "size": 3142,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-integration-verification-report.md.backup-1754295563096",
+      "relativePath": "docs/markdown-quality-integration-verification-report.md.backup-1754295563096",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-integration-verification-report.md.backup-1754295563096",
+      "size": 12097,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-integration-verification-report.md.backup-1754295571098",
+      "relativePath": "docs/markdown-quality-integration-verification-report.md.backup-1754295571098",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-integration-verification-report.md.backup-1754295571098",
+      "size": 12097,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-integration-verification-report.md.backup-1754295571166",
+      "relativePath": "docs/markdown-quality-integration-verification-report.md.backup-1754295571166",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-integration-verification-report.md.backup-1754295571166",
+      "size": 12097,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-integration-verification-report.md.backup-1754365192513",
+      "relativePath": "docs/markdown-quality-integration-verification-report.md.backup-1754365192513",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-integration-verification-report.md.backup-1754365192513",
+      "size": 12097,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-integration-verification-report.md.backup-1754365192526",
+      "relativePath": "docs/markdown-quality-integration-verification-report.md.backup-1754365192526",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-integration-verification-report.md.backup-1754365192526",
+      "size": 12097,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-prevention-system-implementation-report.md.backup-1754295563097",
+      "relativePath": "docs/markdown-quality-prevention-system-implementation-report.md.backup-1754295563097",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-prevention-system-implementation-report.md.backup-1754295563097",
+      "size": 9180,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-prevention-system-implementation-report.md.backup-1754295571099",
+      "relativePath": "docs/markdown-quality-prevention-system-implementation-report.md.backup-1754295571099",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-prevention-system-implementation-report.md.backup-1754295571099",
+      "size": 9180,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-prevention-system-implementation-report.md.backup-1754295571167",
+      "relativePath": "docs/markdown-quality-prevention-system-implementation-report.md.backup-1754295571167",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-prevention-system-implementation-report.md.backup-1754295571167",
+      "size": 9180,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-prevention-system-implementation-report.md.backup-1754365192514",
+      "relativePath": "docs/markdown-quality-prevention-system-implementation-report.md.backup-1754365192514",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-prevention-system-implementation-report.md.backup-1754365192514",
+      "size": 9179,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-rule-integration-final-report.md.backup-1754295563098",
+      "relativePath": "docs/markdown-quality-rule-integration-final-report.md.backup-1754295563098",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-rule-integration-final-report.md.backup-1754295563098",
+      "size": 10513,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571100",
+      "relativePath": "docs/markdown-quality-rule-integration-final-report.md.backup-1754295571100",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571100",
+      "size": 10513,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571168",
+      "relativePath": "docs/markdown-quality-rule-integration-final-report.md.backup-1754295571168",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571168",
+      "size": 10513,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571169",
+      "relativePath": "docs/markdown-quality-rule-integration-final-report.md.backup-1754295571169",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571169",
+      "size": 10512,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571170",
+      "relativePath": "docs/markdown-quality-rule-integration-final-report.md.backup-1754295571170",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571170",
+      "size": 10511,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571173",
+      "relativePath": "docs/markdown-quality-rule-integration-final-report.md.backup-1754295571173",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571173",
+      "size": 10510,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571174",
+      "relativePath": "docs/markdown-quality-rule-integration-final-report.md.backup-1754295571174",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571174",
+      "size": 10509,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571175",
+      "relativePath": "docs/markdown-quality-rule-integration-final-report.md.backup-1754295571175",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-rule-integration-final-report.md.backup-1754295571175",
+      "size": 10508,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/markdown-quality-rule-integration-final-report.md.backup-1754365192514",
+      "relativePath": "docs/markdown-quality-rule-integration-final-report.md.backup-1754365192514",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/markdown-quality-rule-integration-final-report.md.backup-1754365192514",
+      "size": 10507,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/parallel-agent-system.md.backup-1754365192515",
+      "relativePath": "docs/parallel-agent-system.md.backup-1754365192515",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/parallel-agent-system.md.backup-1754365192515",
+      "size": 11551,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/parallel-agent-system.md.backup-1754365192527",
+      "relativePath": "docs/parallel-agent-system.md.backup-1754365192527",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/parallel-agent-system.md.backup-1754365192527",
+      "size": 11552,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/source/PRD/chub-fullstack-architecture.md.backup-1754295571176",
+      "relativePath": "docs/source/PRD/chub-fullstack-architecture.md.backup-1754295571176",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/source/PRD/chub-fullstack-architecture.md.backup-1754295571176",
+      "size": 16794,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/source/PRD/chub-fullstack-architecture.md.backup-1754295571178",
+      "relativePath": "docs/source/PRD/chub-fullstack-architecture.md.backup-1754295571178",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/source/PRD/chub-fullstack-architecture.md.backup-1754295571178",
+      "size": 16746,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192516",
+      "relativePath": "docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192516",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192516",
+      "size": 16746,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192527",
+      "relativePath": "docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192527",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192527",
+      "size": 16748,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192528",
+      "relativePath": "docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192528",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192528",
+      "size": 16752,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192529",
+      "relativePath": "docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192529",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/source/PRD/chub-fullstack-architecture.md.backup-1754365192529",
+      "size": 16752,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/test-validation-report.md.backup-1754295571178",
+      "relativePath": "docs/test-validation-report.md.backup-1754295571178",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/test-validation-report.md.backup-1754295571178",
+      "size": 42,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/zero-isolation-policy-analysis.md.backup-1754295571100",
+      "relativePath": "docs/zero-isolation-policy-analysis.md.backup-1754295571100",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/zero-isolation-policy-analysis.md.backup-1754295571100",
+      "size": 12213,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/docs/zero-isolation-policy-analysis.md.backup-1754365192517",
+      "relativePath": "docs/zero-isolation-policy-analysis.md.backup-1754365192517",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/docs/zero-isolation-policy-analysis.md.backup-1754365192517",
+      "size": 12213,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/logs/markdown-qa-enforcer-deployment-summary.md.backup-1754365192519",
+      "relativePath": "logs/markdown-qa-enforcer-deployment-summary.md.backup-1754365192519",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/logs/markdown-qa-enforcer-deployment-summary.md.backup-1754365192519",
+      "size": 10269,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/src/lib/infrastructure/security/README.md.backup-1754295571105",
+      "relativePath": "src/lib/infrastructure/security/README.md.backup-1754295571105",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/src/lib/infrastructure/security/README.md.backup-1754295571105",
+      "size": 4275,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/src/lib/infrastructure/security/README.md.backup-1754365192520",
+      "relativePath": "src/lib/infrastructure/security/README.md.backup-1754365192520",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/src/lib/infrastructure/security/README.md.backup-1754365192520",
+      "size": 4275,
+      "isDirectory": false
+    },
+    {
+      "originalPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/tests/src/docs/testing-architecture.md.backup-1754295571180",
+      "relativePath": "tests/src/docs/testing-architecture.md.backup-1754295571180",
+      "targetPath": "/Users/wildone/Desktop/artificialmonks/chub-communitee/.backups/tests/src/docs/testing-architecture.md.backup-1754295571180",
+      "size": 9753,
+      "isDirectory": false
+    }
+  ],
+  "errors": [],
+  "timestamp": "2025-08-05T05:25:58.447Z"
+}

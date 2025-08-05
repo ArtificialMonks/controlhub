@@ -96,19 +96,30 @@ docs/evidence/quest-{quest-number}/
 │       ├── security-assessments/
 │       └── compliance-checks/
 └── memorization/               # Neo4j memory storage confirmations
-    ├── knowledge-graph-storage/
-    │   ├── data-model-validation/
-    │   ├── cypher-queries/
-    │   └── storage-confirmations/
-    ├── memory-handoff-logs/
-    │   ├── phase-transitions/
-    │   ├── agent-handoffs/
-    │   └── context-preservation/
-    └── institutional-memory/
-        ├── organizational-knowledge/
-        ├── pattern-recognition/
-        └── lessons-learned/
-```
+
+```text
+├── knowledge-graph-storage/
+│   ├── data-model-validation/
+│   ├── cypher-queries/
+│   └── storage-confirmations/
+├── memory-handoff-logs/
+│   ├── phase-transitions/
+│   ├── agent-handoffs/
+│   └── context-preservation/
+└── institutional-memory/
+
+```text
+
+├── organizational-knowledge/
+├── pattern-recognition/
+└── lessons-learned/
+
+```text
+
+
+```text
+
+```text
 
 ## Usage Instructions
 

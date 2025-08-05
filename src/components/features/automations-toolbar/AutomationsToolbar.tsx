@@ -23,9 +23,8 @@ import {
 import { BulkActionDialog } from '@/components/ui/confirmation-dialog'
 import { useToast } from '@/hooks/use-toast'
 
-import type { Automation, AutomationStatus, Client } from '@/lib/types/automation'
-import { mockClients } from '@/lib/data/mock-clients'
-import { automationService, AutomationServiceError } from '@/lib/services/automation-service'
+import type { Automation, AutomationStatus, Client } from '@/lib/core/types/automation'
+import { automationService, AutomationServiceError } from '@/lib/data/services/automation-service'
 
 /**
  * AutomationsToolbar Props Interface
@@ -34,6 +33,8 @@ import { automationService, AutomationServiceError } from '@/lib/services/automa
 export interface AutomationsToolbarProps {
   /** Array of all automations for client extraction and bulk actions */
   automations: Automation[]
+  /** Array of available clients for filtering */
+  clients: Client[]
   /** Current search term */
   searchTerm: string
   /** Currently selected client ID (null for "All clients") */
@@ -73,6 +74,7 @@ const STATUS_OPTIONS: AutomationStatus[] = ['Running', 'Stopped', 'Error', 'Stal
  */
 export function AutomationsToolbar({
   automations,
+  clients,
   searchTerm,
   selectedClient,
   selectedStatuses,
@@ -89,8 +91,8 @@ export function AutomationsToolbar({
    */
   const availableClients = useMemo(() => {
     const clientIds = Array.from(new Set(automations.map(automation => automation.client_id)))
-    return mockClients.filter((client: Client) => clientIds.includes(client.id))
-  }, [automations])
+    return clients.filter((client: Client) => clientIds.includes(client.id))
+  }, [automations, clients])
 
   /**
    * Check if any filters are active

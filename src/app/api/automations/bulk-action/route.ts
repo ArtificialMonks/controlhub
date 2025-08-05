@@ -13,9 +13,9 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { verifySession } from '@/lib/dal'
-import { AutomationRepository } from '@/lib/repositories/automation-repository'
-// import { n8nWebhookService } from '@/lib/services/n8n-webhook-service' // TODO: Implement webhook service
-// import { auditLogger } from '@/lib/services/audit-logger' // TODO: Implement audit logger
+import { AutomationRepository } from '@/lib/data/repositories/automation-repository'
+// import { n8nWebhookService } from '@/lib/data/services/n8n-webhook-service' // TODO: Implement webhook service
+// import { auditLogger } from '@/lib/data/services/audit-logger' // TODO: Implement audit logger
 import type { User } from '@supabase/supabase-js'
 
 /**

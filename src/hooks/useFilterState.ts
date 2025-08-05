@@ -19,8 +19,8 @@ import {
   DEFAULT_FILTER_STATE,
   DEFAULT_MEMOIZATION_CONFIG,
   MemoizationConfig
-} from '@/lib/types/filtering'
-import { AutomationStatus } from '@/lib/types/automation'
+} from '@/lib/core/types/filtering'
+import { AutomationStatus } from '@/lib/core/types/automation'
 
 // ============================================================================
 // HOOK CONFIGURATION INTERFACE

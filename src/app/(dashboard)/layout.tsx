@@ -8,7 +8,7 @@ import { AuthDropdown } from '@/components/ui/auth-dropdown'
 import { Home, Settings, BarChart3, FileText, HelpCircle, Zap } from 'lucide-react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { cn } from '@/lib/utils'
+import { cn } from '@/lib/core/utils'
 import { useEffect, useState } from 'react'
 import { NotificationProvider } from '@/components/notifications/NotificationProvider'
 

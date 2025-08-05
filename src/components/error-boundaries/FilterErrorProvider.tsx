@@ -14,7 +14,7 @@ import React, { createContext, useContext, useState, useCallback, ReactNode } fr
 import { AlertTriangle, X } from 'lucide-react'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
-import { FilterError, isFilterError } from '@/lib/types/filtering'
+import { FilterError, isFilterError } from '@/lib/core/types/filtering'
 
 // ============================================================================
 // ERROR CONTEXT INTERFACE

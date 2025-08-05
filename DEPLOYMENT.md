@@ -10,30 +10,36 @@ Configure the following environment variables in your Vercel project dashboard:
 
 ```env
 NEXT_PUBLIC_SUPABASE_URL = https://trphfbzhurabdmgqimwj.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRycGhmYnpodXJhYmRtZ3FpbXdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NDE4MjEsImV4cCI6MjA2OTUxNzgyMX0.RpT9zWTEL50xXnoTizmbaA6V-pIzWzf47iRxk5EfPDw
+NEXT_PUBLIC_SUPABASE_ANON_KEY =
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRycGhmYnpodXJhYmRtZ3FpbXdqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM5NDE4MjEsImV4cCI6MjA2OTUxNzgyMX0.RpT9zWTEL50xXnoTizmbaA6V-pIzWzf47iRxk5EfPDw
 SUPABASE_SERVICE_ROLE_KEY = [Get from Supabase Dashboard > Settings > API]
-```
+
+```text
 
 #### **Required Authentication Configuration**
 
 ```env
 NEXTAUTH_SECRET = [Generate: openssl rand -base64 32]
-```
+
+```text
 
 #### **Required n8n Integration**
 
 ```env
-N8N_API_KEY = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MjExYTJjZi1lYTJjLTQ0Y2QtOGMyNS0xNDRjMDA4MTI1ODciLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzUzNzk1MjQ1fQ.WAhjBxjE6lTMOdldQr0a01zth_B9iYJwm4VBoomyVnU
+N8N_API_KEY =
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI5MjExYTJjZi1lYTJjLTQ0Y2QtOGMyNS0xNDRjMDA4MTI1ODciLCJpc3MiOiJuOG4iLCJhdWQiOiJwdWJsaWMtYXBpIiwiaWF0IjoxNzUzNzk1MjQ1fQ.WAhjBxjE6lTMOdldQr0a01zth_B9iYJwm4VBoomyVnU
 N8N_WEBHOOK_SECRET = [Generate: openssl rand -hex 32]
 N8N_BASE_URL = https://n8n.artificialmonks.com
-```
+
+```text
 
 #### **Required Security Configuration**
 
 ```env
 ENCRYPTION_KEY = [Generate: openssl rand -base64 32]
 CORS_ORIGINS = https://controlhub.artificialmonks.com,https://n8n.artificialmonks.com
-```
+
+```text
 
 #### **Optional Monitoring Configuration**
 
@@ -43,7 +49,8 @@ ENABLE_ERROR_TRACKING = true
 LOG_LEVEL = info
 FEATURE_TELEMETRY = true
 FEATURE_ADVANCED_ANALYTICS = true
-```
+
+```text
 
 ### **Deployment Steps**
 
@@ -60,16 +67,16 @@ FEATURE_ADVANCED_ANALYTICS = true
    vercel --prod
    ```
 
-2. **Configure Custom Domain**
+1. **Configure Custom Domain**
    - Add domain: `controlhub.artificialmonks.com`
    - Configure DNS records as instructed by Vercel
 
-3. **Database Setup**
+2. **Database Setup**
    - Run Supabase migrations in the Supabase dashboard
    - Enable Row Level Security on all tables
    - Test database connectivity
 
-4. **Post-Deployment Verification**
+3. **Post-Deployment Verification**
    - Test authentication flow
    - Verify API endpoints
    - Test n8n webhook integration

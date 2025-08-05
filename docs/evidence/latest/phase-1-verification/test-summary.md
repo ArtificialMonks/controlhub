@@ -16,6 +16,7 @@
 - **Execution Time**: 269ms
 - **Timestamp**: 2025-08-02T10:36:41.005Z
 - **Error**: Command failed: npm run analyze:all
+
 npm warn using --force Recommended protections disabled.
 npm warn using --force Recommended protections disabled.
 sh: knip: command not found
@@ -26,6 +27,7 @@ sh: knip: command not found
 - **Execution Time**: 9393ms
 - **Timestamp**: 2025-08-02T10:36:50.398Z
 - **Error**: Command failed: npm run ci:validate
+
 npm warn using --force Recommended protections disabled.
 
 ### monitor:quality
@@ -34,6 +36,7 @@ npm warn using --force Recommended protections disabled.
 - **Execution Time**: 71983ms
 - **Timestamp**: 2025-08-02T10:38:02.381Z
 - **Error**: Command failed: npm run monitor:quality
+
 npm warn using --force Recommended protections disabled.
 Error executing command: npx knip --reporter json
 Command failed: npx knip --reporter json

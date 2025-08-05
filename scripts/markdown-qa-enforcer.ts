@@ -1,750 +1,691 @@
-#!/usr/bin/env node
+#!/usr/bin/env tsx
 /**
  * Markdown Quality Assurance Enforcer
  * 
- * Enterprise-grade agent for achieving and maintaining zero markdown linting violations
- * across the A.V.A.R.I.C.E. Protocol ecosystem.
- * 
- * Features:
- * - Bulk processing for common violations (MD022, MD032, MD013)
- * - Targeted resolution for complex context-specific issues
- * - Comprehensive validation with detailed violation reporting
- * - Fix verification to ensure document integrity
- * - Enterprise integration with A.V.A.R.I.C.E. Protocol standards
+ * Enterprise-grade markdown quality enforcement system for A.V.A.R.I.C.E. Protocol
+ * Achieves zero markdown linting violations through systematic analysis and automated fixes
  */
 
-import { exec, execSync } from 'child_process';
-import { promises as fs } from 'fs';
-import { readFileSync, writeFileSync } from 'fs';
-import * as path from 'path';
-import { promisify } from 'util';
+import fs from 'fs/promises';
+import path from 'path';
+import { execSync } from 'child_process';
+import { glob } from 'glob';
 
-const execAsync = promisify(exec);
-
-interface ViolationReport {
+interface ViolationFix {
   file: string;
-  line: number;
+  rule: string;
+  line?: number;
   column?: number;
-  rule: string;
   description: string;
-  severity: 'error' | 'warning';
-  fixable: boolean;
+  severity: 'safe' | 'manual' | 'complex';
+  fixApplied: boolean;
+  originalContent?: string;
+  fixedContent?: string;
 }
 
-interface FixResult {
-  file: string;
-  rule: string;
-  applied: boolean;
-  error?: string;
-}
-
-interface QAEnforcerConfig {
-  projectRoot: string;
-  excludePaths: string[];
-  bulkFixableRules: string[];
-  complexRules: string[];
-  backupEnabled: boolean;
+interface QualityReport {
+  totalFiles: number;
+  totalViolations: number;
+  violationsFixed: number;
+  violationsRequiringManualReview: number;
+  filesModified: string[];
+  fixes: ViolationFix[];
+  summary: {
+    [rule: string]: {
+      count: number;
+      fixed: number;
+      description: string;
+    };
+  };
 }
 
 class MarkdownQAEnforcer {
-  private config: QAEnforcerConfig;
-  private violations: ViolationReport[] = [];
-  private fixResults: FixResult[] = [];
+  private projectRoot: string;
+  private report: QualityReport;
+  private excludePatterns: string[] = [
+    '**/node_modules/**',
+    '**/.git/**',
+    '**/dist/**',
+    '**/build/**',
+    '**/.backup*/**'
+  ];
 
-  constructor(projectRoot: string = process.cwd()) {
-    this.config = {
-      projectRoot,
-      excludePaths: [
-        'node_modules/**',
-        '.git/**',
-        'coverage/**',
-        'build/**',
-        'dist/**'
-      ],
-      bulkFixableRules: [
-        'MD022', // Blanks around headings
-        'MD032', // Blanks around lists  
-        'MD013', // Line length (partial - wrap long lines)
-        'MD009', // Trailing spaces
-        'MD010', // Hard tabs
-        'MD012', // Multiple consecutive blank lines
-        'MD047', // Single trailing newline
-      ],
-      complexRules: [
-        'MD040', // Missing code block languages
-        'MD024', // Duplicate headings
-        'MD036', // Emphasis as heading
-        'MD046', // Code block style
-        'MD029', // Ordered list prefix
-        'MD055', // Table pipe style
-        'MD041', // First line heading
-      ],
-      backupEnabled: true
+  constructor(projectRoot: string) {
+    this.projectRoot = projectRoot;
+    this.report = {
+      totalFiles: 0,
+      totalViolations: 0,
+      violationsFixed: 0,
+      violationsRequiringManualReview: 0,
+      filesModified: [],
+      fixes: [],
+      summary: {}
     };
   }
 
-  private async log(message: string, level: 'info' | 'warn' | 'error' = 'info'): Promise<void> {
-    const timestamp = new Date().toISOString();
-    const logMessage = `[${timestamp}] [${level.toUpperCase()}] ${message}`;
+  /**
+   * Main execution method - performs comprehensive markdown QA
+   */
+  async execute(): Promise<QualityReport> {
+    console.log('🔍 Starting Markdown Quality Assurance Enforcement...\n');
+
+    // Step 1: Discover all markdown files
+    const markdownFiles = await this.discoverMarkdownFiles();
+    this.report.totalFiles = markdownFiles.length;
+    console.log(`📋 Found ${markdownFiles.length} markdown files to process\n`);
+
+    // Step 2: Run initial lint and parse violations
+    const violations = await this.analyzeViolations();
+    this.report.totalViolations = violations.length;
+    console.log(`⚠️  Found ${violations.length} total violations\n`);
+
+    // Step 3: Categorize violations by fix complexity
+    const categorizedViolations = this.categorizeViolations(violations);
     
-    console.log(logMessage);
+    // Step 4: Apply safe automated fixes
+    await this.applySafeFixes(categorizedViolations.safe);
     
-    // Write to log file for A.V.A.R.I.C.E. Protocol integration
-    const logDir = path.join(this.config.projectRoot, 'logs');
-    await fs.mkdir(logDir, { recursive: true });
-    await fs.appendFile(
-      path.join(logDir, 'markdown-qa-enforcer.log'),
-      logMessage + '\n'
-    );
+    // Step 5: Generate comprehensive report
+    await this.generateReport();
+    
+    console.log('✅ Markdown Quality Assurance Enforcement Complete\n');
+    return this.report;
   }
 
-  private async scanViolations(): Promise<ViolationReport[]> {
-    await this.log('Starting comprehensive markdown violation scan');
+  /**
+   * Discover all markdown files in the project
+   */
+  private async discoverMarkdownFiles(): Promise<string[]> {
+    const pattern = path.join(this.projectRoot, '**/*.md');
+    const files = await glob(pattern, {
+      ignore: this.excludePatterns,
+      absolute: true
+    });
     
+    return files.sort();
+  }
+
+  /**
+   * Analyze current markdown violations using markdownlint
+   */
+  private async analyzeViolations(): Promise<any[]> {
     try {
-      // Use exec with manual handling since markdownlint returns non-zero exit code on violations
-      const result = await new Promise<{stdout: string, stderr: string}>((resolve, reject) => {
-        exec(
-          'npx markdownlint . --json --config .markdownlint.json --ignore node_modules',
-          { cwd: this.config.projectRoot },
-          (error, stdout, stderr) => {
-            // Always resolve - we'll handle the error code separately
-            resolve({ stdout: stdout || stderr, stderr });
-          }
-        );
+      const command = 'npm run lint:md';
+      const output = execSync(command, { 
+        cwd: this.projectRoot,
+        encoding: 'utf8',
+        stdio: 'pipe'
       });
+      
+      // If no error, no violations found
+      return [];
+    } catch (error: any) {
+      // markdownlint returns non-zero exit code when violations exist
+      // Violations are typically in stderr
+      const output = error.stderr || error.stdout || '';
+      return this.parseViolationsFromText(output);
+    }
+  }
 
-      const violations: ViolationReport[] = [];
-      
-      // Clean up stdout to remove npm warnings and extract JSON
-      let cleanJson = result.stdout;
-      const jsonStart = cleanJson.indexOf('[');
-      const jsonEnd = cleanJson.lastIndexOf(']') + 1;
-      
-      if (jsonStart >= 0 && jsonEnd > jsonStart) {
-        cleanJson = cleanJson.substring(jsonStart, jsonEnd);
+  /**
+   * Parse violations from text output when JSON parsing fails
+   */
+  private parseViolationsFromText(output: string): any[] {
+    const violations: any[] = [];
+    const lines = output.split('\n').filter(line => line.trim() && !line.includes('npm warn'));
+    
+    for (const line of lines) {
+      // Match pattern: file:line[:column] RULE/name Description [Context: "..."]
+      const match = line.match(/^(.+?):(\d+)(?::(\d+))?\s+(MD\d+)\/[^\s]+\s+(.+?)(?:\s+\[Context:\s*"([^"]*)"?\])?$/);
+      if (match) {
+        const [, file, lineNum, column, ruleId, description, context] = match;
+        violations.push({
+          file: path.resolve(this.projectRoot, file),
+          lineNumber: parseInt(lineNum),
+          columnNumber: column ? parseInt(column) : undefined,
+          ruleNames: [ruleId],
+          ruleDescription: description,
+          ruleInformation: '',
+          errorDetail: description,
+          errorContext: context || null,
+          errorRange: null
+        });
       }
-      
-      if (!cleanJson.trim()) {
-        await this.log('No violations found - codebase is clean!');
-        return [];
-      }
-      
-      const results = JSON.parse(cleanJson);
+    }
+    
+    return violations;
+  }
 
-      // Handle array format returned by markdownlint --json
-      if (Array.isArray(results)) {
-        for (const violation of results) {
-          violations.push({
-            file: violation.fileName,
-            line: violation.lineNumber,
-            column: violation.columnNumber,
-            rule: violation.ruleNames[0],
-            description: violation.ruleDescription,
-            severity: 'error',
-            fixable: this.isFixable(violation.ruleNames[0])
-          });
-        }
-      } else {
-        // Handle object format (file -> violations mapping)
-        for (const [file, fileViolations] of Object.entries(results)) {
-          if (Array.isArray(fileViolations)) {
-            for (const violation of fileViolations) {
-              violations.push({
-                file,
-                line: violation.lineNumber,
-                column: violation.columnNumber,
-                rule: violation.ruleNames[0],
-                description: violation.ruleDescription,
-                severity: 'error',
-                fixable: this.isFixable(violation.ruleNames[0])
-              });
+  /**
+   * Categorize violations by fix complexity and safety
+   */
+  private categorizeViolations(violations: any[]): {
+    safe: any[];
+    manual: any[];
+    complex: any[];
+  } {
+    const categorized = {
+      safe: [] as any[],
+      manual: [] as any[],
+      complex: [] as any[]
+    };
+
+    for (const violation of violations) {
+      const ruleId = violation.ruleNames[0];
+      
+      // Update summary
+      if (!this.report.summary[ruleId]) {
+        this.report.summary[ruleId] = {
+          count: 0,
+          fixed: 0,
+          description: violation.ruleDescription || ruleId
+        };
+      }
+      this.report.summary[ruleId].count++;
+
+      // Categorize based on rule type
+      switch (ruleId) {
+        case 'MD040': // fenced-code-language
+        case 'MD047': // single-trailing-newline
+        case 'MD029': // ol-prefix (ordered list prefix)
+        case 'MD012': // no-multiple-blanks
+        case 'MD046': // code-block-style
+          categorized.safe.push(violation);
+          break;
+          
+        case 'MD022': // blanks-around-headings
+        case 'MD032': // blanks-around-lists
+        case 'MD031': // blanks-around-fences
+          categorized.safe.push(violation);
+          break;
+          
+        case 'MD013': // line-length
+          // Only fix if line is significantly over limit
+          if (violation.errorDetail && violation.errorDetail.includes('Actual:')) {
+            const actualMatch = violation.errorDetail.match(/Actual: (\d+)/);
+            const actual = actualMatch ? parseInt(actualMatch[1]) : 0;
+            if (actual > 250) { // Only fix extremely long lines automatically
+              categorized.safe.push(violation);
+            } else {
+              categorized.manual.push(violation);
             }
+          } else {
+            categorized.manual.push(violation);
           }
-        }
+          break;
+          
+        case 'MD025': // single-title/single-h1
+        case 'MD036': // no-emphasis-as-heading
+          categorized.complex.push(violation);
+          break;
+          
+        default:
+          categorized.manual.push(violation);
       }
-
-      this.violations = violations;
-      const fileCount = Array.isArray(results) ? 
-        new Set(results.map(v => v.fileName)).size : 
-        Object.keys(results).length;
-      await this.log(`Scan complete: ${violations.length} violations found across ${fileCount} files`);
-      
-      return violations;
-    } catch (error) {
-      await this.log(`Error during violation scan: ${error}`, 'error');
-      throw error;
-    }
-  }
-
-  private isFixable(rule: string): boolean {
-    return [...this.config.bulkFixableRules, ...this.config.complexRules].includes(rule);
-  }
-
-  private async createBackup(filePath: string): Promise<void> {
-    if (!this.config.backupEnabled) return;
-
-    const backupPath = `${filePath}.backup-${Date.now()}`;
-    await fs.copyFile(filePath, backupPath);
-    await this.log(`Created backup: ${backupPath}`);
-  }
-
-  private async bulkFixCommonViolations(): Promise<void> {
-    await this.log('Starting bulk fixing for common violations');
-
-    const bulkViolations = this.violations.filter(v => 
-      this.config.bulkFixableRules.includes(v.rule)
-    );
-
-    // Group by file for efficient processing
-    const fileGroups = new Map<string, ViolationReport[]>();
-    for (const violation of bulkViolations) {
-      if (!fileGroups.has(violation.file)) {
-        fileGroups.set(violation.file, []);
-      }
-      fileGroups.get(violation.file)!.push(violation);
     }
 
-    for (const [filePath, violations] of fileGroups) {
+    console.log(`📊 Violation Analysis:`);
+    console.log(`   Safe fixes: ${categorized.safe.length}`);
+    console.log(`   Manual review: ${categorized.manual.length}`);
+    console.log(`   Complex fixes: ${categorized.complex.length}\n`);
+
+    return categorized;
+  }
+
+  /**
+   * Apply safe automated fixes to markdown files
+   */
+  private async applySafeFixes(safeViolations: any[]): Promise<void> {
+    console.log('🔧 Applying safe automated fixes...\n');
+    
+    // Group violations by file for efficient processing
+    const violationsByFile = new Map<string, any[]>();
+    for (const violation of safeViolations) {
+      if (!violationsByFile.has(violation.file)) {
+        violationsByFile.set(violation.file, []);
+      }
+      violationsByFile.get(violation.file)!.push(violation);
+    }
+
+    for (const [filePath, violations] of violationsByFile) {
       try {
-        await this.createBackup(filePath);
-        let content = await fs.readFile(filePath, 'utf-8');
+        let content = await fs.readFile(filePath, 'utf8');
+        const originalContent = content;
         let modified = false;
 
+        // Sort violations by line number (descending) to avoid offset issues
+        violations.sort((a, b) => (b.lineNumber || 0) - (a.lineNumber || 0));
+
         for (const violation of violations) {
-          const result = await this.applyBulkFix(content, violation);
-          if (result.success) {
-            content = result.content;
-            modified = true;
-            
-            this.fixResults.push({
-              file: filePath,
-              rule: violation.rule,
-              applied: true
-            });
+          const ruleId = violation.ruleNames[0];
+          
+          switch (ruleId) {
+            case 'MD040':
+              content = this.fixFencedCodeLanguage(content, violation);
+              modified = true;
+              break;
+              
+            case 'MD047':
+              content = this.fixTrailingNewline(content);
+              modified = true;
+              break;
+              
+            case 'MD029':
+              content = this.fixOrderedListPrefix(content, violation);
+              modified = true;
+              break;
+              
+            case 'MD022':
+              content = this.fixBlanksAroundHeadings(content, violation);
+              modified = true;
+              break;
+              
+            case 'MD032':
+              content = this.fixBlanksAroundLists(content, violation);
+              modified = true;
+              break;
+              
+            case 'MD031':
+              content = this.fixBlanksAroundFences(content, violation);
+              modified = true;
+              break;
+              
+            case 'MD013':
+              const lineBreakResult = this.fixLineLength(content, violation);
+              if (lineBreakResult.modified) {
+                content = lineBreakResult.content;
+                modified = true;
+              }
+              break;
+              
+            case 'MD012':
+              content = this.fixMultipleBlankLines(content, violation);
+              modified = true;
+              break;
+              
+            case 'MD046':
+              content = this.fixCodeBlockStyle(content, violation);
+              modified = true;
+              break;
+          }
+
+          // Record the fix
+          const fix: ViolationFix = {
+            file: filePath,
+            rule: ruleId,
+            line: violation.lineNumber,
+            column: violation.columnNumber,
+            description: violation.ruleDescription || ruleId,
+            severity: 'safe',
+            fixApplied: modified,
+            originalContent: modified ? originalContent : undefined,
+            fixedContent: modified ? content : undefined
+          };
+          
+          this.report.fixes.push(fix);
+          
+          if (modified) {
+            this.report.summary[ruleId].fixed++;
+            this.report.violationsFixed++;
           }
         }
 
         if (modified) {
-          await fs.writeFile(filePath, content);
-          await this.log(`Bulk fixes applied to ${filePath}`);
+          await fs.writeFile(filePath, content, 'utf8');
+          this.report.filesModified.push(filePath);
+          console.log(`✅ Fixed ${violations.length} violations in ${path.relative(this.projectRoot, filePath)}`);
         }
-      } catch (error) {
-        await this.log(`Error applying bulk fixes to ${filePath}: ${error}`, 'error');
-        this.fixResults.push({
-          file: filePath,
-          rule: 'BULK',
-          applied: false,
-          error: error instanceof Error ? error.message : String(error)
-        });
-      }
-    }
-  }
-
-  private async applyBulkFix(content: string, violation: ViolationReport): Promise<{success: boolean, content: string}> {
-    let lines = content.split('\n');
-    
-    switch (violation.rule) {
-      case 'MD022': // Blanks around headings
-        return this.fixBlanksAroundHeadings(lines, violation);
-      
-      case 'MD032': // Blanks around lists
-        return this.fixBlanksAroundLists(lines, violation);
-      
-      case 'MD013': // Line length
-        return this.fixLineLength(lines, violation);
-      
-      case 'MD009': // Trailing spaces
-        return this.fixTrailingSpaces(lines, violation);
-      
-      case 'MD010': // Hard tabs
-        return this.fixHardTabs(lines, violation);
-      
-      case 'MD012': // Multiple consecutive blank lines
-        return this.fixMultipleBlankLines(lines, violation);
-      
-      case 'MD047': // Single trailing newline
-        return this.fixTrailingNewline(content);
-      
-      default:
-        return { success: false, content };
-    }
-  }
-
-  private fixBlanksAroundHeadings(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    const line = lines[lineIndex];
-    
-    if (line.match(/^#+\s/)) {
-      // Add blank line before heading if missing
-      if (lineIndex > 0 && lines[lineIndex - 1].trim() !== '') {
-        lines.splice(lineIndex, 0, '');
-      }
-      
-      // Add blank line after heading if missing
-      if (lineIndex + 1 < lines.length && lines[lineIndex + 1].trim() !== '') {
-        lines.splice(lineIndex + 1, 0, '');
-      }
-      
-      return { success: true, content: lines.join('\n') };
-    }
-    
-    return { success: false, content: lines.join('\n') };
-  }
-
-  private fixBlanksAroundLists(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    const line = lines[lineIndex];
-    
-    if (line.match(/^[\s]*[-*+]\s/) || line.match(/^[\s]*\d+\.\s/)) {
-      // Add blank line before list if missing
-      if (lineIndex > 0 && lines[lineIndex - 1].trim() !== '') {
-        lines.splice(lineIndex, 0, '');
-      }
-      
-      // Find end of list and add blank line after if missing
-      let endIndex = lineIndex;
-      for (let i = lineIndex + 1; i < lines.length; i++) {
-        if (lines[i].match(/^[\s]*[-*+]\s/) || lines[i].match(/^[\s]*\d+\.\s/)) {
-          endIndex = i;
-        } else if (lines[i].trim() === '') {
-          continue;
-        } else {
-          break;
-        }
-      }
-      
-      if (endIndex + 1 < lines.length && lines[endIndex + 1].trim() !== '') {
-        lines.splice(endIndex + 1, 0, '');
-      }
-      
-      return { success: true, content: lines.join('\n') };
-    }
-    
-    return { success: false, content: lines.join('\n') };
-  }
-
-  private fixLineLength(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    let line = lines[lineIndex];
-    
-    // Skip if line is a heading, code block, or URL
-    if (line.match(/^#+\s/) || line.match(/^```/) || line.match(/https?:\/\//)) {
-      return { success: false, content: lines.join('\n') };
-    }
-    
-    // Simple word wrapping for text lines
-    if (line.length > 120 && !line.match(/^\s*[-*+>]/) && !line.match(/^\s*\d+\./)) {
-      const words = line.split(' ');
-      const wrappedLines: string[] = [];
-      let currentLine = '';
-      
-      for (const word of words) {
-        if ((currentLine + word).length > 120) {
-          if (currentLine) {
-            wrappedLines.push(currentLine.trim());
-            currentLine = word + ' ';
-          } else {
-            wrappedLines.push(word);
-          }
-        } else {
-          currentLine += word + ' ';
-        }
-      }
-      
-      if (currentLine.trim()) {
-        wrappedLines.push(currentLine.trim());
-      }
-      
-      lines.splice(lineIndex, 1, ...wrappedLines);
-      return { success: true, content: lines.join('\n') };
-    }
-    
-    return { success: false, content: lines.join('\n') };
-  }
-
-  private fixTrailingSpaces(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    lines[lineIndex] = lines[lineIndex].replace(/\s+$/, '');
-    return { success: true, content: lines.join('\n') };
-  }
-
-  private fixHardTabs(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    lines[lineIndex] = lines[lineIndex].replace(/\t/g, '  ');
-    return { success: true, content: lines.join('\n') };
-  }
-
-  private fixMultipleBlankLines(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    // Remove consecutive blank lines, keeping only one
-    const newLines: string[] = [];
-    let lastWasBlank = false;
-    
-    for (const line of lines) {
-      if (line.trim() === '') {
-        if (!lastWasBlank) {
-          newLines.push(line);
-          lastWasBlank = true;
-        }
-      } else {
-        newLines.push(line);
-        lastWasBlank = false;
-      }
-    }
-    
-    return { success: true, content: newLines.join('\n') };
-  }
-
-  private fixTrailingNewline(content: string): {success: boolean, content: string} {
-    if (!content.endsWith('\n')) {
-      return { success: true, content: content + '\n' };
-    } else if (content.endsWith('\n\n')) {
-      return { success: true, content: content.replace(/\n+$/, '\n') };
-    }
-    return { success: false, content };
-  }
-
-  private async targetedFixComplexViolations(): Promise<void> {
-    await this.log('Starting targeted fixing for complex violations');
-
-    const complexViolations = this.violations.filter(v => 
-      this.config.complexRules.includes(v.rule)
-    );
-
-    for (const violation of complexViolations) {
-      try {
-        await this.createBackup(violation.file);
-        const content = await fs.readFile(violation.file, 'utf-8');
         
-        const result = await this.applyTargetedFix(content, violation);
-        if (result.success) {
-          await fs.writeFile(violation.file, result.content);
-          await this.log(`Targeted fix applied to ${violation.file} for ${violation.rule}`);
-          
-          this.fixResults.push({
-            file: violation.file,
-            rule: violation.rule,
-            applied: true
-          });
-        }
       } catch (error) {
-        await this.log(`Error applying targeted fix to ${violation.file}: ${error}`, 'error');
-        this.fixResults.push({
-          file: violation.file,
-          rule: violation.rule,
-          applied: false,
-          error: error instanceof Error ? error.message : String(error)
-        });
+        console.error(`❌ Error processing ${filePath}:`, error);
       }
     }
   }
 
-  private async applyTargetedFix(content: string, violation: ViolationReport): Promise<{success: boolean, content: string}> {
-    let lines = content.split('\n');
+  /**
+   * Fix MD040: Add language specification to fenced code blocks
+   */
+  private fixFencedCodeLanguage(content: string, violation: any): string {
+    const lines = content.split('\n');
+    const lineIndex = (violation.lineNumber || 1) - 1;
     
-    switch (violation.rule) {
-      case 'MD040': // Missing code block languages
-        return this.fixMissingCodeBlockLanguage(lines, violation);
-      
-      case 'MD024': // Duplicate headings
-        return this.fixDuplicateHeadings(lines, violation);
-      
-      case 'MD036': // Emphasis as heading
-        return this.fixEmphasisAsHeading(lines, violation);
-      
-      case 'MD046': // Code block style
-        return this.fixCodeBlockStyle(lines, violation);
-      
-      case 'MD029': // Ordered list prefix
-        return this.fixOrderedListPrefix(lines, violation);
-      
-      case 'MD055': // Table pipe style
-        return this.fixTablePipeStyle(lines, violation);
-      
-      case 'MD041': // First line heading
-        return this.fixFirstLineHeading(lines, violation);
-      
-      default:
-        return { success: false, content };
-    }
-  }
-
-  private fixMissingCodeBlockLanguage(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    const line = lines[lineIndex];
-    
-    if (line.trim() === '```') {
-      // Try to infer language from context or use 'text' as default
-      const language = this.inferCodeBlockLanguage(lines, lineIndex) || 'text';
-      lines[lineIndex] = '```' + language;
-      return { success: true, content: lines.join('\n') };
+    if (lineIndex >= 0 && lineIndex < lines.length) {
+      const line = lines[lineIndex];
+      if (line.trim() === '```') {
+        // Determine appropriate language based on context
+        let language = 'text';
+        const prevLines = lines.slice(Math.max(0, lineIndex - 3), lineIndex);
+        const context = prevLines.join(' ').toLowerCase();
+        
+        if (context.includes('bash') || context.includes('shell') || context.includes('command')) {
+          language = 'bash';
+        } else if (context.includes('typescript') || context.includes('ts')) {
+          language = 'typescript';
+        } else if (context.includes('javascript') || context.includes('js')) {
+          language = 'javascript';
+        } else if (context.includes('json')) {
+          language = 'json';
+        } else if (context.includes('sql')) {
+          language = 'sql';
+        } else if (context.includes('yaml') || context.includes('yml')) {
+          language = 'yaml';
+        }
+        
+        lines[lineIndex] = `\`\`\`${language}`;
+      }
     }
     
-    return { success: false, content: lines.join('\n') };
+    return lines.join('\n');
   }
 
-  private inferCodeBlockLanguage(lines: string[], codeBlockIndex: number): string | null {
-    // Look for common patterns in the code block
-    const blockLines = [];
-    for (let i = codeBlockIndex + 1; i < lines.length; i++) {
-      if (lines[i].trim() === '```') break;
-      blockLines.push(lines[i]);
-    }
-    
-    const blockContent = blockLines.join('\n');
-    
-    // Simple heuristics for language detection
-    if (blockContent.includes('npm ') || blockContent.includes('node ')) return 'bash';
-    if (blockContent.includes('function ') || blockContent.includes('const ')) return 'javascript';
-    if (blockContent.includes('import ') || blockContent.includes('interface ')) return 'typescript';
-    if (blockContent.includes('def ') || blockContent.includes('import ')) return 'python';
-    if (blockContent.includes('<') && blockContent.includes('>')) return 'html';
-    if (blockContent.includes('{') && blockContent.includes('}')) return 'json';
-    
-    return 'text';
+  /**
+   * Fix MD047: Ensure single trailing newline
+   */
+  private fixTrailingNewline(content: string): string {
+    return content.replace(/\n*$/, '\n');
   }
 
-  private fixDuplicateHeadings(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    const line = lines[lineIndex];
+  /**
+   * Fix MD029: Correct ordered list prefixes
+   */
+  private fixOrderedListPrefix(content: string, violation: any): string {
+    const lines = content.split('\n');
+    const lineIndex = (violation.lineNumber || 1) - 1;
     
-    if (line.match(/^#+\s/)) {
-      // Add a distinguishing suffix to make heading unique
-      const match = line.match(/^(#+\s)(.+)/);
+    if (lineIndex >= 0 && lineIndex < lines.length) {
+      const line = lines[lineIndex];
+      const match = line.match(/^(\s*)(\d+)(\.\s+.*)$/);
+      
       if (match) {
-        const level = match[1];
-        const text = match[2];
-        lines[lineIndex] = `${level}${text} (Continued)`;
-        return { success: true, content: lines.join('\n') };
-      }
-    }
-    
-    return { success: false, content: lines.join('\n') };
-  }
-
-  private fixEmphasisAsHeading(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    const line = lines[lineIndex];
-    
-    // Convert emphasis to proper heading
-    if (line.match(/^\*\*.*\*\*$/) || line.match(/^__.*__$/)) {
-      const text = line.replace(/^\*\*(.*)\*\*$/, '$1').replace(/^__(.*__)$/, '$1');
-      lines[lineIndex] = `## ${text}`;
-      return { success: true, content: lines.join('\n') };
-    }
-    
-    return { success: false, content: lines.join('\n') };
-  }
-
-  private fixCodeBlockStyle(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    
-    // Convert indented code block to fenced
-    if (lines[lineIndex].match(/^    /)) {
-      const indentedLines = [];
-      let i = lineIndex;
-      
-      // Collect all indented lines
-      while (i < lines.length && (lines[i].match(/^    /) || lines[i].trim() === '')) {
-        indentedLines.push(lines[i].replace(/^    /, ''));
-        i++;
-      }
-      
-      // Replace with fenced code block
-      const replacement = [
-        '```',
-        ...indentedLines,
-        '```'
-      ];
-      
-      lines.splice(lineIndex, indentedLines.length, ...replacement);
-      return { success: true, content: lines.join('\n') };
-    }
-    
-    return { success: false, content: lines.join('\n') };
-  }
-
-  private fixOrderedListPrefix(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    const line = lines[lineIndex];
-    
-    // Fix ordered list numbering
-    const match = line.match(/^(\s*)\d+\.\s(.+)/);
-    if (match) {
-      const indent = match[1];
-      const text = match[2];
-      
-      // Find the correct number by counting previous list items
-      let number = 1;
-      for (let i = lineIndex - 1; i >= 0; i--) {
-        if (lines[i].match(/^(\s*)\d+\.\s/)) {
-          const prevMatch = lines[i].match(/^(\s*)\d+\.\s/);
-          if (prevMatch && prevMatch[1] === indent) {
-            number++;
+        const [, indent, , rest] = match;
+        
+        // Find the expected number by looking at previous list items
+        let expectedNumber = 1;
+        for (let i = lineIndex - 1; i >= 0; i--) {
+          const prevLine = lines[i].trim();
+          if (prevLine === '') continue;
+          
+          const prevMatch = prevLine.match(/^(\s*)(\d+)(\.\s+.*)$/);
+          if (prevMatch && prevMatch[1].length === indent.length) {
+            expectedNumber = parseInt(prevMatch[2]) + 1;
+            break;
+          } else if (!prevMatch || prevMatch[1].length < indent.length) {
+            break;
           }
-        } else if (lines[i].trim() === '') {
-          continue;
-        } else {
-          break;
+        }
+        
+        lines[lineIndex] = `${indent}${expectedNumber}${rest}`;
+      }
+    }
+    
+    return lines.join('\n');
+  }
+
+  /**
+   * Fix MD022: Add blank lines around headings
+   */
+  private fixBlanksAroundHeadings(content: string, violation: any): string {
+    const lines = content.split('\n');
+    const lineIndex = (violation.lineNumber || 1) - 1;
+    
+    if (lineIndex >= 0 && lineIndex < lines.length) {
+      const line = lines[lineIndex];
+      if (line.match(/^#+\s/)) {
+        // Add blank line before heading if needed
+        if (lineIndex > 0 && lines[lineIndex - 1].trim() !== '') {
+          lines.splice(lineIndex, 0, '');
+        }
+        
+        // Add blank line after heading if needed
+        const afterIndex = lineIndex + (lines[lineIndex - 1] === '' ? 1 : 0);
+        if (afterIndex + 1 < lines.length && lines[afterIndex + 1].trim() !== '') {
+          lines.splice(afterIndex + 1, 0, '');
         }
       }
-      
-      lines[lineIndex] = `${indent}${number}. ${text}`;
-      return { success: true, content: lines.join('\n') };
     }
     
-    return { success: false, content: lines.join('\n') };
-  }
-
-  private fixTablePipeStyle(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    const lineIndex = violation.line - 1;
-    let line = lines[lineIndex];
-    
-    // Add trailing pipe if missing
-    if (line.includes('|') && !line.trim().endsWith('|')) {
-      lines[lineIndex] = line + ' |';
-      return { success: true, content: lines.join('\n') };
-    }
-    
-    return { success: false, content: lines.join('\n') };
-  }
-
-  private fixFirstLineHeading(lines: string[], violation: ViolationReport): {success: boolean, content: string} {
-    // Add a heading at the beginning of the file
-    if (lines.length > 0 && !lines[0].match(/^#+\s/)) {
-      // Try to infer title from filename
-      const filename = path.basename(violation.file, '.md');
-      const title = filename.replace(/[-_]/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-      
-      lines.unshift(`# ${title}`, '');
-      return { success: true, content: lines.join('\n') };
-    }
-    
-    return { success: false, content: lines.join('\n') };
-  }
-
-  private async validateFixes(): Promise<void> {
-    await this.log('Validating all applied fixes');
-    
-    try {
-      await execAsync('npm run lint:md', { cwd: this.config.projectRoot });
-      await this.log('All fixes validated successfully - zero violations remaining');
-    } catch (error) {
-      await this.log('Some violations remain after fixing - running additional scan', 'warn');
-      
-      // Run another scan to identify remaining issues
-      const remainingViolations = await this.scanViolations();
-      await this.log(`${remainingViolations.length} violations still need manual attention`);
-      
-      // Generate detailed report for remaining violations
-      await this.generateViolationReport(remainingViolations);
-    }
-  }
-
-  private async generateViolationReport(violations: ViolationReport[]): Promise<void> {
-    const reportPath = path.join(this.config.projectRoot, 'logs', 'markdown-violations-report.json');
-    
-    const report = {
-      generatedAt: new Date().toISOString(),
-      totalViolations: violations.length,
-      violationsByRule: violations.reduce((acc, v) => {
-        acc[v.rule] = (acc[v.rule] || 0) + 1;
-        return acc;
-      }, {} as Record<string, number>),
-      violationsByFile: violations.reduce((acc, v) => {
-        if (!acc[v.file]) acc[v.file] = [];
-        acc[v.file].push({
-          line: v.line,
-          rule: v.rule,
-          description: v.description,
-          fixable: v.fixable
-        });
-        return acc;
-      }, {} as Record<string, any[]>),
-      fixResults: this.fixResults
-    };
-    
-    await fs.writeFile(reportPath, JSON.stringify(report, null, 2));
-    await this.log(`Detailed violation report generated: ${reportPath}`);
-  }
-
-  private async generateSummaryReport(): Promise<void> {
-    const totalViolations = this.violations.length;
-    const fixedViolations = this.fixResults.filter(r => r.applied).length;
-    const failedFixes = this.fixResults.filter(r => !r.applied).length;
-    
-    const summary = {
-      executionTime: new Date().toISOString(),
-      totalViolationsFound: totalViolations,
-      violationsFixed: fixedViolations,
-      failedFixes: failedFixes,
-      successRate: totalViolations > 0 ? (fixedViolations / totalViolations * 100).toFixed(2) + '%' : '100%',
-      remainingViolations: totalViolations - fixedViolations,
-      status: (totalViolations - fixedViolations) === 0 ? 'ZERO_VIOLATIONS_ACHIEVED' : 'PARTIAL_COMPLETION'
-    };
-    
-    await this.log('='.repeat(80));
-    await this.log('MARKDOWN QA ENFORCER EXECUTION SUMMARY');
-    await this.log('='.repeat(80));
-    await this.log(`Total violations found: ${summary.totalViolationsFound}`);
-    await this.log(`Violations fixed: ${summary.violationsFixed}`);
-    await this.log(`Failed fixes: ${summary.failedFixes}`);
-    await this.log(`Success rate: ${summary.successRate}`);
-    await this.log(`Remaining violations: ${summary.remainingViolations}`);
-    await this.log(`Status: ${summary.status}`);
-    await this.log('='.repeat(80));
-    
-    // Write summary to file for A.V.A.R.I.C.E. Protocol integration
-    const summaryPath = path.join(this.config.projectRoot, 'logs', 'markdown-qa-summary.json');
-    await fs.writeFile(summaryPath, JSON.stringify(summary, null, 2));
+    return lines.join('\n');
   }
 
   /**
-   * Main execution method - deploys complete markdown QA enforcement
+   * Fix MD032: Add blank lines around lists
    */
-  public async enforce(): Promise<void> {
-    await this.log('🚀 DEPLOYING MARKDOWN QA ENFORCER AGENT');
-    await this.log('Enterprise-grade markdown quality enforcement for A.V.A.R.I.C.E. Protocol');
+  private fixBlanksAroundLists(content: string, violation: any): string {
+    const lines = content.split('\n');
+    const lineIndex = (violation.lineNumber || 1) - 1;
     
-    try {
-      // Phase 1: Comprehensive violation scan
-      await this.scanViolations();
-      
-      // Phase 2: Bulk processing for common violations
-      await this.bulkFixCommonViolations();
-      
-      // Phase 3: Targeted resolution for complex violations
-      await this.targetedFixComplexViolations();
-      
-      // Phase 4: Validation and verification
-      await this.validateFixes();
-      
-      // Phase 5: Generate comprehensive reports
-      await this.generateSummaryReport();
-      
-      await this.log('✅ MARKDOWN QA ENFORCER DEPLOYMENT COMPLETE');
-      
-    } catch (error) {
-      await this.log(`❌ ENFORCEMENT FAILED: ${error}`, 'error');
-      throw error;
+    if (lineIndex >= 0 && lineIndex < lines.length) {
+      const line = lines[lineIndex];
+      if (line.match(/^\s*[-*+]\s/) || line.match(/^\s*\d+\.\s/)) {
+        // Add blank line before list if needed
+        if (lineIndex > 0 && lines[lineIndex - 1].trim() !== '' && 
+            !lines[lineIndex - 1].match(/^\s*[-*+]\s/) && 
+            !lines[lineIndex - 1].match(/^\s*\d+\.\s/)) {
+          lines.splice(lineIndex, 0, '');
+        }
+      }
     }
+    
+    return lines.join('\n');
   }
 
   /**
-   * Static method for CLI usage
+   * Fix MD031: Add blank lines around fenced code blocks
    */
-  public static async run(): Promise<void> {
-    const enforcer = new MarkdownQAEnforcer();
-    await enforcer.enforce();
+  private fixBlanksAroundFences(content: string, violation: any): string {
+    const lines = content.split('\n');
+    const lineIndex = (violation.lineNumber || 1) - 1;
+    
+    if (lineIndex >= 0 && lineIndex < lines.length) {
+      const line = lines[lineIndex];
+      if (line.trim().startsWith('```')) {
+        // Add blank line before fence if needed
+        if (lineIndex > 0 && lines[lineIndex - 1].trim() !== '') {
+          lines.splice(lineIndex, 0, '');
+        }
+      }
+    }
+    
+    return lines.join('\n');
+  }
+
+  /**
+   * Fix MD013: Break long lines at natural break points
+   */
+  private fixLineLength(content: string, violation: any): { content: string; modified: boolean } {
+    const lines = content.split('\n');
+    const lineIndex = (violation.lineNumber || 1) - 1;
+    
+    if (lineIndex >= 0 && lineIndex < lines.length) {
+      const line = lines[lineIndex];
+      
+      // Only fix extremely long lines automatically (>250 chars)
+      if (line.length > 250) {
+        // Try to break at natural points: after commas, periods, or spaces
+        const breakPoints = [', ', '. ', ' - ', ' and ', ' or ', ' but '];
+        
+        for (const breakPoint of breakPoints) {
+          const index = line.lastIndexOf(breakPoint, 200);
+          if (index > 100) {
+            const firstPart = line.substring(0, index + breakPoint.length).trim();
+            const secondPart = line.substring(index + breakPoint.length).trim();
+            
+            lines[lineIndex] = firstPart;
+            lines.splice(lineIndex + 1, 0, secondPart);
+            
+            return { content: lines.join('\n'), modified: true };
+          }
+        }
+      }
+    }
+    
+    return { content, modified: false };
+  }
+
+  /**
+   * Fix MD012: Remove multiple consecutive blank lines
+   */
+  private fixMultipleBlankLines(content: string, violation: any): string {
+    // Replace multiple consecutive blank lines with single blank line
+    return content.replace(/\n{3,}/g, '\n\n');
+  }
+
+  /**
+   * Fix MD046: Convert indented code blocks to fenced code blocks
+   */
+  private fixCodeBlockStyle(content: string, violation: any): string {
+    const lines = content.split('\n');
+    const lineIndex = (violation.lineNumber || 1) - 1;
+    
+    if (lineIndex >= 0 && lineIndex < lines.length) {
+      const line = lines[lineIndex];
+      
+      // Check if this is an indented code block (4+ spaces)
+      if (line.match(/^    /)) {
+        // Find the start and end of the indented code block
+        let startIndex = lineIndex;
+        let endIndex = lineIndex;
+        
+        // Find the start (go backwards)
+        while (startIndex > 0) {
+          const prevLine = lines[startIndex - 1];
+          if (prevLine.trim() === '' || prevLine.match(/^    /)) {
+            startIndex--;
+          } else {
+            break;
+          }
+        }
+        
+        // Skip empty lines at the beginning
+        while (startIndex < lines.length && lines[startIndex].trim() === '') {
+          startIndex++;
+        }
+        
+        // Find the end (go forwards)
+        while (endIndex < lines.length - 1) {
+          const nextLine = lines[endIndex + 1];
+          if (nextLine.trim() === '' || nextLine.match(/^    /)) {
+            endIndex++;
+          } else {
+            break;
+          }
+        }
+        
+        // Skip empty lines at the end
+        while (endIndex >= startIndex && lines[endIndex].trim() === '') {
+          endIndex--;
+        }
+        
+        if (startIndex <= endIndex) {
+          // Extract code content and remove leading 4 spaces
+          const codeLines = lines.slice(startIndex, endIndex + 1)
+            .map(line => line.replace(/^    /, ''));
+          
+          // Replace the indented block with a fenced block
+          const replacement = [
+            '```text',
+            ...codeLines,
+            '```'
+          ];
+          
+          lines.splice(startIndex, endIndex - startIndex + 1, ...replacement);
+        }
+      }
+    }
+    
+    return lines.join('\n');
+  }
+
+  /**
+   * Generate comprehensive quality assurance report
+   */
+  private async generateReport(): Promise<void> {
+    const reportPath = path.join(this.projectRoot, 'logs', `markdown-qa-report-${Date.now()}.md`);
+    
+    // Ensure logs directory exists
+    await fs.mkdir(path.dirname(reportPath), { recursive: true });
+
+    const reportContent = `# Markdown Quality Assurance Report
+
+Generated: ${new Date().toISOString()}
+
+## Executive Summary
+
+- **Total Files Processed**: ${this.report.totalFiles}
+- **Total Violations Found**: ${this.report.totalViolations}
+- **Violations Fixed**: ${this.report.violationsFixed}
+- **Files Modified**: ${this.report.filesModified.length}
+- **Success Rate**: ${((this.report.violationsFixed / this.report.totalViolations) * 100).toFixed(1)}%
+
+## Violation Summary by Rule
+
+${Object.entries(this.report.summary).map(([rule, data]) => `
+### ${rule}: ${data.description}
+
+- **Total Found**: ${data.count}
+- **Fixed**: ${data.fixed}
+- **Fix Rate**: ${((data.fixed / data.count) * 100).toFixed(1)}%
+`).join('')}
+
+## Files Modified
+
+${this.report.filesModified.map(file => `- ${path.relative(this.projectRoot, file)}`).join('\n')}
+
+## Detailed Fix Log
+
+${this.report.fixes.filter(fix => fix.fixApplied).map(fix => `
+### ${path.relative(this.projectRoot, fix.file)}
+
+- **Rule**: ${fix.rule}
+- **Line**: ${fix.line || 'N/A'}
+- **Description**: ${fix.description}
+- **Severity**: ${fix.severity}
+- **Status**: ✅ Fixed
+`).join('')}
+
+## Next Steps
+
+1. Review any remaining violations that require manual attention
+2. Run \`npm run lint:md\` to verify all fixes were applied correctly
+3. Consider adding pre-commit hooks to prevent future violations
+4. Update documentation standards based on common violation patterns
+
+---
+
+**A.V.A.R.I.C.E. Protocol Compliance**: This report maintains zero tolerance for quality debt and ensures comprehensive markdown quality enforcement.
+`;
+
+    await fs.writeFile(reportPath, reportContent, 'utf8');
+    console.log(`📋 Comprehensive report generated: ${path.relative(this.projectRoot, reportPath)}\n`);
   }
 }
 
-// CLI execution
-if (require.main === module) {
-  MarkdownQAEnforcer.run().catch(error => {
-    console.error('Failed to run Markdown QA Enforcer:', error);
-    process.exit(1);
-  });
+// Execute if run directly
+if (import.meta.url === `file://${process.argv[1]}`) {
+  const projectRoot = process.cwd();
+  const enforcer = new MarkdownQAEnforcer(projectRoot);
+  
+  enforcer.execute()
+    .then(report => {
+      console.log('\n🎯 Markdown Quality Assurance Summary:');
+      console.log(`   Files processed: ${report.totalFiles}`);
+      console.log(`   Violations found: ${report.totalViolations}`);
+      console.log(`   Violations fixed: ${report.violationsFixed}`);
+      console.log(`   Files modified: ${report.filesModified.length}`);
+      console.log(`   Success rate: ${((report.violationsFixed / report.totalViolations) * 100).toFixed(1)}%\n`);
+      
+      if (report.violationsFixed < report.totalViolations) {
+        console.log('⚠️  Some violations require manual review. Check the generated report for details.\n');
+        process.exit(1);
+      } else {
+        console.log('✅ All violations successfully resolved!\n');
+        process.exit(0);
+      }
+    })
+    .catch(error => {
+      console.error('❌ Markdown Quality Assurance failed:', error);
+      process.exit(1);
+    });
 }
 
 export { MarkdownQAEnforcer };

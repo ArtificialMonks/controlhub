@@ -1,95 +1,38 @@
 // src/lib/index.ts
-// Comprehensive barrel export for all lib modules
+// Focused domain-based exports
 
-// Core utilities and configurations
-export * from './utils'
-export * from './config'
-export * from './dal'
+// Core utilities, configuration, and types
+export * from './core'
 
-// Performance monitoring
-export * from './performance-optimization'
-export * from './performance-monitor'
-export * from './advanced-monitoring'
+// Data layer: repositories, services, and stores
+export * from './data'
 
-// Services
-export * from './services/automation-service'
-export * from './services/n8n-webhook-service'
-export * from './services/audit-logger'
-export * from './services/server-automation-service'
-
-// Security
-export * from './security/encryption'
-export * from './security/filterSecurity'
-
-// Stores
-export * from './stores/auth-store'
-export * from './stores/automation-store'
-export * from './stores/app-store'
-
-// Repositories
-export * from './repositories/automation-repository'
-
-// Hooks
-export * from './hooks/useAutomations'
-
-// Data
-export { mockClients as libMockClients } from './data/mock-clients'
+// Infrastructure: monitoring, security, and performance (selective exports to avoid conflicts)
 export {
-  mockClients,
-  mockProfiles,
-  mockAutomations,
-  mockAutomationRuns,
-  getAutomationsWithClients,
-  formatDuration,
-  formatLastRun,
-  getAutomationsByStatus
-} from './data/mock-automations'
+  logger,
+  LogLevel,
+  Logger as InfraLogger,
+  MetricsCollector,
+  PerformanceMonitor as InfraPerformanceMonitor
+} from './infrastructure'
 
-// Utilities
-export { formatDate, formatDateTime, getRelativeTime } from './utils/date-formatting'
+// External integrations
+export * from './integrations'
 
-// Monitoring and logging
-export { logger, LogLevel, Logger, MetricsCollector, PerformanceMonitor } from './monitoring/logger'
-export { createProductionLogger, initializeProductionMonitoring, monitorApiEndpoint, monitorDatabaseQuery, productionLoggingConfig } from './monitoring/production-setup'
-
-// Quality and testing
-export * from './quality/mutationTesting'
-export * from './quality/codeQualityMonitor'
-
-// Architecture
-export * from './architecture/designPatternValidator'
-
-// Accessibility
+// Remaining modules (to be organized)
+export * from './hooks/useAutomations'
+export * from './actions/auth'
 export * from './accessibility/wcagAudit'
 export * from './accessibility/accessibilityFixes'
-
-// Memory and knowledge
 export * from './memory/knowledgeMemorization'
-
-// Integration
 export * from './integration/integrationValidator'
-
-// Deployment
 export * from './deployment/rollbackManager'
-
-// Protocol
-export * from './protocol/avariceProtocolValidator'
-
-// Performance
-export * from './performance/filterBenchmarks'
-export * from './performance/webhook-performance-monitor'
-
-// Mobile
 export * from './mobile/mobileValidation'
-
-// Middleware
 export * from './middleware/error-handler'
-
-// Verification
 export * from './verification/formalVerification'
-
-// Termination
 export * from './termination/autonomousTermination'
+export * from './animations/sidebar-animations'
 
-// Supabase
-export * from './supabase/client'
+// Development tools (only in development)
+// Note: These should be imported directly when needed, not through this barrel
+// export * from './development'

@@ -6,11 +6,15 @@ type: "always_apply"
 
 ## 🎯 **EXECUTIVE SUMMARY**
 
-Comprehensive prevention rules derived from resolving **82 TypeScript errors** (100% resolution rate) and **comprehensive markdown quality analysis of 1,664 files**. Prevents recurrence of compilation errors, interface compatibility issues, property access violations, and documentation quality issues.
+Comprehensive prevention rules derived from resolving **82 TypeScript errors** (100% resolution rate) and
+**comprehensive markdown quality analysis of 1,664 files**. Prevents recurrence of compilation errors, interface
+compatibility issues, property access violations, and documentation quality issues.
 
 **Prevention Categories:**
-- **TypeScript & Code Quality**: Interface compatibility, configuration mapping, property access, Neo4j integration, error handling
-- **Markdown Quality**: 7 critical violation types (PR-001 to PR-007), spelling errors, A.V.A.R.I.C.E. Protocol documentation standards
+- **TypeScript & Code Quality**: Interface compatibility, configuration mapping, property access, Neo4j integration,
+error handling
+- **Markdown Quality**: 7 critical violation types (PR-001 to PR-007), spelling errors, A.V.A.R.I.C.E. Protocol
+documentation standards
 - **Agent Integration**: Phase-specific validation requirements, quality gate enforcement, evidence collection standards
 
 ---
@@ -75,10 +79,13 @@ Comprehensive prevention rules derived from resolving **82 TypeScript errors** (
 - **Solution**: Blank line before and after code blocks
 - **Pattern**: `Text\n\n```typescript\ncode\n```\n\nText`
 
-**Rule PR-005: Line Length (MD013)**
-- **Error**: `MD013/line-length Line length [Expected: 120; Actual: XXX]`
-- **Solution**: Keep lines under 120 characters
-- **Pattern**: Break long lines naturally
+**Rule PR-005: Tiered Line Length System (MD013)**
+- **Optimal Target**: 222 characters per line (recommended for readability)
+- **Maximum Allowed**: 444 characters per line (standard compliance)
+- **Exceptional Cases**: Up to 999 characters (only for highly complex, sophisticated files)
+- **Error**: `MD013/line-length Line length [Expected: 222; Actual: XXX]`
+- **Solution**: Use tiered approach - aim for 222, allow up to 444, exceptional cases up to 999
+- **Pattern**: Break long lines naturally at logical points, prioritize readability
 
 **Rule PR-006: Code Language Specification (MD040)**
 - **Error**: `MD040/fenced-code-language Fenced code blocks should have a language specified`
@@ -117,21 +124,27 @@ Comprehensive prevention rules derived from resolving **82 TypeScript errors** (
 
 ### **Quality Gate Enforcement**
 
-**Mandatory Validation Commands:**
+### Mandatory Validation Commands:
+
 ```bash
-# TypeScript validation
+
+## TypeScript validation
+
 npx tsc --noEmit --strict
 npm run lint:fix
 
-# Markdown validation  
+## Markdown validation  
+
 npm run validate:markdown-quality
 npm run lint:md:avarice
 npm run validate:avarice-docs
 npm run spell:avarice
 
-# Evidence validation
+## Evidence validation
+
 npm run validate:evidence
-```
+
+```text
 
 **Quality Gate Thresholds:**
 - **TypeScript Compilation**: 0 errors, 0 warnings
@@ -199,7 +212,8 @@ npm run validate:evidence
 
 ## 🎯 **CONCLUSION**
 
-These prevention rules ensure **zero tolerance for quality violations** across TypeScript code and markdown documentation in the A.V.A.R.I.C.E. Protocol. Implementation prevents:
+These prevention rules ensure **zero tolerance for quality violations** across TypeScript code and markdown
+documentation in the A.V.A.R.I.C.E. Protocol. Implementation prevents:
 
 **TypeScript & Code Quality:**
 - ✅ **82 TypeScript compilation errors** → 0 errors
@@ -213,4 +227,5 @@ These prevention rules ensure **zero tolerance for quality violations** across T
 - ✅ **A.V.A.R.I.C.E. Protocol documentation** → Phase-specific quality standards
 - ✅ **Evidence collection quality** → Institutional memory preservation
 
-**Enforcement**: Mandatory integration into all 9 A.V.A.R.I.C.E. Protocol phases with automated validation and zero-tolerance quality gates.
+**Enforcement**: Mandatory integration into all 9 A.V.A.R.I.C.E. Protocol phases with automated validation and
+zero-tolerance quality gates.

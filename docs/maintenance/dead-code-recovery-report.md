@@ -30,17 +30,18 @@ preserving essential infrastructure and A.V.A.R.I.C.E. Protocol components.
 #### **Added Missing Dependencies**
 
 ```bash
-npm install --save-dev @typescript-eslint/parser @typescript-eslint/eslint-plugin playwright glob postcss-load-config eslint-config-next
-```
+npm install --save-dev @typescript-eslint/parser @typescript-eslint/eslint-plugin playwright glob postcss-load-config
+eslint-config-next
 
+```text
 **Rationale**: These dependencies were being used but not declared, causing potential build issues.
 
 #### **Removed Unused Dependencies**
 
 ```bash
 npm uninstall web-vitals @tailwindcss/postcss @types/jest markdownlint-cli2
-```
 
+```text
 **Rationale**: These packages were installed but not actually used in the codebase.
 
 #### **Preserved Essential Dependencies**
@@ -60,7 +61,8 @@ npm uninstall web-vitals @tailwindcss/postcss @types/jest markdownlint-cli2
 ✅ scripts/test-supabase-connection.ts - Test script (unused)
 ✅ tests/fast-runner.js - Test runner (unused)
 ✅ tests/test-runner.ts - Test runner (unused)
-```
+
+```text
 
 #### **Preserved Files (23 total)**
 
@@ -77,7 +79,8 @@ npm uninstall web-vitals @tailwindcss/postcss @types/jest markdownlint-cli2
 - Performance monitoring components
 - Database setup scripts
 
-**Rationale**: These files represent critical infrastructure that may be used in production or are part of the A.V.A.R.I.C.E. Protocol framework.
+**Rationale**: These files represent critical infrastructure that may be used in production or are part of the
+A.V.A.R.I.C.E. Protocol framework.
 
 ### **3. Export Cleanup**
 
@@ -91,7 +94,8 @@ export const mockData: MockAutomationData = {
   profiles: mockProfiles,
   automationRuns: mockAutomationRuns
 }
-```
+
+```text
 
 #### **Preserved Exports**
 
@@ -108,20 +112,29 @@ export const mockData: MockAutomationData = {
 ```json
 {
   "scripts": {
-    "analyze:dead-code": "knip",
-    "analyze:exports": "ts-prune",
-    "analyze:deps": "depcheck",
-    "analyze:all": "npm run analyze:dead-code && npm run analyze:exports && npm run analyze:deps"
+
+```text
+"analyze:dead-code": "knip",
+"analyze:exports": "ts-prune",
+"analyze:deps": "depcheck",
+"analyze:all": "npm run analyze:dead-code && npm run analyze:exports && npm run analyze:deps"
+
+```text
+
   }
 }
-```
+
+```text
 
 #### **Pre-commit Hook Configuration**
 
 ```bash
-# .husky/pre-commit
+
+## .husky/pre-commit
+
 npm run analyze:dead-code --silent
-```
+
+```text
 
 ### **2. ESLint Rules Enhancement**
 
@@ -131,38 +144,84 @@ npm run analyze:dead-code --silent
 // .eslintrc.js additions
 {
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["error", { 
-      "argsIgnorePattern": "^_",
-      "varsIgnorePattern": "^_" 
-    }],
-    "no-unused-imports": "error",
-    "import/no-unused-modules": "error"
+
+```text
+"@typescript-eslint/no-unused-vars": ["error", { 
+  "argsIgnorePattern": "^_",
+  "varsIgnorePattern": "^_" 
+}],
+"no-unused-imports": "error",
+"import/no-unused-modules": "error"
+
+```text
+
   }
 }
-```
+
+```text
 
 ### **3. CI/CD Integration**
 
 #### **GitHub Actions Workflow**
 
 ```yaml
-# .github/workflows/code-quality.yml
+
+## .github/workflows/code-quality.yml
+
 name: Code Quality Check
 on: [push, pull_request]
 jobs:
   dead-code-analysis:
-    runs-on: ubuntu-latest
-    steps:
+
+```text
+runs-on: ubuntu-latest
+steps:
+
+```text
+
       - uses: actions/checkout@v3
       - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
+
+```text
+
+```text
+
+uses: actions/setup-node@v3
+with:
+  node-version: '18'
+
+```text
+
+
+```text
+
       - name: Install dependencies
-        run: npm ci
+
+```text
+
+```text
+
+run: npm ci
+
+```text
+
+
+```text
+
       - name: Run dead code analysis
-        run: npm run analyze:all
-```
+
+```text
+
+```text
+
+run: npm run analyze:all
+
+```text
+
+
+```text
+
+```text
 
 ### **4. Documentation Standards**
 
@@ -177,7 +236,8 @@ jobs:
  * Last reviewed: 2025-01-02
  * Usage verified: ✅ Used in AutomationsPage
  */
-```
+
+```text
 
 #### **Dependency Audit Process**
 
@@ -212,24 +272,33 @@ jobs:
 #### **1. Automated Analysis**
 
 ```bash
-# Weekly automated analysis
+
+## Weekly automated analysis
+
 npm run analyze:all > reports/dead-code-$(date +%Y-%m-%d).txt
-```
+
+```text
 
 #### **2. Dependency Tracking**
 
 ```bash
-# Monthly dependency audit
+
+## Monthly dependency audit
+
 npm audit --audit-level=moderate
 npm outdated
-```
+
+```text
 
 #### **3. Bundle Analysis**
 
 ```bash
-# Bundle size monitoring
+
+## Bundle size monitoring
+
 npm run build:analyze
-```
+
+```text
 
 ### **Alert Thresholds**
 
@@ -267,7 +336,8 @@ npm run build:analyze
 ✅ npm run test - 13/17 tests passing (Core functionality verified)
 ✅ npm run lint - SUCCESS (Minor warnings only)
 ✅ TypeScript compilation - SUCCESS (No type errors)
-```
+
+```text
 
 ### **Functionality Verification**
 

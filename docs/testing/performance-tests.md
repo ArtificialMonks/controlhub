@@ -26,16 +26,21 @@ Performance tests are skipped in the default test environment because they requi
 ### Required Environment Variables
 
 ```bash
-# Supabase Configuration
+
+## Supabase Configuration
+
 NEXT_PUBLIC_SUPABASE_URL=your-supabase-project-url
 SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
-# Webhook Security
+## Webhook Security
+
 N8N_WEBHOOK_SECRET=your-webhook-secret
 
-# Application URL (for webhook testing)
+## Application URL (for webhook testing)
+
 NEXT_PUBLIC_APP_URL=http://localhost:3000
-```
+
+```text
 
 ### Test Categories and Thresholds
 
@@ -87,14 +92,18 @@ NEXT_PUBLIC_APP_URL=http://localhost:3000
 ### Running the Tests
 
 ```bash
-# Set environment variables first
+
+## Set environment variables first
+
 export NEXT_PUBLIC_SUPABASE_URL="your-url"
 export SUPABASE_SERVICE_ROLE_KEY="your-key"
 export N8N_WEBHOOK_SECRET="your-secret"
 
-# Run performance tests
+## Run performance tests
+
 npm run test src/test/performance/webhook-performance.test.ts
-```
+
+```text
 
 ### Expected Output
 
@@ -124,7 +133,8 @@ When successfully run, tests provide detailed performance metrics:
    DB Time: 34ms
 
 ✅ All 5 recent requests meet performance thresholds
-```
+
+```text
 
 ## Development Recommendations
 

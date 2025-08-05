@@ -10,7 +10,7 @@ import {
   Profile,
   AutomationRun,
   AutomationStatus
-} from '@/lib/types/automation'
+} from '@/lib/core/types/automation'
 
 /**
  * Mock clients data

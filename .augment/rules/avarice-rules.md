@@ -7,26 +7,34 @@ type: "always_apply"
 ## **CRITICAL PROHIBITIONS**
 
 ### **STRICTLY PROHIBITED TECHNOLOGIES**
+
 - **JAVASCRIPT CREATION**: Strictly prohibited to create, code, and use JavaScript in any form
-- **THEORETICAL FRAMEWORKS**: Creating testing frameworks, validation systems, or verification tools WITHOUT executing them is prohibited
+- **THEORETICAL FRAMEWORKS**: Creating testing frameworks, validation systems, or verification tools WITHOUT executing
+them is prohibited
 - **PARTIAL COMPLETION**: "Mostly working," "good enough," or partial completion status is strictly prohibited
 - **ASSUMPTION-BASED WORK**: Never speculate or make assumptions - verify every action, claim, and connection
 
 ## **MANDATORY EXECUTION PROTOCOLS**
 
 ### **TEST EXECUTION REQUIREMENT**
-- **EXECUTION MANDATE**: Every test, validation, or verification activity must be ACTUALLY EXECUTED with documented results
+
+- **EXECUTION MANDATE**: Every test, validation, or verification activity must be ACTUALLY EXECUTED with documented
+results
 - **EVIDENCE REQUIREMENT**: Provide concrete proof including logs, metrics, screenshots, or other artifacts
 - **THEORETICAL PROHIBITION**: Theoretical frameworks without execution evidence are incomplete
-- **PROOF REQUIREMENT**: Claims of "tests created" or "validation implemented" are meaningless without concrete execution evidence
+- **PROOF REQUIREMENT**: Claims of "tests created" or "validation implemented" are meaningless without concrete
+execution evidence
 
 ### **IMMEDIATE ISSUE RESOLUTION PROTOCOL**
-- **STOP-WORK ORDER**: When ANY issue, bug, failure, or quality violation is detected, ALL new development work must IMMEDIATELY STOP
+
+- **STOP-WORK ORDER**: When ANY issue, bug, failure, or quality violation is detected, ALL new development work must
+IMMEDIATELY STOP
 - **RESOLUTION MANDATE**: Issues must be fixed at root cause level, not patched or worked around
 - **RE-TESTING REQUIREMENT**: After issue resolution, complete test suite must be re-executed
 - **ESCALATION PROTOCOL**: Issues that cannot be auto-healed must be escalated
 
 ### **PRE-CREATION CODEBASE SCANNING MANDATE**
+
 - **MANDATORY SCAN**: Before creating ANY new component, scan existing codebase using Native Augment Context Engine
 - **REUSE REQUIREMENT**: If similar functionality exists, enhance/extend existing tools rather than creating duplicates
 - **INTEGRATION MANDATE**: New tools must integrate seamlessly with existing validation infrastructure
@@ -88,11 +96,12 @@ type: "always_apply"
 - **PR-002**: Blanks around lists - 100% compliance mandatory
 - **PR-003**: Multiple blank lines - 100% compliance mandatory
 - **PR-004**: Blanks around fences - 100% compliance mandatory
-- **PR-005**: Line length (120 chars) - 95% compliance mandatory
+- **PR-005**: Tiered line length (222/444/999 chars) - 95% compliance mandatory
 - **PR-006**: Code language specification - 100% compliance mandatory
 - **PR-007**: Duplicate headings - 100% compliance mandatory
 
 ### **UNIVERSAL FILE CREATION ENFORCEMENT**
+
 - **PRE-CREATION SCAN**: Before creating ANY file, scan existing codebase for similar functionality
 - **IMMEDIATE VALIDATION**: ALL files must pass validation before any subsequent work
 - **ZERO TOLERANCE**: No file creation is complete without 100% validation success and concrete evidence
@@ -100,6 +109,7 @@ type: "always_apply"
 ## **CODEBASE STRUCTURE & ORGANIZATION**
 
 ### **ENTERPRISE-GRADE DIRECTORY STRUCTURE**
+
 - **FILE DIRECTORY AWARENESS**: Use enterprise-grade structure explained in `/STRUCTURE.md`
 - **ROOT LEVEL OPTIMIZATION**: Only essential files at root level - create logical hierarchy for all other files
 - **STRUCTURE UPDATES**: When creating new folders/subfolders, add them to `STRUCTURE.md`
@@ -107,6 +117,7 @@ type: "always_apply"
 - **SEPARATION OF CONCERNS**: Maintain scalability, clarity, and ease of navigation
 
 ### **EVIDENCE STORAGE STANDARDS (MANDATORY)**
+
 - **QUEST-SPECIFIC DIRECTORIES**: All evidence MUST be stored in `/docs/evidence/quest-{quest-number}/`
 - **STANDARDIZED SUBDIRECTORIES**: Required subdirectories: `phase-evidence/`, `agent-reports/`, `quality-gates/`, `memorization/`
 - **ZERO TOLERANCE POLICY**: Evidence storage outside quest-specific directories is STRICTLY PROHIBITED
@@ -117,12 +128,14 @@ type: "always_apply"
 - **SPELLING ACCURACY MANDATE**: Zero spelling errors required in all evidence documentation
 
 ### **LOGGING STANDARDS**
+
 - **LOG STORAGE**: All logs stored within `/logs` directory
 - **QUEST INTEGRATION**: Logs must reference quest-specific evidence directories when applicable
 - **LOGGING GUIDELINES**: Follow logging standards in `/docs/LOGGING_STANDARDS.md`
 - **DOCUMENTATION STORAGE**: All documentation stored within `/docs` directory
 
 ### **ZERO ISOLATION POLICY**
+
 - **NO ORPHANED MODULES**: All components must be properly connected with no orphaned modules
 - **INTEGRATION REQUIREMENT**: Ensure all new components are fully integrated and wired into the application
 - **CONNECTION MANDATE**: Never delete references - create missing functionality instead
@@ -131,48 +144,58 @@ type: "always_apply"
 ## **DEVELOPMENT STANDARDS**
 
 ### **CODE QUALITY REQUIREMENTS**
+
 - **CLEAN CODE**: Write clean, modular code following project conventions
 - **INTEGRATION INTEGRITY**: Ensure all new components are fully integrated and wired
 - **COMPILATION VALIDATION**: All code must be ACTUALLY COMPILED/VALIDATED with concrete evidence
 - **VERIFICATION LOOP**: After creating ANY new file, await verification with concrete results
 
 ### **PACKAGE MANAGEMENT**
+
 - **USE PACKAGE MANAGERS**: Always use appropriate package managers for dependency management
 - **NO MANUAL EDITING**: Never manually edit package.json, requirements.txt, Cargo.toml, go.mod, etc.
 - **CORRECT COMMANDS**: Use proper package manager commands for each language/framework
-- **EXCEPTION RULE**: Only edit package files directly for complex configuration changes that cannot be accomplished through package manager commands
+- **EXCEPTION RULE**: Only edit package files directly for complex configuration changes that cannot be accomplished
+through package manager commands
 
 ### **TESTING REQUIREMENTS**
+
 - **ACTUAL EXECUTION**: ALL tests must be ACTUALLY EXECUTED with concrete results, timing data, and pass/fail status
-- **EVIDENCE COLLECTION**: Every verification must provide concrete evidence including logs, screenshots, performance metrics
+- **EVIDENCE COLLECTION**: Every verification must provide concrete evidence including logs, screenshots, performance
+metrics
 - **LANGUAGE MATCHING**: Write tests in correct language (TypeScript components need TypeScript tests, avoid JavaScript)
 - **100% PASS REQUIREMENT**: All tests must pass 100% before proceeding
 
 ## **MCP SERVER GUIDELINES**
 
 ### **CONTEXT7 MCP USAGE**
+
 - **INTERNAL RAG**: Use for synchronizing with entire codebase and documentation
 - **KNOWLEDGE GRAPH**: Ensure project's Knowledge Graph is current and complete
 - **HALLUCINATION DETECTION**: Use for hallucination detection and verification
 
 ### **EXA MCP USAGE**
+
 - **EXTERNAL RESEARCH**: Use for pre-emptive research on latest best practices and external libraries
 - **CURRENT INFORMATION**: Preferably 2025 or earliest 2024 information
 - **AGENTIC WEB SEARCH**: Use for intelligent web search capabilities
 
 ### **FIRECRAWL MCP USAGE**
+
 - **WEB SCRAPING**: Use for deep information extraction from web pages
 - **CONTENT EXTRACTION**: Use when detailed web content analysis is required
 
 ## **MEMORY & KNOWLEDGE MANAGEMENT**
 
 ### **NEO4J MEMORY INTEGRATION**
+
 - **MEMORY INITIALIZATION**: Each operation must initialize appropriate memory layers
 - **KNOWLEDGE PERSISTENCE**: All discoveries, patterns, and insights must be stored in Neo4j memory layers
 - **CROSS-PHASE CONTINUITY**: Memory handoffs between phases are mandatory with evidence of transfer
 - **EVIDENCE INTEGRATION**: All evidence must be stored in memory with retrieval capabilities and audit trails
 
 ### **AGENT MEMORY PATTERNS**
+
 - **Architect Agent**: Core (365 days), Semantic (365 days), Procedural (365 days), Knowledge Vault (730 days)
 - **Coder Agent**: Core (180 days), Procedural (365 days), Resource (90 days)
 - **StaticAnalyzer Agent**: Core (365 days), Procedural (365 days), Semantic (180 days), Episodic (90 days)
@@ -183,6 +206,7 @@ type: "always_apply"
 ## **VERIFICATION & VALIDATION STANDARDS**
 
 ### **MULTI-LAYER VERIFICATION REQUIREMENTS**
+
 - **STATIC ANALYSIS**: Linting tool execution, 5-layer hallucination detection, import/export connectivity analysis
 - **DYNAMIC TESTING**: Automated test case generation, execution via Executor agent, UI testing frameworks
 - **FORMAL VERIFICATION**: Advanced verification for critical components, counter-example analysis
@@ -190,6 +214,7 @@ type: "always_apply"
 - **PERFORMANCE VALIDATION**: Actual performance benchmarks with real timing data
 
 ### **CORRECTION PROTOCOL**
+
 - **STRUCTURED REPORTING**: If any layer fails, send structured report with root cause analysis
 - **REPEAT UNTIL PASS**: Continue correction cycles until all layers pass
 - **IMMEDIATE RESOLUTION**: Fix issues immediately upon detection
@@ -198,12 +223,14 @@ type: "always_apply"
 ## **COMPLIANCE & STANDARDS**
 
 ### **ARCHITECTURAL COMPLIANCE**
+
 - **DESIGN PRINCIPLES**: Follow project-specific design principles and style guides
 - **PERFORMANCE THRESHOLDS**: Ensure code meets performance thresholds and quality standards
 - **STANDARD ADHERENCE**: Verify adherence to all project standards and guidelines
 - **DOCUMENTATION COMPLIANCE**: Maintain comprehensive documentation with all changes
 
 ### **DEFINITION OF DONE REQUIREMENTS**
+
 - **CHECKLIST VERIFICATION**: Verify every item in Definition of Done checklist
 - **100% COMPLETION**: No work is complete until ALL DoD criteria are met
 - **EVIDENCE BACKING**: All completion claims must be backed by concrete, measurable evidence
@@ -212,18 +239,23 @@ type: "always_apply"
 ## **ENFORCEMENT PROTOCOLS**
 
 ### **EVIDENCE VALIDATION REQUIREMENTS**
+
 - **QUEST-SPECIFIC VALIDATION**: All evidence must be stored in correct quest-specific directories
 - **DIRECTORY STRUCTURE VALIDATION**: Validate presence of required subdirectories: `phase-evidence/`, `agent-reports/`, `quality-gates/`, `memorization/`
 - **PATH VALIDATION**: Automated validation of evidence paths during protocol execution
 - **COMPLIANCE ENFORCEMENT**: Zero tolerance for evidence storage violations
 
 ### **ZERO TOLERANCE QUALITY GATE**
-- **100% COMPLETION REQUIREMENT**: No advancement until ALL tests pass 100%, ALL issues are resolved, and ALL evidence is provided
-- **VERIFICATION CHAIN**: Provide complete verification chain showing all validation activities were executed successfully
+
+- **100% COMPLETION REQUIREMENT**: No advancement until ALL tests pass 100%, ALL issues are resolved, and ALL evidence
+is provided
+- **VERIFICATION CHAIN**: Provide complete verification chain showing all validation activities were executed
+successfully
 - **ACCOUNTABILITY MEASURE**: All completion claims must be backed by concrete, measurable evidence
 - **EVIDENCE STORAGE COMPLIANCE**: All evidence must be stored in quest-specific directories with proper structure
 
 ### **ESCALATION REQUIREMENTS**
+
 - **AUTO-HEALING RULE**: Issues that cannot be auto-healed must be escalated
 - **ROOT CAUSE ANALYSIS**: Provide detailed root cause analysis and proposed resolution strategies
 - **DOCUMENTATION MANDATE**: All escalations must be documented with impact analysis
@@ -231,16 +263,19 @@ type: "always_apply"
 ## **TOOL USAGE REQUIREMENTS**
 
 ### **NATIVE AUGMENT TOOLS**
+
 - **CONTEXT ENGINE**: Always use Native Augment Context Engine for codebase awareness
 - **CODE WRITER**: Use Native Augment Code Writer for all code writing and editing
 - **TASK MANAGER**: Use native Augment Task Manager for task hierarchy and management
 
 ### **NATIVE AUGMENT FILE OPERATIONS**
+
 - **FILE MODIFICATIONS**: Use Native Augment str-replace-editor for all existing file modifications
 - **FILE READING**: Use Native Augment view tool for reading and searching files
 - **FILE MANAGEMENT**: Use Native Augment tools for comprehensive file management operations
 
 ### **SEQUENTIAL THINKING**
+
 - **COMPLEX PROBLEMS**: Use Sequential Thinking for deep complex problems analysis
 - **TASK STRUCTURING**: Use for analyzing and structuring complex tasks
 - **PROBLEM SOLVING**: Use when relevant for comprehensive problem-solving approaches
@@ -265,8 +300,10 @@ type: "always_apply"
 - `npm run lint:md:avarice` - A.V.A.R.I.C.E. documentation linting
 - `npm run spell:avarice` - Spelling validation for A.V.A.R.I.C.E. documentation
 
-**Status**: ✅ **PRODUCTION READY** - All future A.V.A.R.I.C.E. Protocol execution will automatically enforce zero markdownlint violations and zero spelling errors.
+**Status**: ✅ **PRODUCTION READY** - All future A.V.A.R.I.C.E. Protocol execution will automatically enforce zero
+markdownlint violations and zero spelling errors.
 
 ---
 
-**VIOLATION CONSEQUENCES**: Not following these strict rules and guidelines is unacceptable and must be reported immediately. Failure to comply violates task boundaries and compromises code responsibility and auditability.
+**VIOLATION CONSEQUENCES**: Not following these strict rules and guidelines is unacceptable and must be reported
+immediately. Failure to comply violates task boundaries and compromises code responsibility and auditability.

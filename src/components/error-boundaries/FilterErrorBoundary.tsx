@@ -20,7 +20,7 @@ import {
   ErrorBoundaryProps, 
   ErrorBoundaryConfig,
   isFilterError 
-} from '@/lib/types/filtering'
+} from '@/lib/core/types/filtering'
 
 // ============================================================================
 // ERROR BOUNDARY STATE INTERFACE

@@ -111,7 +111,8 @@ CREATE (quest:Quest {
   createdAt: $createdAt,
   updatedAt: $updatedAt
 })
-```
+
+```text
 
 ### Knowledge Item Structure
 
@@ -126,7 +127,8 @@ CREATE (knowledge:KnowledgeItem {
   createdAt: $createdAt,
   retentionPolicy: $retentionPolicy
 })
-```
+
+```text
 
 ### Memory Layer Structure
 
@@ -139,7 +141,8 @@ CREATE (layer:MemoryLayer {
   questId: $questId,
   createdAt: $createdAt
 })
-```
+
+```text
 
 ## Storage Validation
 

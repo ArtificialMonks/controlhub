@@ -12,11 +12,13 @@
 ## 📊 **STORAGE OVERVIEW**
 
 ### **Neo4j Relationship Creation Queries Generated**
+
 - ✅ **ArchitecturalReview Node**: Architectural compliance data structure
 - ✅ **DefinitionOfDone Node**: DoD validation data structure
 - ✅ **VALIDATES Relationship**: Architectural review validates DoD relationship
 
 ### **Storage Validation**
+
 - **Query Generation**: ✅ Cypher relationship query successfully generated
 - **Node Structure**: ✅ All architectural properties properly defined
 - **Data Integrity**: ✅ All architectural data structured for storage
@@ -29,6 +31,7 @@
 ### **1. ArchitecturalReview Node Structure**
 
 #### **Generated Node Properties**
+
 ```cypher
 ArchitecturalReview Node Properties:
 ├── reviewId: STRING (Key Property)
@@ -45,9 +48,11 @@ ArchitecturalReview Node Properties:
 ├── validationAccuracy: FLOAT (98.5)
 ├── overallConfidence: FLOAT (96.7)
 └── timestamp: DATETIME
-```
+
+```text
 
 #### **Data to be Stored**
+
 ```json
 {
   "reviewId": "quest-4-4-architectural-review-2025-01-08",
@@ -65,11 +70,13 @@ ArchitecturalReview Node Properties:
   "overallConfidence": 96.7,
   "timestamp": "2025-01-08T18:00:00Z"
 }
-```
+
+```text
 
 ### **2. DefinitionOfDone Node Structure**
 
 #### **Generated Node Properties**
+
 ```cypher
 DefinitionOfDone Node Properties:
 ├── dodId: STRING (Key Property)
@@ -83,9 +90,11 @@ DefinitionOfDone Node Properties:
 ├── productionReadiness: STRING ("APPROVED")
 ├── qualityAssurance: STRING ("ALL_CRITERIA_EXCEEDED")
 └── timestamp: DATETIME
-```
+
+```text
 
 #### **Data to be Stored**
+
 ```json
 {
   "dodId": "quest-4-4-definition-of-done-2025-01-08",
@@ -100,11 +109,13 @@ DefinitionOfDone Node Properties:
   "qualityAssurance": "ALL_CRITERIA_EXCEEDED",
   "timestamp": "2025-01-08T18:05:00Z"
 }
-```
+
+```text
 
 ### **3. VALIDATES Relationship Structure**
 
 #### **Generated Cypher Relationship Query**
+
 ```cypher
 UNWIND $records as record
 MATCH (start: ArchitecturalReview {reviewId: record.sourceId})
@@ -116,9 +127,11 @@ SET end += {
   confidence: record.confidence,
   timestamp: record.timestamp
 }
-```
+
+```text
 
 #### **Relationship Data to be Stored**
+
 ```json
 {
   "sourceId": "quest-4-4-architectural-review-2025-01-08",
@@ -128,13 +141,14 @@ SET end += {
   "confidence": 96.7,
   "timestamp": "2025-01-08T18:10:00Z"
 }
-```
 
+```text
 ---
 
 ## 🔗 **RELATIONSHIP MAPPING DETAILS**
 
 ### **Architectural Review → Definition of Done Validation**
+
 ```cypher
 // Create the validation relationship
 MATCH (ar:ArchitecturalReview {reviewId: 'quest-4-4-architectural-review-2025-01-08'})
@@ -154,9 +168,11 @@ MERGE (q)-[:HAS_DEFINITION_OF_DONE]->(dod)
 // Link to Phase 5 verification results
 MATCH (vr:VerificationResult {verificationId: 'quest-4-4-phase5-verification-2025-01-08'})
 MERGE (ar)-[:BUILDS_ON]->(vr)
-```
+
+```text
 
 ### **Integration with Previous Phases**
+
 ```cypher
 // Link architectural review to previous verification
 MATCH (ar:ArchitecturalReview {reviewId: 'quest-4-4-architectural-review-2025-01-08'})
@@ -167,25 +183,28 @@ MERGE (ar)-[:VALIDATES_VERIFICATION]->(vr)
 MATCH (dod:DefinitionOfDone {dodId: 'quest-4-4-definition-of-done-2025-01-08'})
 MATCH (qa:QualityAssuranceResult {qaId: 'quest-4-4-quality-assurance-2025-01-08'})
 MERGE (dod)-[:BASED_ON_QA]->(qa)
-```
 
+```text
 ---
 
 ## 📊 **STORAGE VALIDATION RESULTS**
 
 ### **Data Integrity Validation**
+
 - ✅ **All Scores Validated**: All numerical scores within valid ranges (0-100)
 - ✅ **Timestamp Consistency**: All timestamps properly formatted and sequential
 - ✅ **String Enumerations**: All status strings use valid enumerations
 - ✅ **Foreign Key Consistency**: All questId references consistent across nodes
 
 ### **Query Validation**
+
 - ✅ **Cypher Syntax**: Generated relationship query syntactically correct
 - ✅ **Node Matching**: Proper node matching using key properties
 - ✅ **Relationship Properties**: All relationship properties properly mapped
 - ✅ **MERGE Operations**: Proper MERGE operations for upsert functionality
 
 ### **Storage Completeness**
+
 - ✅ **Architectural Data**: Complete architectural review data structured
 - ✅ **DoD Data**: Complete Definition of Done validation data structured
 - ✅ **Relationship Data**: Validation relationship properly defined
@@ -196,12 +215,14 @@ MERGE (dod)-[:BASED_ON_QA]->(qa)
 ## 📈 **STORAGE METRICS**
 
 ### **Data Volume**
+
 - **Nodes Created**: 2 primary architectural nodes
 - **Relationships Created**: 1 primary validation relationship + 4 integration relationships
 - **Properties Stored**: 25+ architectural and DoD properties
 - **Evidence References**: Complete evidence location mapping
 
 ### **Storage Efficiency**
+
 - **Query Optimization**: Relationship query uses MERGE for upsert operations
 - **Index Utilization**: Key properties optimized for efficient matching
 - **Data Normalization**: Proper separation between architectural and DoD data
@@ -212,21 +233,28 @@ MERGE (dod)-[:BASED_ON_QA]->(qa)
 ## 🎯 **ARCHITECTURAL KNOWLEDGE GRAPH INTEGRATION**
 
 ### **Knowledge Graph Enhancement**
-```
+
+```text
 Quest 4.4 Knowledge Graph Structure:
 ├── Quest Node (quest-4-4)
 ├── VerificationResult Node (Phase 5)
 ├── ArchitecturalReview Node (Phase 6) ← NEW
 ├── DefinitionOfDone Node (Phase 6) ← NEW
 └── Relationships:
-    ├── Quest → ArchitecturalReview
-    ├── Quest → DefinitionOfDone
-    ├── ArchitecturalReview → DefinitionOfDone (VALIDATES)
-    ├── ArchitecturalReview → VerificationResult (BUILDS_ON)
-    └── DefinitionOfDone → QualityAssuranceResult (BASED_ON_QA)
-```
+
+```text
+├── Quest → ArchitecturalReview
+├── Quest → DefinitionOfDone
+├── ArchitecturalReview → DefinitionOfDone (VALIDATES)
+├── ArchitecturalReview → VerificationResult (BUILDS_ON)
+└── DefinitionOfDone → QualityAssuranceResult (BASED_ON_QA)
+
+```text
+
+```text
 
 ### **Query Capabilities Enhanced**
+
 ```cypher
 // Query architectural compliance across quests
 MATCH (q:Quest)-[:HAS_ARCHITECTURAL_REVIEW]->(ar:ArchitecturalReview)
@@ -240,12 +268,17 @@ RETURN ar.architecturalScore, dod.overallDodScore, dod.productionReadiness
 
 // Query complete validation chain
 MATCH path = (q:Quest)-[:HAS_VERIFICATION_RESULT]->(vr:VerificationResult)
-             <-[:BUILDS_ON]-(ar:ArchitecturalReview)
+
+```text
+         <-[:BUILDS_ON]-(ar:ArchitecturalReview)
+
+```text
+
              -[:VALIDATES]->(dod:DefinitionOfDone)
 WHERE q.questId = 'quest-4-4'
 RETURN path
-```
 
+```text
 ---
 
 ## 📋 **NEO4J ARCHITECTURAL STORAGE COMPLETION CHECKLIST**
