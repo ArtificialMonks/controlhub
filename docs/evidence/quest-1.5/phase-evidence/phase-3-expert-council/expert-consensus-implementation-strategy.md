@@ -292,7 +292,7 @@ if (payload.eventType === 'INSERT') {
   setData(prev => prev.map(item => 
 ```
 item.id === payload.new.id ? payload.new as Automation : item
-```
+```text
   ))
 } else if (payload.eventType === 'DELETE') {
   setData(prev => prev.filter(item => item.id !== payload.old.id))

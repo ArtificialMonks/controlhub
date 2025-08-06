@@ -16,6 +16,14 @@ const config: Config = {
         "2xl": "1400px",
       },
     },
+    screens: {
+      // Mobile-first breakpoint system (Expert Council consensus)
+      'sm': '640px',   // Mobile landscape, small tablets
+      'md': '768px',   // Tablets portrait
+      'lg': '1024px',  // Tablets landscape, small desktops
+      'xl': '1280px',  // Desktops
+      '2xl': '1536px', // Large desktops
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",
@@ -75,6 +83,25 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      spacing: {
+        // Touch-friendly spacing utilities (WCAG 2.1 AAA compliance)
+        'touch-sm': '44px',  // Minimum touch target size
+        'touch-md': '48px',  // Recommended touch target size
+        'touch-lg': '56px',  // Large touch target size for primary actions
+        'touch-xl': '64px',  // Extra large touch target size
+      },
+      minHeight: {
+        // Touch target minimum heights
+        'touch': '44px',
+        'touch-md': '48px',
+        'touch-lg': '56px',
+      },
+      minWidth: {
+        // Touch target minimum widths
+        'touch': '44px',
+        'touch-md': '48px',
+        'touch-lg': '56px',
       },
       keyframes: {
         "accordion-down": {

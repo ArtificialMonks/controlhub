@@ -75,8 +75,7 @@ function Layout({ children }) {
 ```text
   <span>Menu Item</span>
 ```
-    
-  
+
 ```text
   
   

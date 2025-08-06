@@ -203,11 +203,13 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
     <div className={cn(
       "flex flex-col min-h-screen transition-all duration-300 ease-in-out bg-background",
       // Dynamic positioning based on sidebar state
+      // Mobile/Tablet: Full width (sidebar is overlay)
+      // Desktop: Adjust margin based on collapsed state (sidebar always visible)
       isMobile
         ? "w-full ml-0"
         : isCollapsed
-          ? "ml-16"
-          : "ml-[280px]"
+          ? "ml-16"  // Collapsed sidebar width (64px)
+          : "ml-[280px]"  // Expanded sidebar width
     )}>
       {/* Header with sidebar trigger, centered title, and controls */}
       <header className="sticky top-0 z-50 flex items-center justify-between border-b border-border/30 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 px-4 py-3 shrink-0 shadow-sm pointer-events-auto">

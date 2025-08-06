@@ -527,7 +527,10 @@
     "mreturn",
     "automatable",
     "TSES",
-    "SonarQube"
+    "SonarQube",
+    "Nuxt",
+    "markdownfix",
+    "Setext"
   ],
   "ignoreWords": [],
   "import": [],

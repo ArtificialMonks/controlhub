@@ -43,7 +43,7 @@ report documents the accessibility features implemented and validation results.
   <TableHead key={header.id} className="font-medium">
 ```
 {/_ Proper table header content _/}
-```
+```text
   </TableHead>
 ))}
 

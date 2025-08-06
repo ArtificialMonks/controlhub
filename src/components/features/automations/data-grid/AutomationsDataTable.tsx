@@ -10,12 +10,14 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Checkbox } from '@/components/ui/checkbox'
-import { 
+import {
   ChevronDown,
   ChevronUp
 } from 'lucide-react'
 import { Automation } from '@/lib/data/repositories/automation-repository'
 import { AutomationRow } from './AutomationRow'
+import { ResponsiveContainer } from '@/components/layout/ResponsiveContainer'
+import { useBreakpoint } from '@/lib/responsive/breakpoint-utils'
 
 interface Client {
   id: string
@@ -45,6 +47,9 @@ export function AutomationsDataTable({
   const [sortField, setSortField] = useState<SortField>('lastRun')
   const [sortDirection, setSortDirection] = useState<SortDirection>('desc')
   const [expandedRows, setExpandedRows] = useState<string[]>([])
+
+  // Responsive breakpoint detection
+  const { isMobile } = useBreakpoint()
 
   // Sorting logic
   const sortedAutomations = [...automations].sort((a, b) => {
@@ -123,30 +128,39 @@ export function AutomationsDataTable({
   }
 
   return (
-    <div className="relative">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[60px]">Control</TableHead>
-            <TableHead className="w-[50px]">
-              <Checkbox
-                checked={selectedAutomations.length === automations.length && automations.length > 0}
-                onCheckedChange={handleSelectAll}
-                aria-label="Select all"
-              />
-            </TableHead>
-            <TableHead className="cursor-pointer" onClick={() => handleSort('name')}>
-              <div className="flex items-center gap-2">
-                Name
-                <SortIcon field="name" />
-              </div>
-            </TableHead>
-            <TableHead className="cursor-pointer" onClick={() => handleSort('client')}>
-              <div className="flex items-center gap-2">
-                Client
-                <SortIcon field="client" />
-              </div>
-            </TableHead>
+    <ResponsiveContainer
+      variant="fluid"
+      spacing="none"
+      touchOptimized={isMobile}
+      className="relative"
+    >
+      <div className={isMobile ? "overflow-x-auto" : ""}>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className={isMobile ? "w-[80px]" : "w-[60px]"}>Control</TableHead>
+              <TableHead className={isMobile ? "w-[60px]" : "w-[50px]"}>
+                <Checkbox
+                  checked={selectedAutomations.length === automations.length && automations.length > 0}
+                  onCheckedChange={handleSelectAll}
+                  aria-label="Select all"
+                />
+              </TableHead>
+              <TableHead className="cursor-pointer" onClick={() => handleSort('name')}>
+                <div className="flex items-center gap-2">
+                  Name
+                  <SortIcon field="name" />
+                </div>
+              </TableHead>
+              {/* Hide client column on mobile to save space */}
+              {!isMobile && (
+                <TableHead className="cursor-pointer" onClick={() => handleSort('client')}>
+                  <div className="flex items-center gap-2">
+                    Client
+                    <SortIcon field="client" />
+                  </div>
+                </TableHead>
+              )}
             <TableHead className="cursor-pointer" onClick={() => handleSort('status')}>
               <div className="flex items-center gap-2">
                 Status
@@ -194,11 +208,12 @@ export function AutomationsDataTable({
         </TableBody>
       </Table>
 
-      {automations.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-muted-foreground">No automations found</p>
-        </div>
-      )}
-    </div>
+        {automations.length === 0 && (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground">No automations found</p>
+          </div>
+        )}
+      </div>
+    </ResponsiveContainer>
   )
 }

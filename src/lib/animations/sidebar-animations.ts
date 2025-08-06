@@ -16,11 +16,11 @@ export const tweenConfig = {
   ease: "easeInOut" as const
 }
 
-// Sidebar width constants
+// Sidebar width constants - optimized for responsive behavior
 export const SIDEBAR_WIDTH = {
-  EXPANDED: 280,
-  COLLAPSED: 64,
-  MOBILE: 280
+  EXPANDED: 280,    // Desktop expanded state
+  COLLAPSED: 64,    // Desktop collapsed state (icons always visible)
+  MOBILE: 280       // Mobile/Tablet overlay width
 }
 
 // Sidebar animation variants

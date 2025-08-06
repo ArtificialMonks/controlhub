@@ -28,7 +28,7 @@
 
 ### **1. Authentication Logic Verification**
 
-### Formal Specification:
+### Formal Specification
 
 ```text
 {user_session = null} 
@@ -54,7 +54,7 @@ Case 3: Expired token → authenticated(request) = false
 
 ### **2. Authorization Logic Verification**
 
-### Formal Specification:
+### Formal Specification
 
 ```text
 {user_session ≠ null ∧ automation.user_id ≠ null}
@@ -81,7 +81,7 @@ Proof:
 
 ### **3. State Transition Logic Verification**
 
-### State Machine Specification:
+### State Machine Specification
 
 ```text
 States: S = {Stopped, Running, Error}
@@ -113,7 +113,7 @@ Proof:
 
 ### **4. Webhook Integration Logic Verification**
 
-### Formal Specification:
+### Formal Specification
 
 ```text
 triggerWebhook(url, payload)
@@ -145,7 +145,7 @@ Proof by exhaustive case analysis:
 
 ### **1. Batch Processing Time Bounds**
 
-### Algorithm Specification:
+### Algorithm Specification
 
 ```text
 BatchProcess(automations[], batchSize, delay)
@@ -179,7 +179,7 @@ totalTime = (⌈50/10⌉ - 1) × 30 + 30
 
 ### **2. Retry Mechanism Convergence**
 
-### Algorithm Specification:
+### Algorithm Specification
 
 ```text
 RetryMechanism(operation, maxAttempts, baseDelay)
@@ -207,7 +207,7 @@ Maximum total time = 1000 + 2000 + 4000 = 7000ms (finite)
 
 ### **3. Error Isolation Property**
 
-### Property Specification:
+### Property Specification
 
 ```text
 ∀ batch ∈ Batches, ∀ automation_i, automation_j ∈ batch:
@@ -237,7 +237,7 @@ Proof:
 
 ### **1. Access Control Property**
 
-### Security Property:
+### Security Property
 
 ```text
 ∀ user ∈ Users, ∀ automation ∈ Automations:
@@ -268,7 +268,7 @@ Contradiction: Cannot have access without ownership
 
 ### **2. Data Integrity Property**
 
-### Security Property:
+### Security Property
 
 ```text
 ∀ operation ∈ Operations:
@@ -303,7 +303,7 @@ Proof:
 
 ### **1. Individual Action Contracts**
 
-### Contract Specification:
+### Contract Specification
 
 ```text
 POST /api/automations/{id}/run
@@ -332,7 +332,7 @@ Verification:
 
 ### **2. Bulk Action Contracts**
 
-### Contract Specification:
+### Contract Specification
 
 ```text
 POST /api/automations/bulk-action
@@ -364,7 +364,7 @@ Verification:
 
 ### **1. Invariant Properties**
 
-### System Invariants:
+### System Invariants
 
 ```text
 I1: ∀ automation: automation.state ∈ {Stopped, Running, Error}
@@ -391,7 +391,7 @@ I4: Batch size validation enforces MVP limit ✅
 
 ### **2. Liveness Properties**
 
-### Liveness Properties:
+### Liveness Properties
 
 ```text
 L1: ∀ valid_request: eventually(response(valid_request))

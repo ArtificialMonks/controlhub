@@ -63,22 +63,30 @@ export function SidebarProvider({
     toggleSidebarCollapsed
   } = useAppStore()
 
-  // Detect mobile screen size
+  // Detect mobile screen size with improved mobile-first logic
   React.useEffect(() => {
     const checkMobile = () => {
-      const mobile = window.innerWidth < 768
-      setIsMobile(mobile)
-      
-      // Auto-collapse on mobile
-      if (mobile && !sidebarCollapsed) {
-        setSidebarCollapsed(true)
+      // Use 1024px breakpoint for better tablet/desktop distinction
+      const isMobileOrTablet = window.innerWidth < 1024
+
+      setIsMobile(isMobileOrTablet)
+
+      // Mobile/Tablet behavior: Default to closed overlay
+      if (isMobileOrTablet) {
+        // On mobile/tablet, sidebar should be closed by default (overlay mode)
+        if (sidebarOpen) {
+          setSidebarOpen(false)
+        }
+      } else {
+        // Desktop behavior: Allow user preference for collapsed/expanded state
+        // Don't force any particular state - let user control it
       }
     }
 
     checkMobile()
     window.addEventListener('resize', checkMobile)
     return () => window.removeEventListener('resize', checkMobile)
-  }, [setIsMobile, setSidebarCollapsed, sidebarCollapsed])
+  }, [setIsMobile, setSidebarOpen, setSidebarCollapsed, sidebarOpen, sidebarCollapsed])
 
   // Keyboard shortcut handler
   React.useEffect(() => {
@@ -175,7 +183,7 @@ export function Sidebar({
           currentTheme === 'dark' ? styles['sidebar-gradient-dark'] : styles['sidebar-gradient-light'],
           variant === "floating" && "m-2 rounded-lg border shadow-lg",
           variant === "inset" && "m-2 rounded-lg",
-          // Fixed positioning for desktop, mobile overlay
+          // Mobile/Tablet: Overlay mode, Desktop: Always visible (collapsed or expanded)
           isMobile
             ? "fixed left-0 top-0 z-50 h-screen"
             : "fixed left-0 top-0 z-40 h-screen",
@@ -187,7 +195,8 @@ export function Sidebar({
             : isCollapsed
               ? SIDEBAR_WIDTH.COLLAPSED
               : SIDEBAR_WIDTH.EXPANDED,
-          x: isMobile ? (isOpen ? 0 : -SIDEBAR_WIDTH.MOBILE) : undefined
+          // Mobile/Tablet: Slide in/out, Desktop: Always visible
+          x: isMobile && !isOpen ? -SIDEBAR_WIDTH.MOBILE : 0
         }}
         {...(props as any)}
       >
@@ -204,10 +213,16 @@ interface SidebarHeaderProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function SidebarHeader({ className, children, ...props }: SidebarHeaderProps) {
+  const { isMobile } = useSidebar()
+
   return (
     <div
       className={cn(
-        "flex h-16 items-center border-b px-4",
+        // Touch-friendly header height and spacing
+        "flex items-center border-b",
+        isMobile
+          ? "min-h-touch-lg h-14 px-6 py-3" // 56px height for mobile touch targets
+          : "h-16 px-4", // Standard desktop height
         className
       )}
       {...props}
@@ -222,10 +237,16 @@ interface SidebarContentProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export function SidebarContent({ className, children, ...props }: SidebarContentProps) {
+  const { isMobile } = useSidebar()
+
   return (
     <div
       className={cn(
-        "flex-1 overflow-auto py-2",
+        "flex-1 overflow-auto",
+        // Touch-friendly padding and spacing
+        isMobile
+          ? "py-4 px-2" // Larger padding for mobile touch interaction
+          : "py-2", // Standard desktop padding
         className
       )}
       {...props}
@@ -273,7 +294,11 @@ export function SidebarTrigger({ className, children, ...props }: SidebarTrigger
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
       className={cn(
-        "inline-flex h-9 w-9 items-center justify-center rounded-md border border-input bg-background text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        "inline-flex items-center justify-center rounded-md border border-input bg-background text-sm font-medium ring-offset-background transition-colors hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+        // Touch-friendly sizing
+        isMobile
+          ? "min-h-touch min-w-touch h-11 w-11" // 44px minimum touch target
+          : "h-9 w-9", // Standard desktop size
         className
       )}
       onClick={handleClick}
@@ -342,19 +367,31 @@ interface SidebarMenuButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLBut
   tooltip?: string
 }
 
-export function SidebarMenuButton({ 
-  className, 
-  children, 
+export function SidebarMenuButton({
+  className,
+  children,
   isActive = false,
   tooltip,
-  ...props 
+  ...props
 }: SidebarMenuButtonProps) {
-  const { isCollapsed } = useSidebar()
+  const { isCollapsed, isMobile } = useSidebar()
 
   // Split children into icon and text
   const childrenArray = React.Children.toArray(children)
   const icon = childrenArray[0]
   const text = childrenArray.slice(1)
+
+  // Determine padding classes based on state
+  const paddingClasses = isMobile
+    ? "min-h-touch px-4 py-3" // Mobile: larger padding
+    : isCollapsed
+      ? "min-h-touch px-2 py-3 justify-center" // Desktop collapsed: centered icons
+      : "min-h-touch px-3 py-2" // Desktop expanded: standard padding
+
+  // Determine tooltip text
+  const tooltipText = isCollapsed && !isMobile
+    ? tooltip || (typeof text[0] === 'string' ? text[0] : undefined)
+    : undefined
 
   return (
     <motion.button
@@ -363,15 +400,15 @@ export function SidebarMenuButton({
       whileHover="hover"
       whileTap="tap"
       className={cn(
-        "flex w-full items-center gap-3 rounded-md px-3 py-2 text-sm font-medium transition-all duration-200",
+        "flex w-full items-center gap-3 rounded-md text-sm font-medium transition-all duration-200",
+        paddingClasses,
         styles['sidebar-item-glass'],
         styles['sidebar-animated-border'],
         isActive && styles['sidebar-accent-gradient'],
         !isActive && "hover:bg-accent/10 hover:text-accent-foreground",
-        isCollapsed && "justify-center px-2",
         className
       )}
-      title={isCollapsed ? tooltip || (typeof text[0] === 'string' ? text[0] : undefined) : undefined}
+      title={tooltipText}
       {...(props as any)}
     >
       {icon && (

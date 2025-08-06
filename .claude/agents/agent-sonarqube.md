@@ -1,5 +1,5 @@
 ---
-name: sonarqube-quality-enforcer
+name: agent-sonarqube
 description: >
   Use this agent when you need to analyze, detect, and automatically fix SonarQube code quality violations
   across the codebase. This agent should be deployed after code changes, during quality gate validation,
@@ -38,7 +38,7 @@ description: >
     </commentary>
   </example>
 model: sonnet
-color: cyan
+color: orange
 ---
 
 # SonarQube Quality Enforcer

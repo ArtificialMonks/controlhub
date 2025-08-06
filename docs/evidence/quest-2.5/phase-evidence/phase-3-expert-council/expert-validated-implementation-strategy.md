@@ -325,11 +325,11 @@ try {
   {isLoading && confirmAction === 'run' ? (
 ```
 <Loader2 className="h-4 w-4 animate-spin" />
-```
+```text
   ) : (
 ```
 <Play className="h-4 w-4" />
-```
+```text
   )}
   Run
 </Button>
@@ -343,11 +343,11 @@ try {
   {isLoading && confirmAction === 'stop' ? (
 ```
 <Loader2 className="h-4 w-4 animate-spin" />
-```
+```text
   ) : (
 ```
 <Square className="h-4 w-4" />
-```
+```text
   )}
   Stop
 </Button>

@@ -16,7 +16,7 @@
 
 ### **Primary Verification Result Node**
 
-### Cypher Ingestion Query Generated:
+### Cypher Ingestion Query Generated
 
 ```cypher
 UNWIND $records as record
@@ -69,7 +69,7 @@ SET n += {
 
 ### **Verification Result Relationships**
 
-### Link to Implementation Artifacts:
+### Link to Implementation Artifacts
 
 ```cypher
 // Link verification to implementation artifacts
