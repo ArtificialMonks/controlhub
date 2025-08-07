@@ -1,4 +1,4 @@
-// src/components/dashboard/RecentAutomationsTable.tsx
+// src/components/features/dashboard/tables/RecentAutomationsTable.tsx
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

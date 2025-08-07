@@ -1,4 +1,4 @@
-// src/lib/performance/filterBenchmarks.ts
+// src/lib/infrastructure/performance/filterBenchmarks.ts
 /**
  * Filter Performance Benchmarking Utilities
  * Quest 4.3 - Expert Council Validated Implementation
@@ -8,8 +8,8 @@
  * Priority: MEDIUM
  */
 
-import { Automation, Client } from '@/lib/core/types/automation'
-import FilterSecurityValidator from '@/lib/infrastructure/security/filterSecurity'
+import { Automation, Client } from '../../core/types/automation'
+import FilterSecurityValidator from '../security/filterSecurity'
 
 // ============================================================================
 // BENCHMARK CONFIGURATION

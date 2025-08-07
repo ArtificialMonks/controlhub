@@ -530,7 +530,11 @@
     "SonarQube",
     "Nuxt",
     "markdownfix",
-    "Setext"
+    "Setext",
+    "Orbitron",
+    "Fitts",
+    "VARCHAR",
+    "smns"
   ],
   "ignoreWords": [],
   "import": [],

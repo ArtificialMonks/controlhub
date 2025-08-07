@@ -10,7 +10,7 @@
  * - Form Controls: 44px height minimum with touch-friendly padding
  */
 
-import { cn } from "@/lib/core/utils"
+import { cn } from "@/lib/utils"
 
 // Touch target size constants (WCAG 2.1 AAA compliance)
 export const TOUCH_TARGET_SIZES = {

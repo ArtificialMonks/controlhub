@@ -1,4 +1,4 @@
-// src/components/dashboard/charts/RealTimeActivityMonitor.tsx
+// src/components/features/dashboard/charts/RealTimeActivityMonitor.tsx
 'use client'
 
 import { useState, useEffect } from 'react'

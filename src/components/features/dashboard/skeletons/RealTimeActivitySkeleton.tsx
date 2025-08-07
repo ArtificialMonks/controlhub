@@ -1,4 +1,4 @@
-// src/components/dashboard/skeletons/RealTimeActivitySkeleton.tsx
+// src/components/features/dashboard/skeletons/RealTimeActivitySkeleton.tsx
 'use client'
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card'

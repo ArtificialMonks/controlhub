@@ -254,10 +254,13 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="bg-card rounded-lg border shadow-sm"
+          className="relative overflow-hidden border border-white/10 bg-white/5 dark:bg-black/20 backdrop-blur-md hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300 rounded-lg shadow-xl hover:shadow-primary/20 group"
         >
+          {/* Gradient overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          
           {/* Filters */}
-          <div className="p-4 border-b space-y-4">
+          <div className="p-4 border-b border-white/10 space-y-4 relative z-10">
             <AutomationFilters
               automations={automations}
               clients={clients}
@@ -266,6 +269,7 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
           </div>
 
           {/* Data Table */}
+          <div className="relative z-10">
           <AutomationsDataTable
             automations={filteredAutomations}
             clients={clients}
@@ -281,6 +285,7 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
             }}
             onStateChange={handleAutomationStateChange}
           />
+          </div>
         </motion.div>
 
         {/* Error Display */}

@@ -1,4 +1,4 @@
-// src/components/dashboard/DashboardFilterPresentation.tsx
+// src/components/features/dashboard/DashboardFilterPresentation.tsx
 /**
  * Dashboard Filter Presentation Component
  * Quest 4.3 - Expert Council Validated Implementation

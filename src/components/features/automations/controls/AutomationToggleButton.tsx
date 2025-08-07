@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Play, Square, Loader2 } from 'lucide-react'
-import { cn } from '@/lib/core/utils'
+import { cn } from '@/lib/utils'
 import { useToast } from '@/components/ui/use-toast'
 
 interface AutomationToggleButtonProps {

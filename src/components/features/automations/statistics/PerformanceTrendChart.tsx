@@ -68,15 +68,18 @@ export function PerformanceTrendChart({ automations }: PerformanceTrendChartProp
 
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.15 }}
+      className="h-full"
     >
-      <Card className="h-full backdrop-blur-sm bg-card/50 border-muted">
-        <CardHeader className="pb-2">
-          <CardTitle className="text-sm font-medium">Performance Trend</CardTitle>
+      <Card className="h-full relative overflow-hidden border border-white/10 bg-white/5 dark:bg-black/20 backdrop-blur-md hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20 group">
+        {/* Gradient overlay */}
+        <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+        <CardHeader className="pb-2 relative z-10">
+          <CardTitle className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">Performance Trend</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className="relative z-10">
           <ResponsiveContainer width="100%" height={150}>
             <AreaChart data={data} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
               <defs>

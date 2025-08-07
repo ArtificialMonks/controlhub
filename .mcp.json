@@ -35,11 +35,13 @@
       "command": "npx",
       "args": [
         "-y",
-        "@21st-dev/magic@latest",
-        "API_KEY=\"7336facdebd50448820fcbc4b0539dd34256cf64ffecccbebf11000caa026d55\""
-      ]
+        "@21st-dev/magic@latest"
+      ],
+      "env": {
+        "API_KEY": "7336facdebd50448820fcbc4b0539dd34256cf64ffecccbebf11000caa026d55"
+      }
     },
-    "Context 7": {
+    "context7": {
       "command": "npx",
       "args": [
         "-y",
@@ -53,17 +55,13 @@
         "mcp-sequentialthinking-tools"
       ]
     },
-    "supabase": {
-      "command": "npx", 
-      "args": [
-        "-y",
-        "@supabase/mcp-server-supabase@latest",
-        "--project-ref",
-        "xxttsckupjbvvhrykprf"
-      ],
-      "env": {
-        "SUPABASE_ACCESS_TOKEN": "sbp_bc9756e7f4aae7254e33b9b66eabfe69e1d17a35"
-      }
+    "supabase-community-supabase-mcp": {
+      "transport": "http",
+      "url": "https://server.smithery.ai/@supabase-community/supabase-mcp/mcp"
+    },
+    "cloudflare-playwright-mcp": {
+      "transport": "http",
+      "url": "https://server.smithery.ai/@cloudflare/playwright-mcp/mcp"
     }
   }
 }

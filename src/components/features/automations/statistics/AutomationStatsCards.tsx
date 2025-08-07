@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Activity, CheckCircle2, Zap, Clock } from 'lucide-react'
 
 interface AutomationStatsCardsProps {
@@ -22,33 +22,33 @@ export function AutomationStatsCards({ stats }: AutomationStatsCardsProps) {
       title: 'Total Automations',
       value: stats.total,
       icon: Activity,
-      color: 'text-blue-600 dark:text-blue-400',
-      bgColor: 'bg-blue-50 dark:bg-blue-950/20',
-      borderColor: 'border-blue-200 dark:border-blue-800'
+      color: 'bg-blue-500',
+      iconColor: 'text-white',
+      trendColor: 'text-blue-500'
     },
     {
       title: 'Running',
       value: stats.running,
       icon: CheckCircle2,
-      color: 'text-green-600 dark:text-green-400',
-      bgColor: 'bg-green-50 dark:bg-green-950/20',
-      borderColor: 'border-green-200 dark:border-green-800'
+      color: 'bg-green-500',
+      iconColor: 'text-white',
+      trendColor: 'text-green-500'
     },
     {
       title: 'Success Rate',
       value: `${Math.round(stats.avgSuccessRate)}%`,
       icon: Zap,
-      color: 'text-purple-600 dark:text-purple-400',
-      bgColor: 'bg-purple-50 dark:bg-purple-950/20',
-      borderColor: 'border-purple-200 dark:border-purple-800'
+      color: 'bg-purple-500',
+      iconColor: 'text-white',
+      trendColor: 'text-purple-500'
     },
     {
       title: 'Avg Duration',
       value: `${Math.round(stats.avgDuration / 1000)}s`,
       icon: Clock,
-      color: 'text-orange-600 dark:text-orange-400',
-      bgColor: 'bg-orange-50 dark:bg-orange-950/20',
-      borderColor: 'border-orange-200 dark:border-orange-800'
+      color: 'bg-orange-500',
+      iconColor: 'text-white',
+      trendColor: 'text-orange-500'
     }
   ]
 
@@ -59,22 +59,39 @@ export function AutomationStatsCards({ stats }: AutomationStatsCardsProps) {
         return (
           <motion.div
             key={card.title}
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.05 }}
           >
-            <Card className={`relative overflow-hidden border ${card.borderColor} ${card.bgColor} backdrop-blur-sm`}>
-              <CardHeader className="pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground flex items-center justify-between">
-                  {card.title}
-                  <Icon className={`h-4 w-4 ${card.color}`} />
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{card.value}</div>
+            <Card className="relative overflow-hidden border border-white/10 bg-white/5 dark:bg-black/20 backdrop-blur-md hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/20 hover:scale-[1.02] group cursor-pointer">
+              {/* Gradient overlay */}
+              <div className={`absolute inset-0 bg-gradient-to-br ${card.color.replace('bg-', 'from-')}/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+              <CardContent className="p-4 relative z-10">
+                <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-1">
+                    <p className="text-xs font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+                      {card.title}
+                    </p>
+                    <motion.p 
+                      className="text-xl font-bold bg-gradient-to-r from-foreground to-primary bg-clip-text text-transparent"
+                      initial={{ scale: 1 }}
+                      whileHover={{ scale: 1.05 }}
+                      transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                    >
+                      {card.value}
+                    </motion.p>
+                  </div>
+                  {/* Icon with enhanced styling */}
+                  <motion.div 
+                    className={`p-2 rounded-lg ${card.color} shadow-lg relative overflow-hidden`}
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    transition={{ type: "spring", stiffness: 400, damping: 15 }}
+                  >
+                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 to-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                    <Icon className={`h-4 w-4 ${card.iconColor} relative z-10`} />
+                  </motion.div>
+                </div>
               </CardContent>
-              {/* Decorative gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${card.bgColor} opacity-50 pointer-events-none`} />
             </Card>
           </motion.div>
         )

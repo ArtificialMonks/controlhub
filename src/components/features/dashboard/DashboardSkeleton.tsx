@@ -1,4 +1,4 @@
-// src/components/dashboard/DashboardSkeleton.tsx
+// src/components/features/dashboard/DashboardSkeleton.tsx
 'use client'
 
 import { motion } from 'framer-motion'

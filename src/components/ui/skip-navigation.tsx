@@ -2,7 +2,7 @@
 'use client'
 
 import React from 'react'
-import { cn } from '@/lib/core/utils'
+import { cn } from '@/lib/utils'
 
 interface SkipNavigationProps {
   href?: string

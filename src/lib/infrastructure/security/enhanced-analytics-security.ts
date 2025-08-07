@@ -1,4 +1,4 @@
-// Enhanced Analytics Security Validation
+// src/lib/infrastructure/security/enhanced-analytics-security.ts
 export interface SecurityIssue {
   severity: 'critical' | 'high' | 'medium' | 'low'
   category: 'data-exposure' | 'injection' | 'authentication' | 'authorization' | 'storage'

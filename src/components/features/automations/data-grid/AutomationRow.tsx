@@ -27,7 +27,7 @@ import {
   AlertCircle
 } from 'lucide-react'
 import { Automation } from '@/lib/data/repositories/automation-repository'
-import { cn } from '@/lib/core/utils'
+import { cn } from '@/lib/utils'
 import { useToast } from '@/components/ui/use-toast'
 import { formatDateTime, getRelativeTime } from '@/lib/core/utils/date-formatting'
 import { AutomationToggleButton } from '../controls/AutomationToggleButton'

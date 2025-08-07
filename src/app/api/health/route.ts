@@ -243,8 +243,6 @@ async function checkApplicationHealth(): Promise<HealthCheckResult> {
  * Perform comprehensive system health check
  */
 async function performHealthCheck(): Promise<SystemHealth> {
-  const startTime = Date.now()
-  
   // Run all health checks in parallel
   const [
     databaseCheck,
@@ -281,7 +279,7 @@ async function performHealthCheck(): Promise<SystemHealth> {
     timestamp: new Date().toISOString(),
     version: process.env.BUILD_VERSION || 'unknown',
     environment: process.env.NODE_ENV || 'unknown',
-    uptime: Date.now() - startTime,
+    uptime: Math.floor(process.uptime() * 1000), // Convert to milliseconds
     checks,
     summary
   }

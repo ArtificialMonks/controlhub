@@ -10,7 +10,7 @@
 "use client"
 
 import * as React from "react"
-import { cn } from "@/lib/core/utils"
+import { cn } from "@/lib/utils"
 
 // Responsive container variants
 export type ResponsiveVariant = 

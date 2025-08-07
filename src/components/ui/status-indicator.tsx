@@ -1,8 +1,9 @@
+// src/components/ui/status-indicator.tsx
 'use client'
 
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { cn } from '@/lib/core/utils'
+import { cn } from '@/lib/utils'
 
 interface StatusIndicatorProps {
   isConnected: boolean

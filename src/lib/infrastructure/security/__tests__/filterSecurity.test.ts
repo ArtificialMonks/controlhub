@@ -1,4 +1,4 @@
-// src/lib/security/__tests__/filterSecurity.test.ts
+// src/lib/infrastructure/security/__tests__/filterSecurity.test.ts
 /**
  * Comprehensive Security Validation Tests
  * Quest 4.3 - Expert Council Validated Implementation
@@ -15,7 +15,7 @@ import {
   SECURITY_TEST_CASES,
   runSecurityTests
 } from '../filterSecurity'
-import { DEFAULT_SANITIZATION_CONFIG } from '@/lib/core/types/filtering'
+import { DEFAULT_SANITIZATION_CONFIG } from '../../../core/types/filtering'
 
 describe('FilterSecurityValidator', () => {
   let validator: FilterSecurityValidator

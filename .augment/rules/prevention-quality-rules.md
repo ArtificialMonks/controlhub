@@ -10,6 +10,17 @@ Comprehensive prevention rules derived from resolving **82 TypeScript errors** (
 **comprehensive markdown quality analysis of 1,664 files**. Prevents recurrence of compilation errors, interface
 compatibility issues, property access violations, and documentation quality issues.
 
+## 🚨 **MANDATORY FIX-FIRST PROTOCOL (CRITICAL)**
+
+### **IMMEDIATE ISSUE RESOLUTION MANDATE**
+
+- **STOP-WORK ORDER**: When ANY issue, bug, failure, test failure, linting violation, or quality violation is detected, ALL new development work must IMMEDIATELY STOP
+- **FIX-FIRST REQUIREMENT**: Issues must be fixed IMMEDIATELY upon detection, not deferred or documented for later
+- **ZERO TOLERANCE**: NO progression to next phase, task, or activity until ALL detected issues are completely resolved
+- **WORKING CODE MANDATE**: Every phase must end with 100% working code, zero test failures, zero linting violations
+- **VERIFICATION-FIX LOOP**: After every verification layer, immediately fix what failed before proceeding
+- **NO SKIPPING FIXES**: It is STRICTLY FORBIDDEN to skip fixing detected issues or violations
+
 **Prevention Categories:**
 
 - **TypeScript & Code Quality**: Interface compatibility, configuration mapping, property access, Neo4j integration,
@@ -28,9 +39,10 @@ documentation standards
 
 ### **Critical TypeScript Rules**
 
-**Rule ICP-001: Result Type Disambiguation**
+#### Rule ICP-001: Result Type Disambiguation
 
-- **Error**: `Type 'VerificationResult' is not assignable to type 'ValidationResult'`- **Solution**: Always use`ValidationResult`for all validation operations
+- **Error**: `Type 'VerificationResult' is not assignable to type 'ValidationResult'`
+- **Solution**: Always use `ValidationResult` for all validation operations
 
 - **Pattern**:`const result: ValidationResult = { success: true, message: '...', data: artifact }`**Rule ICP-002: Property Access Safety**
 
@@ -58,9 +70,10 @@ documentation standards
 
 ### **Critical Markdown Rules (PR-001 to PR-007)**
 
-**Rule PR-001: Blanks Around Headings (MD022)**
+#### Rule PR-001: Blanks Around Headings (MD022)
 
-- **Error**:`MD022/blanks-around-headings Headings should be surrounded by blank lines`- **Solution**: One blank line before and after every heading
+- **Error**: `MD022/blanks-around-headings Headings should be surrounded by blank lines`
+- **Solution**: One blank line before and after every heading
 
 - **Pattern**:`## Heading\n\nContent...`**Rule PR-002: Blanks Around Lists (MD032)**
 
@@ -86,10 +99,13 @@ documentation standards
 
 - **Pattern**: Break long lines naturally at logical points, prioritize readability
 
-**Rule PR-006: Code Language Specification (MD040)**
+#### Rule PR-006: Code Language Specification (MD040)
 
-- **Error**:`MD040/fenced-code-language Fenced code blocks should have a language specified`- **Solution**: Always specify language in code fences
-- **Pattern**:````typescript`not just```` ```**Rule PR-007: Duplicate Headings (MD024)**
+- **Error**: `MD040/fenced-code-language Fenced code blocks should have a language specified`
+- **Solution**: Always specify language in code fences
+- **Pattern**: `````typescript` not just ``` ```
+
+#### Rule PR-007: Duplicate Headings (MD024)
 
 - **Error**:`MD024/no-duplicate-heading Multiple headings with same content`- **Solution**: Make headings unique within document
 
@@ -97,9 +113,10 @@ documentation standards
 
 ### **Spelling Error Prevention (SP-001)**
 
-**A.V.A.R.I.C.E. Term Truncation Prevention**
+#### A.V.A.R.I.C.E. Term Truncation Prevention
 
-- **Common Issues**:`utonomous`, `erification`, `daptive`, `obust`, `ntelligent`, `ompliant`, `fficient`- **Solution**: Always spell out full A.V.A.R.I.C.E. terms
+- **Common Issues**: `utonomous`, `erification`, `daptive`, `obust`, `ntelligent`, `ompliant`, `fficient`
+- **Solution**: Always spell out full A.V.A.R.I.C.E. terms
 
 - **Validation**:`npm run spell:avarice`---
 

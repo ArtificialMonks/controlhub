@@ -36,7 +36,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import { cn } from '@/lib/core/utils'
+import { cn } from '@/lib/utils'
 import { useToast } from '@/components/ui/use-toast'
 import type { Notification } from '@/lib/data/repositories/notification-repository'
 

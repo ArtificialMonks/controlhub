@@ -2,6 +2,20 @@
 
 This project uses **markdownlint** to enforce consistent markdown formatting across all documentation files.
 
+## 🚨 **MANDATORY FIX-FIRST PROTOCOL (CRITICAL)**
+
+### **IMMEDIATE ISSUE RESOLUTION MANDATE**
+
+- **STOP-WORK ORDER**: When ANY markdown linting violation is detected, ALL new documentation work must
+  IMMEDIATELY STOP
+- **FIX-FIRST REQUIREMENT**: Violations must be fixed IMMEDIATELY upon detection, not deferred or documented
+  for later
+- **ZERO TOLERANCE**: NO progression to next phase, task, or activity until ALL markdown violations are
+  completely resolved
+- **WORKING DOCUMENTATION MANDATE**: Every phase must end with 100% markdown compliance, zero linting violations
+- **VERIFICATION-FIX LOOP**: After every markdown validation, immediately fix what failed before proceeding
+- **NO SKIPPING FIXES**: It is STRICTLY FORBIDDEN to skip fixing detected markdown violations
+
 ## Configuration
 
 ### Files Created

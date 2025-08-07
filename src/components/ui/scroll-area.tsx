@@ -1,7 +1,8 @@
+// src/components/ui/scroll-area.tsx
 "use client"
 
 import * as React from "react"
-import { cn } from "@/lib/core/utils"
+import { cn } from "@/lib/utils"
 
 const ScrollArea = React.forwardRef<
   HTMLDivElement,

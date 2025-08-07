@@ -1,4 +1,4 @@
-// src/lib/quality/mutationTesting.ts
+// src/lib/development/quality/mutationTesting.ts
 /**
  * Mutation Testing System
  * Quest 4.3 - Expert Council Validated Implementation

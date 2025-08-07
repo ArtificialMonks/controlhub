@@ -7,7 +7,7 @@ import { BulkAutomationToggleButton } from './AutomationToggleButton'
 import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/components/ui/use-toast'
 import { Automation } from '@/lib/data/repositories/automation-repository'
-import { cn } from '@/lib/core/utils'
+import { cn } from '@/lib/utils'
 
 interface BulkToggleControlsProps {
   selectedAutomations: string[]
@@ -102,7 +102,7 @@ export function BulkToggleControls({
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="bg-card/50 backdrop-blur-sm border rounded-lg p-4 space-y-3"
+            className="relative overflow-hidden border border-white/10 bg-white/5 dark:bg-black/20 backdrop-blur-md hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300 rounded-lg p-4 space-y-3 group"
           >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -157,7 +157,7 @@ export function BulkToggleControls({
       </AnimatePresence>
 
       {/* Filtered Automations Controls */}
-      <div className="bg-card/30 backdrop-blur-sm border rounded-lg p-4 space-y-3">
+      <div className="relative overflow-hidden border border-white/10 bg-white/5 dark:bg-black/20 backdrop-blur-md hover:bg-white/10 dark:hover:bg-black/30 transition-all duration-300 rounded-lg p-4 space-y-3 group">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Badge variant="outline" className="gap-1">
@@ -215,7 +215,7 @@ export function BulkToggleControls({
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg p-3"
+          className="relative overflow-hidden border border-blue-500/20 bg-blue-500/10 dark:bg-blue-500/20 backdrop-blur-md rounded-lg p-3"
         >
           <div className="flex items-center gap-2 text-sm text-blue-700 dark:text-blue-300">
             <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
