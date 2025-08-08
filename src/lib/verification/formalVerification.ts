@@ -161,7 +161,8 @@ export class FormalVerificationEngine {
         duration,
         timestamp: new Date()
       }
-    } catch (_error) {
+    } catch (error) {
+      console.debug('Verification failed:', error)
       const duration = Date.now() - startTime
       
       return {

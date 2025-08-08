@@ -33,6 +33,57 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Activate agents with `@"in-export-agent" "prompt"` - Deploy optimization agent
 - Agents run in Claude Code's native agent system
 
+### MCP Server Reliability & Management
+
+**Reliable MCP Connection Scripts:**
+
+- `./scripts/mcp-wrapper.sh start` - Start reliable MCP connections with health monitoring
+- `./scripts/mcp-wrapper.sh restart` - Restart MCP services with automatic recovery
+- `./scripts/mcp-wrapper.sh test [server]` - Test specific MCP server connectivity
+- `npx tsx scripts/mcp-health-check.ts check` - One-time health check of all MCP servers
+- `npx tsx scripts/mcp-health-check.ts monitor` - Continuous health monitoring with auto-recovery
+
+**MCP Timeout Prevention:**
+
+- Enhanced timeout settings in `.mcp.json` (5 minutes for operations)
+- Backup configuration in `.mcp-backup.json` with failover support
+- Automatic reconnection with exponential backoff
+- Health monitoring every 30 seconds with automatic recovery
+- System optimizations for better Node.js MCP performance
+
+**MCP Guardian Agent - Autonomous MCP Management:**
+
+- `npx tsx scripts/mcp-agent-integration.ts "enable auto-recovery"` - Start autonomous monitoring
+- `npx tsx scripts/mcp-agent-integration.ts "status"` - Show health status of all MCP servers
+- `npx tsx scripts/mcp-agent-integration.ts "recover [server]"` - Force recovery of specific server
+- `npx tsx scripts/mcp-agent-integration.ts "retry"` - Retry failed operations automatically
+- `npx tsx scripts/mcp-agent-integration.ts "emergency restart"` - Full system recovery
+
+**Usage for Long MCP Operations:**
+
+```bash
+# Option 1: Start autonomous MCP Guardian (Recommended)
+npx tsx scripts/mcp-agent-integration.ts "enable auto-recovery"
+# Guardian will automatically detect failures and recover - no manual intervention needed
+
+# Option 2: Manual approach
+./scripts/mcp-wrapper.sh start  # Start reliable MCP environment
+# Run your MCP operations (Supabase migrations, etc.)
+# The health monitor will prevent timeouts automatically
+
+# Optional: Monitor in real-time
+npx tsx scripts/mcp-health-check.ts monitor 15000  # Check every 15 seconds
+```
+
+**Agent Integration with Claude Code:**
+You can use the MCP Guardian as a Claude Code agent by referencing it in prompts:
+
+```bash
+@mcp-guardian "enable auto-recovery"
+@mcp-guardian "status" 
+@mcp-guardian "recover supabase-community-supabase-mcp"
+```
+
 ### Testing Strategy
 
 The project uses:

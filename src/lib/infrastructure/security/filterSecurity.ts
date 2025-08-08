@@ -205,6 +205,7 @@ export class AdvancedInputSanitizer {
           }
         } catch (error) {
           // DOMPurify not available in test environment - skip HTML sanitization
+          console.debug('HTML sanitization skipped:', error)
           warnings.push('HTML sanitization skipped (not in browser environment)')
         }
       }

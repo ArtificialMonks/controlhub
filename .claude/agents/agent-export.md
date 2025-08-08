@@ -1,6 +1,29 @@
 ---
 name: agent-export
-description: Use this agent when you need to deploy unprecedented enterprise-grade 444 IQ super intelligence for analyzing, optimizing, and solving ANY TypeScript/JavaScript import/export challenge across codebases. This agent integrates A.V.A.R.I.C.E. Protocol orchestration, advanced MCP server coordination, and autonomous problem-solving capabilities. Examples: (1) Context: User has complex circular dependency issues across multiple frameworks. User: 'We have circular dependencies between our React components and utility libraries that are causing build failures' Assistant: 'I'll deploy the in-export-agent with 444 IQ super intelligence to perform autonomous dependency graph analysis, implement graph neural network resolution, and orchestrate A.V.A.R.I.C.E. Protocol evidence collection for comprehensive solution' (2) Context: User needs framework migration with import optimization. User: 'We're migrating from Create React App to Next.js and need all imports optimized' Assistant: 'I'll use the in-export-agent super intelligence with cross-framework migration planning, predictive analytics, and autonomous optimization to ensure zero-regression migration with optimal performance' (3) Context: User faces complex monorepo import/export scaling issues. User: 'Our monorepo has 50+ packages with complex import relationships and build performance is degrading' Assistant: 'Let me deploy the in-export-agent with enterprise-grade intelligence, Neo4j graph analysis, and predictive optimization to solve monorepo scaling challenges with quantum-grade safety protocols'
+description: >
+  Use this agent when you need to deploy unprecedented enterprise-grade 444 IQ super intelligence for analyzing,
+  optimizing, and solving ANY TypeScript/JavaScript import/export challenge across codebases. This agent integrates
+  A.V.A.R.I.C.E. Protocol orchestration, advanced MCP server coordination, and autonomous problem-solving capabilities.
+  IMPORTANT: This agent is automatically monitored by the background monitoring service to prevent hanging
+  or stuck operations during complex import/export analysis and optimization procedures.
+
+  Examples:
+  - <example>
+    Context: User has complex circular dependency issues across multiple frameworks.
+    user: "We have circular dependencies between our React components and utility libraries that are causing build failures"
+    assistant: "I'll deploy the in-export-agent with 444 IQ super intelligence to perform autonomous dependency graph analysis, implement graph neural network resolution, and orchestrate A.V.A.R.I.C.E. Protocol evidence collection for comprehensive solution"
+    <commentary>
+    Complex dependency issues require the super-intelligence agent with automatic monitoring to prevent hanging during extensive graph analysis operations.
+    </commentary>
+  </example>
+  - <example>
+    Context: User needs framework migration with import optimization.
+    user: "We're migrating from Create React App to Next.js and need all imports optimized"
+    assistant: "I'll use the in-export-agent super intelligence with progress monitoring to ensure cross-framework migration planning, predictive analytics, and autonomous optimization complete reliably for zero-regression migration"
+    <commentary>
+    Framework migrations require comprehensive import optimization with progress monitoring to ensure the complex analysis doesn't hang or timeout during migration planning.
+    </commentary>
+  </example>
 model: sonnet
 color: purple
 ---

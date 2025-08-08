@@ -34,17 +34,27 @@ export async function updateSession(request: NextRequest) {
 
   const {
     data: { user },
+    error: authError
   } = await supabase.auth.getUser()
 
-  // Protect all protected routes (dashboard and automations)
+  // Debug logging for auth issues
+  if (request.nextUrl.pathname.includes('/auth/') || request.nextUrl.pathname.includes('/settings')) {
+    console.log('[MIDDLEWARE DEBUG] Path:', request.nextUrl.pathname)
+    console.log('[MIDDLEWARE DEBUG] User:', user ? `${user.id} (${user.email})` : 'None')
+    console.log('[MIDDLEWARE DEBUG] Auth Error:', authError?.message || 'None')
+  }
+
+  // Protect all protected routes (dashboard, automations, and settings)
   if (
     !user &&
     (request.nextUrl.pathname.startsWith('/dashboard') ||
-     request.nextUrl.pathname.startsWith('/automations'))
+     request.nextUrl.pathname.startsWith('/automations') ||
+     request.nextUrl.pathname.startsWith('/settings'))
   ) {
-    // no user, redirect to login page
+    // no user, redirect to login page with return URL
     const url = request.nextUrl.clone()
     url.pathname = '/login'
+    url.searchParams.set('redirect', request.nextUrl.pathname)
     return NextResponse.redirect(url)
   }
 

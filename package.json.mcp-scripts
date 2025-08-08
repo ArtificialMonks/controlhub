@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "mcp:start": "./scripts/mcp-wrapper.sh start",
+    "mcp:restart": "./scripts/mcp-wrapper.sh restart", 
+    "mcp:health": "npx tsx scripts/mcp-health-check.ts check",
+    "mcp:monitor": "npx tsx scripts/mcp-health-check.ts monitor",
+    "mcp:optimize": "./scripts/mcp-wrapper.sh optimize",
+    "mcp:reconnect": "claude /mcp restart && echo 'MCP servers reconnected'",
+    "mcp:status": "claude /mcp list",
+    "db:enhance": "npm run mcp:optimize && npm run mcp:reconnect && echo 'Ready for database operations'"
+  }
+}

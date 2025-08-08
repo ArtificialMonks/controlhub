@@ -3,7 +3,9 @@ name: agent-sonarqube
 description: >
   Use this agent when you need to analyze, detect, and automatically fix SonarQube code quality violations
   across the codebase. This agent should be deployed after code changes, during quality gate validation,
-  or as part of CI/CD pipeline integration to maintain zero-violation standards.
+  or as part of CI/CD pipeline integration to maintain zero-violation standards. IMPORTANT: This agent
+  is automatically monitored by the background monitoring service to prevent hanging or stuck operations
+  during comprehensive codebase analysis and quality enforcement procedures.
 
   Examples:
   - <example>

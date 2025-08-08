@@ -33,6 +33,11 @@
     --warning: 43 96% 56%; /* Warning #FAAD14 */
     --accent-gradient-start: 225 100% 50%; /* #003cff */
     --accent-gradient-end: 225 100% 60%; /* #0066ff */
+    
+    /* Settings Custom Properties */
+    --font-size-multiplier: 1;
+    --font-family-custom: ui-sans-serif, system-ui, sans-serif;
+    --motion-reduce: no-preference;
   }
 
   .dark {
@@ -230,5 +235,128 @@
   /* Moon glow effect */
   .moon-glow {
     filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.4));
+  }
+
+  /* Settings-based styling */
+  html {
+    font-size: calc(16px * var(--font-size-multiplier));
+  }
+  
+  /* Keep Control Hub titles at their original size - completely detached from font size multiplier */
+  /* Use fixed pixel sizes that bypass rem calculation entirely */
+  
+  /* Override for ANY control-hub-title with text-lg class - sidebar size */
+  .control-hub-title.text-lg {
+    font-size: 18px !important; /* Fixed 18px = 1.125rem at 16px base, unaffected by multiplier */
+    line-height: 20px !important; /* Fixed line height */
+    display: inline-block !important; /* Changed back to inline-block for better layout */
+  }
+  
+  /* Override for ANY control-hub-title with text-3xl class - page header size */
+  .control-hub-title.text-3xl {
+    font-size: 30px !important; /* Fixed 30px = 1.875rem at 16px base, unaffected by multiplier */
+    line-height: 30px !important; /* Fixed line height */
+  }
+  
+  /* General fallback for control-hub-title - assume page headers */
+  .control-hub-title {
+    font-size: 30px !important; /* Fixed 30px = 1.875rem at 16px base, unaffected by multiplier */
+    line-height: 30px !important; /* Fixed line height */
+  }
+
+  /* Ensure sidebar header has proper centering and spacing regardless of font size */
+  .sidebar-header {
+    min-width: 200px !important; /* Minimum width to accommodate logo + CONTROLHUB text when expanded */
+    position: relative !important; /* Ensure proper positioning context for absolute elements */
+  }
+  
+  /* Ensure collapsed sidebar maintains proper logo centering */
+  .sidebar-header.collapsed {
+    min-width: 60px !important; /* Fixed width for collapsed state */
+    width: 60px !important; /* Exact width when collapsed */
+  }
+
+  body {
+    font-family: var(--font-family-custom);
+  }
+
+  /* High contrast mode */
+  .high-contrast {
+    --border: 0 0% 0%;
+    --input: 0 0% 0%;
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 90%;
+    --accent: 225 100% 70%;
+    --primary: 225 100% 70%;
+    filter: contrast(1.5);
+  }
+
+  .high-contrast .dark {
+    --border: 0 0% 100%;
+    --input: 0 0% 100%;
+    --muted: 0 0% 90%;
+    --muted-foreground: 0 0% 10%;
+    --background: 0 0% 0%;
+    --card: 0 0% 5%;
+    --popover: 0 0% 5%;
+  }
+
+  /* Reduced motion */
+  .reduce-motion * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reduce-motion {
+      --motion-reduce: reduce;
+    }
+  }
+
+  /* Font size classes */
+  .font-small {
+    --font-size-multiplier: 0.875;
+  }
+
+  .font-medium {
+    --font-size-multiplier: 1;
+  }
+
+  .font-large {
+    --font-size-multiplier: 1.125;
+  }
+
+  /* Font family classes */
+  .font-default {
+    --font-family-custom: ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .font-orbitron {
+    --font-family-custom: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
+  }
+
+  .font-mono {
+    --font-family-custom: ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
+  }
+
+  /* Font family overrides for specific elements */
+  .control-hub-title,
+  .page-header-title {
+    font-family: 'Orbitron', ui-sans-serif, system-ui, sans-serif !important;
+  }
+
+  /* Responsive font size adjustments */
+  @media (max-width: 768px) {
+    html {
+      font-size: calc(14px * var(--font-size-multiplier));
+    }
+  }
+
+  @media (min-width: 1200px) {
+    html {
+      font-size: calc(18px * var(--font-size-multiplier));
+    }
   }
 }

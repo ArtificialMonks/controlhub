@@ -1,4 +1,4 @@
-// src/components/automation/automation-card.tsx
+// src/components/features/automations/automation-card.tsx
 "use client"
 
 import * as React from "react"

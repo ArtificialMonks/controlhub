@@ -190,12 +190,15 @@ function benchmarkSearchFilter(
  */
 function benchmarkClientFilter(
   automations: Automation[],
-  _clientIds: string[]
+  clientIds: string[]
 ): (clientId: string) => number {
   return (clientId: string): number => {
     const startTime = performance.now()
 
-    automations.filter(automation => automation.client_id === clientId)
+    // Validate clientId is in allowed list before filtering
+    if (clientIds.includes(clientId)) {
+      automations.filter(automation => automation.client_id === clientId)
+    }
 
     const endTime = performance.now()
     return endTime - startTime
@@ -207,13 +210,18 @@ function benchmarkClientFilter(
  */
 function benchmarkStatusFilter(
   automations: Automation[],
-  _statusCombinations: string[][]
+  statusCombinations: string[][]
 ): (statuses: string[]) => number {
   return (statuses: string[]): number => {
     const startTime = performance.now()
 
+    // Validate statuses against allowed combinations before filtering
+    const validStatuses = statusCombinations.some(combo => 
+      statuses.every(status => combo.includes(status))
+    ) ? statuses : []
+    
     automations.filter(automation => 
-      statuses.length === 0 || statuses.includes(automation.status)
+      validStatuses.length === 0 || validStatuses.includes(automation.status)
     )
 
     const endTime = performance.now()

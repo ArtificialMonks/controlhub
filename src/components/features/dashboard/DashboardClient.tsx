@@ -2,7 +2,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { RefreshCw } from 'lucide-react'
+import { RefreshCw, Crown } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { MetricsCards } from '@/components/features/dashboard/metrics/MetricsCards'
 import { AutomationProgressSection } from '@/components/features/dashboard/analytics/AutomationProgressSection'
@@ -19,6 +19,7 @@ import {
 import type { Automation } from '@/lib/data/repositories/automation-repository'
 import { useState } from 'react'
 import { useToast } from '@/components/ui/use-toast'
+import { useTeamMode } from '@/hooks/useTeamMode'
 
 interface Client {
   id: string
@@ -35,6 +36,7 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [isLoading] = useState(false)
   const { toast } = useToast()
+  const { features: teamFeatures, description: teamModeDescription } = useTeamMode()
 
 
 
@@ -58,7 +60,8 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
     try {
       // Refresh functionality - could trigger a router refresh or API call
       window.location.reload()
-    } catch {
+    } catch (error) {
+      console.error('Dashboard refresh error:', error)
       toast({
         title: "Refresh failed",
         description: "Unable to refresh dashboard data.",
@@ -103,9 +106,20 @@ export function DashboardClient({ automations, clients, error }: DashboardClient
               >
                 AUTOMATION DASHBOARD
               </motion.h1>
-              <p className="text-muted-foreground">
-                Real-time insights and performance analytics for your automation ecosystem
-              </p>
+              <div className="flex items-center gap-4 mt-2">
+                <p className="text-muted-foreground">
+                  Real-time insights and performance analytics for your automation ecosystem
+                </p>
+                <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full">
+                  <Crown className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium text-primary">
+                    {teamModeDescription.name}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    {teamFeatures.advancedAnalytics ? 'Advanced Analytics' : 'Basic Analytics'}
+                  </span>
+                </div>
+              </div>
             </div>
             <div className="flex items-center gap-2">
               <Button

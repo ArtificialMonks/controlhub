@@ -127,7 +127,8 @@ export function AutomationRow({
           })
           break
       }
-    } catch {
+    } catch (error) {
+      console.error('Automation action failed:', error)
       toast({
         title: "Action failed",
         description: "Unable to perform the requested action.",

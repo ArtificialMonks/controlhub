@@ -5,12 +5,16 @@ import { SidebarProvider, Sidebar, SidebarContent, SidebarHeader, SidebarFooter,
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { StatusIndicator } from '@/components/ui/status-indicator'
 import { AuthDropdown } from '@/components/ui/auth-dropdown'
-import { Home, Settings, BarChart3, FileText, HelpCircle, Zap } from 'lucide-react'
+import { Home, BarChart3, FileText, HelpCircle, Zap, Settings } from 'lucide-react'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
 import { useEffect, useState } from 'react'
 import { NotificationProvider } from '@/components/notifications/NotificationProvider'
+import { SettingsProvider } from '@/contexts/SettingsContext'
+import { ProfileProvider } from '@/contexts/ProfileContext'
+import { AppearanceProvider } from '@/contexts/AppearanceContext'
+import { useApplyAppearanceSettings } from '@/hooks/useApplyAppearanceSettings'
 
 // Sidebar header component with responsive logo and CONTROLHUB text
 function SidebarHeaderContent() {
@@ -18,15 +22,18 @@ function SidebarHeaderContent() {
   
   return (
     <div className={cn(
-      "flex items-center w-full h-16 relative transition-all duration-300",
-      isCollapsed ? "justify-center px-3" : "px-4"
+      "sidebar-header flex items-center w-full h-16 relative transition-all duration-300",
+      isCollapsed ? "collapsed justify-center px-0" : "px-4"
     )}>
       {/* Automation-style logo with nodes */}
       <motion.div
-        className={cn(
-          "flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary via-accent to-primary shadow-lg relative overflow-hidden shrink-0",
-          isCollapsed && "ml-1"
-        )}
+        className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-primary via-accent to-primary shadow-lg relative overflow-hidden shrink-0"
+        style={{
+          // Align with house icon when collapsed, regardless of font size
+          position: isCollapsed ? "absolute" : "relative",
+          left: isCollapsed ? "0px" : "auto", // Move all the way to the left edge to align with house icon
+          transform: isCollapsed ? "none" : "none"
+        }}
         whileHover={{ 
           scale: 1.1, 
           rotate: 360,
@@ -132,25 +139,22 @@ function SidebarHeaderContent() {
       </motion.div>
       
       {/* CONTROLHUB text - only visible when sidebar is expanded */}
-      <motion.div
-        className="ml-3 overflow-hidden"
-        initial={false}
-        animate={{ 
-          width: isCollapsed ? 0 : "auto", 
-          opacity: isCollapsed ? 0 : 1 
-        }}
-        transition={{ duration: 0.3, ease: "easeInOut" }}
-      >
-        <motion.span
-          className="control-hub-title text-lg font-bold bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent whitespace-nowrap"
-          style={{ backgroundSize: "200% 100%" }}
-          animate={{
-            backgroundPosition: ["0% 50%", "100% 50%", "0% 50%"],
+      {!isCollapsed && (
+        <motion.div
+          className="ml-3"
+          initial={{ width: 0, opacity: 0 }}
+          animate={{ 
+            width: "130px", // Fixed width optimized for CONTROLHUB text
+            opacity: 1 
           }}
-          transition={{
-            duration: 4,
-            ease: "easeInOut",
-            repeat: Infinity,
+          exit={{ width: 0, opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          style={{ overflow: "visible" }} // Allow text to be visible even if container is smaller
+        >
+        <motion.span
+          className="control-hub-title text-lg font-bold text-primary whitespace-nowrap"
+          style={{ 
+            minWidth: "120px" // Ensure minimum width for the text
           }}
           whileHover={{
             scale: 1.05,
@@ -159,7 +163,8 @@ function SidebarHeaderContent() {
         >
           CONTROLHUB
         </motion.span>
-      </motion.div>
+        </motion.div>
+      )}
       
       {/* Alignment separator matching header */}
       <div className="absolute -bottom-0.5 left-0 right-0 h-px separator-gradient"></div>
@@ -172,6 +177,9 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
   const { isCollapsed, isMobile } = useSidebar()
   const [isConnected, setIsConnected] = useState(true)
   const [userEmail, setUserEmail] = useState<string | null>(null)
+  
+  // Apply appearance settings to the DOM
+  useApplyAppearanceSettings()
 
   // Check connection status and user auth
   useEffect(() => {
@@ -279,81 +287,87 @@ export default function DashboardLayout({
 
   return (
     <NotificationProvider userId={effectiveUserEmail}>
-      <SidebarProvider>
-        <div className="relative min-h-screen w-full bg-background overflow-hidden">
-          {/* Fixed Sidebar */}
-          <Sidebar className="pointer-events-auto">
-            <SidebarHeader className="border-b border-aligned">
-              <SidebarHeaderContent />
-            </SidebarHeader>
+      <SettingsProvider>
+        <ProfileProvider>
+          <AppearanceProvider>
+            <SidebarProvider>
+          <div className="relative min-h-screen w-full bg-background overflow-hidden">
+            {/* Fixed Sidebar */}
+            <Sidebar className="pointer-events-auto">
+              <SidebarHeader className="border-b border-aligned">
+                <SidebarHeaderContent />
+              </SidebarHeader>
 
-            <SidebarContent>
-              <SidebarMenu>
-                <SidebarMenuItem>
-                  <Link href="/dashboard">
-                    <SidebarMenuButton>
-                      <Home className="h-4 w-4" />
-                      <span>Dashboard</span>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
+              <SidebarContent>
+                <SidebarMenu>
+                  <SidebarMenuItem>
+                    <Link href="/dashboard">
+                      <SidebarMenuButton>
+                        <Home className="h-4 w-4" />
+                        <span>Dashboard</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
 
-                <SidebarMenuItem>
-                  <Link href="/automations">
-                    <SidebarMenuButton>
-                      <Zap className="h-4 w-4" />
-                      <span>Automations</span>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <Link href="/automations">
+                      <SidebarMenuButton>
+                        <Zap className="h-4 w-4" />
+                        <span>Automations</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
 
-                <SidebarMenuItem>
-                  <Link href="/dashboard">
-                    <SidebarMenuButton>
-                      <BarChart3 className="h-4 w-4" />
-                      <span>Analytics</span>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <Link href="/dashboard">
+                      <SidebarMenuButton>
+                        <BarChart3 className="h-4 w-4" />
+                        <span>Analytics</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
 
-                <SidebarMenuItem>
-                  <Link href="/dashboard">
-                    <SidebarMenuButton>
-                      <FileText className="h-4 w-4" />
-                      <span>Reports</span>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <Link href="/dashboard">
+                      <SidebarMenuButton>
+                        <FileText className="h-4 w-4" />
+                        <span>Reports</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
 
-                <SidebarMenuItem>
-                  <Link href="/settings">
-                    <SidebarMenuButton>
-                      <Settings className="h-4 w-4" />
-                      <span>Settings</span>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
+                  <SidebarMenuItem>
+                    <Link href="/settings-simple">
+                      <SidebarMenuButton>
+                        <Settings className="h-4 w-4" />
+                        <span>Profile Settings</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
 
-                <SidebarMenuItem>
-                  <Link href="/dashboard">
-                    <SidebarMenuButton>
-                      <HelpCircle className="h-4 w-4" />
-                      <span>Help</span>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarMenuItem>
-              </SidebarMenu>
-            </SidebarContent>
+                  <SidebarMenuItem>
+                    <Link href="/dashboard">
+                      <SidebarMenuButton>
+                        <HelpCircle className="h-4 w-4" />
+                        <span>Help</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
+                </SidebarMenu>
+              </SidebarContent>
 
-            <SidebarFooter>
-              {/* Footer content removed as requested - auth controls moved to header */}
-            </SidebarFooter>
-          </Sidebar>
+              <SidebarFooter>
+                {/* Footer content removed as requested - auth controls moved to header */}
+              </SidebarFooter>
+            </Sidebar>
 
-          {/* Main Content Area */}
-          <DashboardContent>{children}</DashboardContent>
-        </div>
-      </SidebarProvider>
+            {/* Main Content Area */}
+            <DashboardContent>{children}</DashboardContent>
+          </div>
+            </SidebarProvider>
+          </AppearanceProvider>
+        </ProfileProvider>
+      </SettingsProvider>
     </NotificationProvider>
   )
 }

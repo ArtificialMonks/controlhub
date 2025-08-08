@@ -1,3 +1,4 @@
+// src/components/features/automations/actions/BulkActions.tsx
 'use client'
 
 import { Button } from '@/components/ui/button'

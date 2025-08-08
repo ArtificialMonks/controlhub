@@ -177,7 +177,7 @@
 
 ### Critical Path Dependencies
 
-```
+```text
 
 Tailwind Config → Breakpoint System → Component Responsiveness
 

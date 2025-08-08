@@ -290,6 +290,10 @@ export abstract class BaseRepository<T extends Record<string, unknown>> {
       // Get current record for audit trail
       const currentResult = await this.findById(id, { skipAudit: true })
       
+      if (!currentResult.success) {
+        return { success: false, error: 'Record not found for deletion', timestamp: new Date() }
+      }
+      
       // Execute delete with retry logic
       await this.executeWithRetry(async () => {
         const { error } = await this.supabase

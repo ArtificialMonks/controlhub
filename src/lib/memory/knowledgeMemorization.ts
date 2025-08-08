@@ -352,7 +352,8 @@ export class KnowledgeMemorizationEngine {
         confidence: item.confidence,
         timestamp: new Date()
       }
-    } catch (_error) {
+    } catch (error) {
+      console.debug('Failed to process memory item:', error)
       return {
         itemId: item.id,
         status: 'failed',

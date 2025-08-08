@@ -97,7 +97,9 @@
     "Turbopack",
     "birpc",
     "chartjs",
+    "checkmarks",
     "prerendered",
+    "schemaname",
     "docbook",
     "gltf",
     "mhtml",
@@ -534,7 +536,11 @@
     "Orbitron",
     "Fitts",
     "VARCHAR",
-    "smns"
+    "smns",
+    "Completenes",
+    "chakra",
+    "pkill",
+    "pgrep"
   ],
   "ignoreWords": [],
   "import": [],

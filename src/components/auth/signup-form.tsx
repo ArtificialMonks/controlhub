@@ -36,8 +36,11 @@ export function SignupForm() {
     }
 
     try {
+      console.log('[SIGNUP DEBUG] Starting signup process for:', email)
       const supabase = createClient()
-      const { error } = await supabase.auth.signUp({
+      console.log('[SIGNUP DEBUG] Supabase client created')
+      
+      const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
@@ -45,14 +48,28 @@ export function SignupForm() {
         },
       })
 
+      console.log('[SIGNUP DEBUG] Signup response:')
+      console.log('[SIGNUP DEBUG] - Data:', data)
+      console.log('[SIGNUP DEBUG] - Error:', error)
+
       if (error) {
-        setError(error.message)
+        console.error('[SIGNUP DEBUG] Signup failed:', error)
+        console.error('[SIGNUP DEBUG] Error details:', JSON.stringify(error, null, 2))
+        setError(`Signup failed: ${error.message}`)
         return
       }
 
+      if (data?.user) {
+        console.log('[SIGNUP DEBUG] User created successfully:', data.user.id)
+        console.log('[SIGNUP DEBUG] Email confirmed:', data.user.email_confirmed_at)
+      }
+
       setSuccess(true)
-    } catch {
-      setError('An unexpected error occurred')
+      console.log('[SIGNUP DEBUG] Signup process completed successfully')
+    } catch (error) {
+      console.error('[SIGNUP DEBUG] Unexpected error during signup:', error)
+      console.error('[SIGNUP DEBUG] Full error object:', JSON.stringify(error, Object.getOwnPropertyNames(error), 2))
+      setError(`An unexpected error occurred: ${error instanceof Error ? error.message : String(error)}`)
     } finally {
       setIsLoading(false)
     }

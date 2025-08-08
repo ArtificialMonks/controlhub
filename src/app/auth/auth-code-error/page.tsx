@@ -1,14 +1,14 @@
 // src/app/auth/auth-code-error/page.tsx
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { AlertTriangle, RefreshCw, Home, Mail } from 'lucide-react'
 import Link from 'next/link'
 
-export default function AuthCodeErrorPage() {
+function AuthCodeErrorContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [error, setError] = useState<string | null>(null)
@@ -122,5 +122,21 @@ export default function AuthCodeErrorPage() {
         </CardContent>
       </Card>
     </div>
+  )
+}
+
+export default function AuthCodeErrorPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 p-4">
+        <Card className="w-full max-w-md">
+          <CardContent className="flex items-center justify-center p-8">
+            <RefreshCw className="h-6 w-6 animate-spin" />
+          </CardContent>
+        </Card>
+      </div>
+    }>
+      <AuthCodeErrorContent />
+    </Suspense>
   )
 }

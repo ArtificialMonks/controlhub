@@ -1,9 +1,30 @@
 ---
 name: agent-markdownfix
-description: Use this agent when you need to enforce markdown quality standards and execute optimization scripts in the project. This agent should be used proactively after any markdown file creation or modification, and when running import/export optimization or validation scripts. Examples: <example>Context: User has just created or modified a markdown file and needs quality enforcement. user: "I just updated the README.md file with new documentation" assistant: "I'll use the markdown-script-enforcer agent to validate the markdown quality and run any necessary optimization scripts" <commentary>Since markdown content was modified, use the markdown-script-enforcer agent to enforce quality standards and run validation.</commentary></example> <example>Context: User wants to run import/export optimization after code changes. user: "Can you optimize the import statements in the codebase?" assistant: "I'll use the markdown-script-enforcer agent to run the enterprise import/export optimization scripts" <commentary>Since the user wants script execution for optimization, use the markdown-script-enforcer agent to run the appropriate scripts from the scripts directory.</commentary></example>
+description: >
+  Use this agent when you need to enforce markdown quality standards and execute optimization scripts in the project.
+  This agent should be used proactively after any markdown file creation or modification, and when running import/export
+  optimization or validation scripts. IMPORTANT: This agent is automatically monitored by the background
+  monitoring service to prevent hanging or stuck operations during comprehensive markdown enforcement and script execution procedures.
+
+  Examples:
+  - <example>
+    Context: User has just created or modified a markdown file and needs quality enforcement.
+    user: "I just updated the README.md file with new documentation"
+    assistant: "I'll use the markdown-script-enforcer agent with progress monitoring to validate the markdown quality and run any necessary optimization scripts"
+    <commentary>
+    Since markdown content was modified, use the markdown-script-enforcer agent with automatic progress monitoring to enforce quality standards and prevent hanging during validation.
+    </commentary>
+  </example>
+  - <example>
+    Context: User wants to run import/export optimization after code changes.
+    user: "Can you optimize the import statements in the codebase?"
+    assistant: "I'll use the markdown-script-enforcer agent with progress monitoring to run the enterprise import/export optimization scripts"
+    <commentary>
+    Since the user wants script execution for optimization, use the markdown-script-enforcer agent with progress monitoring to run the appropriate scripts and prevent timeout issues.
+    </commentary>
+  </example>
 model: sonnet
 color: green
-
 ---
 
 # Elite Markdown Quality Enforcement and Script Execution Agent

@@ -16,10 +16,18 @@ export function ThemeToggle() {
   }, [])
 
   const toggleTheme = React.useCallback(() => {
+    // Ensure we only toggle between light and dark (no system)
     const currentTheme = resolvedTheme || theme
     const newTheme = currentTheme === 'dark' ? 'light' : 'dark'
 
-    console.log('Theme toggle clicked:', { currentTheme, newTheme })
+    console.log('Theme toggle clicked:', { 
+      currentTheme, 
+      newTheme, 
+      theme, 
+      resolvedTheme 
+    })
+    
+    // Set the new theme
     setTheme(newTheme)
   }, [theme, resolvedTheme, setTheme])
 

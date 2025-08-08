@@ -57,7 +57,15 @@
     },
     "supabase-community-supabase-mcp": {
       "transport": "http",
-      "url": "https://server.smithery.ai/@supabase-community/supabase-mcp/mcp"
+      "url": "https://server.smithery.ai/@supabase-community/supabase-mcp/mcp",
+      "settings": {
+        "timeout": 300000,
+        "keepAlive": true,
+        "maxRetries": 3,
+        "retryDelay": 1000,
+        "connectionTimeout": 60000,
+        "requestTimeout": 120000
+      }
     },
     "cloudflare-playwright-mcp": {
       "transport": "http",

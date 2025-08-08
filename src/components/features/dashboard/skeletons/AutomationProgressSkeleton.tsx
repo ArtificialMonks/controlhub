@@ -1,4 +1,4 @@
-// src/components/dashboard/skeletons/AutomationProgressSkeleton.tsx
+// src/components/features/dashboard/skeletons/AutomationProgressSkeleton.tsx
 'use client'
 
 import { Card, CardContent, CardHeader } from '@/components/ui/card'

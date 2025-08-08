@@ -12,7 +12,7 @@
 
 ### Phase 3 Evidence Directory Structure
 
-```
+```text
 docs/evidence/quest-5.1/phase-evidence/phase-3-expert-council/
 ├── expert-debates/
 │   ├── mandatory-documentation-review-analysis.md ✅

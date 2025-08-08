@@ -81,17 +81,16 @@ export function NotificationProvider({
         console.warn('Notifications table does not exist, skipping notification fetch')
         setNotifications([])
       } else {
-        console.error('Error fetching notifications:', error)
-        toast({
-          title: "Error",
-          description: "Failed to load notifications",
-          variant: "destructive"
-        })
+        // Improved error handling for empty error objects
+        const errorMessage = error && typeof error === 'object' && 'message' in error ? error.message : 'Unknown error occurred'
+        console.warn('Error fetching notifications (non-critical):', errorMessage)
+        // Set empty notifications instead of showing error toast for better UX
+        setNotifications([])
       }
     } finally {
       setIsLoading(false)
     }
-  }, [userId, supabase, toast])
+  }, [userId, supabase])
 
   // Mark as read
   const markAsRead = useCallback(async (notificationIds?: string[]) => {

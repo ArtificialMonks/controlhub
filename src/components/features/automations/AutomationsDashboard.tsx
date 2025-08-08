@@ -12,8 +12,9 @@ import { AutomationFilters } from './data-grid/AutomationFilters'
 import { BulkToggleControls } from './controls/BulkToggleControls'
 import { Automation } from '@/lib/data/repositories/automation-repository'
 import { Button } from '@/components/ui/button'
-import { RefreshCw } from 'lucide-react'
+import { RefreshCw, Crown, AlertTriangle } from 'lucide-react'
 import { useToast } from '@/components/ui/use-toast'
+import { useTeamMode } from '@/hooks/useTeamMode'
 
 interface Client {
   id: string
@@ -37,6 +38,7 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
   const [selectedAutomations, setSelectedAutomations] = useState<string[]>([])
   const [isRefreshing, setIsRefreshing] = useState(false)
   const { toast } = useToast()
+  const { features: teamFeatures, description: teamModeDescription, canCreateAutomation, isAtLimit } = useTeamMode()
 
   // Calculate statistics - with null safety
   const stats = {
@@ -71,7 +73,8 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
           description: "Automation data has been updated successfully."
         })
       }
-    } catch {
+    } catch (error) {
+      console.error('Data refresh error:', error)
       toast({
         title: "Refresh failed",
         description: "Unable to refresh automation data.",
@@ -199,11 +202,39 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
               >
                 AUTOMATION CONTROL CENTER
               </motion.h1>
-              <p className="text-muted-foreground">
-                Monitor and manage your automation workflows
-              </p>
+              <div className="flex items-center gap-4 mt-2">
+                <p className="text-muted-foreground">
+                  Monitor and manage your automation workflows
+                </p>
+                <div className="flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full">
+                  <Crown className="h-4 w-4 text-primary" />
+                  <span className="text-sm font-medium text-primary">
+                    {teamModeDescription.name}
+                  </span>
+                  <span className="text-xs text-muted-foreground">
+                    ({stats.total}/{teamFeatures.maxAutomations === -1 ? '∞' : teamFeatures.maxAutomations} automations)
+                  </span>
+                </div>
+              </div>
             </div>
             <div className="flex items-center gap-2">
+              {!canCreateAutomation(stats.total) && (
+                <Button
+                  variant="default"
+                  size="sm"
+                  className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white border-0"
+                  onClick={() => {
+                    toast({
+                      title: "Upgrade Required",
+                      description: `You've reached the limit of ${teamFeatures.maxAutomations} automations for ${teamModeDescription.name}. Upgrade to add more automations.`,
+                      variant: "destructive"
+                    })
+                  }}
+                >
+                  <Crown className="h-4 w-4 mr-2" />
+                  Upgrade Plan
+                </Button>
+              )}
               <Button
                 variant="outline"
                 size="sm"
@@ -220,6 +251,57 @@ export function AutomationsDashboard({ initialData }: AutomationsDashboardProps)
       </motion.div>
 
       <div className="px-6 py-6 space-y-6 h-full overflow-auto">
+        {/* Team Mode Limitations Notice */}
+        {(isAtLimit(stats.total, 'maxAutomations') || teamFeatures.maxAutomations <= 10) && (
+          <motion.div 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.05 }}
+            className={`p-4 rounded-lg border ${
+              isAtLimit(stats.total, 'maxAutomations') 
+                ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' 
+                : 'bg-yellow-50 dark:bg-yellow-900/20 border-yellow-200 dark:border-yellow-800'
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <AlertTriangle className={`h-5 w-5 flex-shrink-0 mt-0.5 ${
+                isAtLimit(stats.total, 'maxAutomations') ? 'text-red-600 dark:text-red-400' : 'text-yellow-600 dark:text-yellow-400'
+              }`} />
+              <div>
+                <h4 className={`font-medium ${
+                  isAtLimit(stats.total, 'maxAutomations') ? 'text-red-800 dark:text-red-200' : 'text-yellow-800 dark:text-yellow-200'
+                }`}>
+                  {isAtLimit(stats.total, 'maxAutomations') ? 'Automation Limit Reached' : 'Approaching Automation Limit'}
+                </h4>
+                <p className={`text-sm mt-1 ${
+                  isAtLimit(stats.total, 'maxAutomations') ? 'text-red-700 dark:text-red-300' : 'text-yellow-700 dark:text-yellow-300'
+                }`}>
+                  {isAtLimit(stats.total, 'maxAutomations') 
+                    ? `You've reached your limit of ${teamFeatures.maxAutomations} automations for ${teamModeDescription.name}. Upgrade to add more automations.`
+                    : `You're using ${stats.total} of ${teamFeatures.maxAutomations} automations available in ${teamModeDescription.name}. Consider upgrading for more capacity.`
+                  }
+                </p>
+                <div className="flex items-center gap-4 mt-3">
+                  <Button
+                    size="sm"
+                    className="bg-gradient-to-r from-purple-500 to-blue-500 hover:from-purple-600 hover:to-blue-600 text-white border-0"
+                    onClick={() => {
+                      toast({
+                        title: "Team Mode Information",
+                        description: `Standard ($29/month): 25 automations, Enterprise ($99/month): Unlimited automations`,
+                        duration: 6000,
+                      })
+                    }}
+                  >
+                    <Crown className="h-4 w-4 mr-2" />
+                    View Upgrade Options
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
         {/* Statistics Dashboard - 20% of page */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

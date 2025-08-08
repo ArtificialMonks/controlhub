@@ -1,4 +1,4 @@
-// src/components/dashboard/AutomationProgressSection.tsx
+// src/components/features/dashboard/analytics/AutomationProgressSection.tsx
 'use client'
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'

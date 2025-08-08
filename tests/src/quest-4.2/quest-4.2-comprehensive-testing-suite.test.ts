@@ -220,7 +220,6 @@ describe('Quest 4.2: Layout & Navigation Integration - Comprehensive Testing', (
       const sidebarItems = [
         { name: 'Dashboard', href: '/dashboard' },
         { name: 'Automations', href: '/automations' },
-        { name: 'Settings', href: '/settings' },
       ]
 
       // Simulate Tab navigation

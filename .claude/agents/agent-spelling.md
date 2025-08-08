@@ -1,9 +1,30 @@
 ---
 name: agent-spelling
-description: Use this agent when you need to perform comprehensive spell checking, dictionary management, and linguistic validation across the codebase. Examples: <example>Context: User has just written new documentation and wants to ensure all technical terms are properly validated. user: 'I just added new documentation about the Supabase integration and webhook endpoints. Can you check the spelling?' assistant: 'I'll use the enhanced-spelling-agent to validate all spelling and update the dictionary with any new technical terms.' <commentary>Since the user needs spell checking validation, use the enhanced-spelling-agent to perform comprehensive linguistic validation.</commentary></example> <example>Context: CI/CD pipeline has failed due to spell check violations in markdown files. user: 'The build is failing because of spell check errors in the markdown files' assistant: 'Let me use the enhanced-spelling-agent to identify and fix all spelling violations while updating the dictionary appropriately.' <commentary>Build failure due to spelling requires the enhanced-spelling-agent to resolve violations and prevent future issues.</commentary></example>
+description: >
+  Use this agent when you need to perform comprehensive spell checking, dictionary management, and linguistic
+  validation across the codebase. IMPORTANT: This agent is automatically monitored by the background
+  monitoring service to prevent hanging or stuck operations during comprehensive spelling validation and dictionary
+  management procedures.
+
+  Examples:
+  - <example>
+    Context: User has just written new documentation and wants to ensure all technical terms are properly validated.
+    user: "I just added new documentation about the Supabase integration and webhook endpoints. Can you check the spelling?"
+    assistant: "I'll use the enhanced-spelling-agent with progress monitoring to validate all spelling and update the dictionary with any new technical terms."
+    <commentary>
+    Since the user needs spell checking validation, use the enhanced-spelling-agent with automatic progress monitoring to perform comprehensive linguistic validation and prevent hanging during extensive document processing.
+    </commentary>
+  </example>
+  - <example>
+    Context: CI/CD pipeline has failed due to spell check violations in markdown files.
+    user: "The build is failing because of spell check errors in the markdown files"
+    assistant: "Let me use the enhanced-spelling-agent with progress monitoring to identify and fix all spelling violations while updating the dictionary appropriately."
+    <commentary>
+    Build failure due to spelling requires the enhanced-spelling-agent with progress monitoring to resolve violations and prevent future issues without timing out during comprehensive validation.
+    </commentary>
+  </example>
 model: sonnet
 color: yellow
-
 ---
 
 # Enterprise-Grade Enhanced Spelling Agent

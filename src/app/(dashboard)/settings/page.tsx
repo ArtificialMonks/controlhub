@@ -1,435 +1,829 @@
 // src/app/(dashboard)/settings/page.tsx
-/**
- * Enhanced Settings Page for Quest 6.1 Enterprise-Grade Settings
- * Implements compound component pattern with React Aria accessibility
- */
-'use client'
+"use client"
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
-import { Loader2, User, Palette, Shield, Settings as SettingsIcon } from 'lucide-react'
-import { useToast } from '@/components/ui/use-toast'
-import { SettingsSection, SettingsGroup, SettingsDivider } from '@/components/settings/compound/SettingsSection'
-import {
-  SettingsSwitch,
-  SettingsTextInput,
-  SettingsSelect,
-  SettingsSlider
-} from '@/components/settings/compound/SettingsFormControls'
-import { SettingsRepository } from '@/lib/repositories/settings-repository'
-import { securityFramework, type SecurityContext } from '@/lib/security/security-framework'
-import { inputValidator, settingsValidationRules } from '@/lib/security/input-validation'
-import type { UserSettings } from '@/types/settings'
+import * as React from "react"
+import { 
+  User, 
+  Palette, 
+  Shield,
+  Bell,
+  Plug,
+  Cog
+} from "lucide-react"
+import { toast } from "sonner"
+import { useTheme } from "next-themes"
+import { useTeamMode } from "@/hooks/useTeamMode"
 
-export default function EnhancedSettingsPage() {
-  const [settings, setSettings] = useState<UserSettings | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [securityContext, setSecurityContext] = useState<SecurityContext | null>(null)
-  const [hasChanges, setHasChanges] = useState<Record<string, boolean>>({})
-  const [errors, setErrors] = useState<Record<string, Record<string, string>>>({})
-  const { toast } = useToast()
+import { SettingsSection, SettingsGroup, SettingsRow, SettingsDivider } from "@/components/settings/compound/SettingsSection"
+import { 
+  SettingsTextInput, 
+  SettingsSwitch, 
+  SettingsSelect, 
+  SettingsSlider 
+} from "@/components/settings/compound/SettingsFormControls"
+import { useSettings } from "@/contexts/SettingsContext"
+import { TIMEZONE_OPTIONS, LANGUAGE_OPTIONS } from "@/lib/utils/locale"
+import { LiveTimezoneDisplay } from "@/components/settings/LiveTimezoneDisplay"
+import { TwoFactorAuthSettings } from "@/components/settings/TwoFactorAuthSettings"
+import { EmailChangeModal } from "@/components/settings/EmailChangeModal"
+import { PasswordChangeModal } from "@/components/settings/PasswordChangeModal"
 
-  const settingsRepo = useMemo(() => new SettingsRepository(), [])
+export default function SettingsPage() {
+  const { theme: nextTheme, setTheme } = useTheme()
+  const { description: teamModeDescription, features: teamFeatures, canUseFeature, getUpgradeMessage } = useTeamMode()
+  const [showEmailChange, setShowEmailChange] = React.useState(false)
+  const [showPasswordChange, setShowPasswordChange] = React.useState(false)
+  
+  const {
+    profileSettings,
+    appearanceSettings,
+    securitySettings,
+    privacySettings,
+    notificationSettings,
+    integrationSettings,
+    automationSettings,
+    loading,
+    updateProfileSettings,
+    updateAppearanceSettings,
+    updateSecuritySettings,
+    updatePrivacySettings,
+    updateNotificationSettings,
+    updateIntegrationSettings,
+    updateAutomationSettings,
+    saveProfileSettings,
+    saveAppearanceSettings,
+    saveSecuritySettings,
+    savePrivacySettings,
+    saveNotificationSettings,
+    saveIntegrationSettings,
+    saveAutomationSettings,
+    hasProfileChanges,
+    hasAppearanceChanges,
+    hasSecurityChanges,
+    hasPrivacyChanges,
+    hasNotificationChanges,
+    hasIntegrationChanges,
+    hasAutomationChanges,
+    revertProfileSettings,
+    revertAppearanceSettings,
+    revertSecuritySettings,
+    revertPrivacySettings,
+    revertNotificationSettings,
+    revertIntegrationSettings,
+    revertAutomationSettings
+  } = useSettings()
 
-  // Initialize settings and security context
-  useEffect(() => {
-    const initializeSettings = async () => {
-      try {
-        // Get security context
-        const context = await securityFramework.getSecurityContext()
-        if (!context) {
-          throw new Error('Failed to establish security context')
-        }
-        setSecurityContext(context)
-
-        // Get user data from auth
-        const { createClient } = await import('@/lib/integrations/supabase/client')
-        const supabase = createClient()
-        const { data: { user }, error: authError } = await supabase.auth.getUser()
-        
-        if (authError || !user) {
-          throw new Error('Failed to get user information')
-        }
-
-        // Load user settings
-        const result = await settingsRepo.getUserSettings(context.userId)
-        if (result.success && result.data) {
-          // Update settings with real user data if email is empty
-          const updatedSettings = { ...result.data }
-          if (!updatedSettings.profile.personalInfo.email && user.email) {
-            updatedSettings.profile.personalInfo.email = user.email
-            // Save the updated email to database
-            await settingsRepo.updateSettingsSection(
-              context.userId, 
-              'profile', 
-              updatedSettings.profile
-            )
-          }
-          setSettings(updatedSettings)
-        } else {
-          // Create default settings with user email
-          const defaultSettings = await settingsRepo.createDefaultSettings(context.userId, {
-            email: user.email || '',
-            displayName: user.user_metadata?.display_name || user.user_metadata?.full_name || ''
-          })
-          if (defaultSettings.success && defaultSettings.data) {
-            setSettings(defaultSettings.data)
-          } else {
-            throw new Error(defaultSettings.error || 'Failed to create default settings')
-          }
-        }
-      } catch (error) {
-        toast({
-          title: "Failed to load settings",
-          description: error instanceof Error ? error.message : "Unknown error",
-          variant: "destructive"
-        })
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    initializeSettings()
-  }, [toast, settingsRepo])
-
-  // Handle field changes
-  const handleFieldChange = useCallback((section: keyof UserSettings, fieldName: string, value: unknown) => {
-    if (!settings) return
-
-    setSettings((prev: UserSettings | null) => {
-      if (!prev) return prev
-
-      const updatedSettings = { ...prev }
-      const sectionData = { ...(updatedSettings[section] as Record<string, unknown>) }
-
-      // Handle nested field updates
-      const fieldPath = fieldName.split('.')
-      let current: Record<string, unknown> = sectionData
-
-      for (let i = 0; i < fieldPath.length - 1; i++) {
-        if (!current[fieldPath[i]]) current[fieldPath[i]] = {}
-        current = current[fieldPath[i]] as Record<string, unknown>
-      }
-
-      current[fieldPath[fieldPath.length - 1]] = value
-      ;(updatedSettings as Record<string, unknown>)[section] = sectionData
-
-      return updatedSettings
-    })
-
-    // Mark section as having changes
-    setHasChanges(prev => ({ ...prev, [section]: true }))
-  }, [settings])
-
-  // Handle field validation
-  const handleFieldValidation = useCallback(async (section: keyof UserSettings, fieldName: string, value: unknown) => {
-    const rules = settingsValidationRules[section as keyof typeof settingsValidationRules]
-    if (!rules) return { valid: true }
-
-    const rule = rules.find(r => r.field === fieldName)
-    if (!rule) return { valid: true }
-
-    const result = inputValidator.validateInput({ [fieldName]: value }, [rule])
-
-    // Update errors state
-    setErrors(prev => ({
-      ...prev,
-      [section]: {
-        ...prev[section],
-        [fieldName]: result.errors[0] || ''
-      }
-    }))
-
-    return { valid: result.valid, error: result.errors[0] }
-  }, [settingsRepo])
-
-  // Handle section save
-  const handleSectionSave = useCallback(async (section: keyof UserSettings) => {
-    if (!settings || !securityContext) return
-
+  // Save handlers with proper error handling
+  const handleSaveProfile = async () => {
     try {
-      const sectionData = settings[section]
-      const result = await settingsRepo.updateSettingsSection(
-        securityContext.userId,
-        section,
-        sectionData
-      )
-
-      if (result.success) {
-        setHasChanges(prev => ({ ...prev, [section]: false }))
-        setErrors(prev => ({ ...prev, [section]: {} }))
-        toast({
-          title: "Settings saved",
-          description: `${section} settings have been updated successfully.`
-        })
+      console.log('[SETTINGS PAGE] Starting profile save, current settings:', profileSettings)
+      const success = await saveProfileSettings()
+      console.log('[SETTINGS PAGE] Profile save result:', success)
+      if (success) {
+        toast.success('Profile settings saved successfully')
       } else {
-        throw new Error(result.error || 'Failed to save settings')
+        toast.error('Failed to save profile settings')
       }
     } catch (error) {
-      toast({
-        title: "Save failed",
-        description: error instanceof Error ? error.message : "Failed to save settings",
-        variant: "destructive"
-      })
+      console.error('[SETTINGS PAGE] Profile save error:', error)
+      toast.error('Failed to save profile settings')
+      throw error
     }
-  }, [settings, securityContext, settingsRepo, toast])
+  }
 
-  // Handle section reset
-  const handleSectionReset = useCallback(async (section: keyof UserSettings) => {
-    if (!securityContext) return
-
+  const handleSaveAppearance = async () => {
     try {
-      const result = await settingsRepo.resetSettingsSection(securityContext.userId, section)
-      if (result.success && result.data) {
-        setSettings(result.data)
-        setHasChanges(prev => ({ ...prev, [section]: false }))
-        setErrors(prev => ({ ...prev, [section]: {} }))
+      console.log('[SETTINGS PAGE] Starting appearance save, current settings:', appearanceSettings)
+      const success = await saveAppearanceSettings()
+      console.log('[SETTINGS PAGE] Appearance save result:', success)
+      if (success) {
+        toast.success('Appearance settings saved successfully')
+      } else {
+        toast.error('Failed to save appearance settings')
       }
     } catch (error) {
-      toast({
-        title: "Reset failed",
-        description: error instanceof Error ? error.message : "Failed to reset settings",
-        variant: "destructive"
-      })
+      console.error('[SETTINGS PAGE] Appearance save error:', error)
+      toast.error('Failed to save appearance settings')
+      throw error
     }
-  }, [securityContext, settingsRepo, toast])
+  }
+
+  const handleSaveSecurity = async () => {
+    try {
+      const success = await saveSecuritySettings()
+      if (success) {
+        toast.success('Security settings saved successfully')
+      } else {
+        toast.error('Failed to save security settings')
+      }
+    } catch (error) {
+      toast.error('Failed to save security settings')
+      throw error
+    }
+  }
+
+  const handleSavePrivacy = async () => {
+    try {
+      const success = await savePrivacySettings()
+      if (success) {
+        toast.success('Privacy settings saved successfully')
+      } else {
+        toast.error('Failed to save privacy settings')
+      }
+    } catch (error) {
+      toast.error('Failed to save privacy settings')
+      throw error
+    }
+  }
+
+  const handleSaveNotifications = async () => {
+    try {
+      const success = await saveNotificationSettings()
+      if (success) {
+        toast.success('Notification settings saved successfully')
+      } else {
+        toast.error('Failed to save notification settings')
+      }
+    } catch (error) {
+      toast.error('Failed to save notification settings')
+      throw error
+    }
+  }
+
+  const handleSaveIntegrations = async () => {
+    try {
+      const success = await saveIntegrationSettings()
+      if (success) {
+        toast.success('Integration settings saved successfully')
+      } else {
+        toast.error('Failed to save integration settings')
+      }
+    } catch (error) {
+      toast.error('Failed to save integration settings')
+      throw error
+    }
+  }
+
+  const handleSaveAutomations = async () => {
+    try {
+      const success = await saveAutomationSettings()
+      if (success) {
+        toast.success('Automation settings saved successfully')
+      } else {
+        toast.error('Failed to save automation settings')
+      }
+    } catch (error) {
+      toast.error('Failed to save automation settings')
+      throw error
+    }
+  }
+
 
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    )
-  }
-
-  if (!settings || !securityContext) {
-    return (
-      <div className="container mx-auto p-6 max-w-4xl">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-destructive">Settings Unavailable</h1>
-          <p className="text-muted-foreground mt-2">
-            Unable to load settings. Please try refreshing the page.
-          </p>
+        <div className="text-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="text-muted-foreground">Loading settings...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-4xl">
-      <div className="space-y-6">
-        {/* Page Header */}
-        <div className="space-y-2">
-          <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-            <SettingsIcon className="h-8 w-8" />
-            Settings
-          </h1>
-          <p className="text-muted-foreground">
-            Manage your account settings and preferences with enterprise-grade security.
-          </p>
-        </div>
-
-        <div className="grid gap-6">
-          {/* User Profile Settings */}
-          <SettingsSection
-            title="User Profile"
-            description="Manage your personal information and account details"
-            icon={<User className="h-5 w-5" />}
-            hasChanges={hasChanges.profile}
-            errors={errors.profile || {}}
-            securityContext={securityContext}
-            onSave={() => handleSectionSave('profile')}
-            onReset={() => handleSectionReset('profile')}
-            onFieldChange={(fieldName, value) => handleFieldChange('profile', fieldName, value)}
-            onValidate={(fieldName, value) => handleFieldValidation('profile', fieldName, value)}
-          >
-            <SettingsGroup title="Basic Information">
-              <SettingsTextInput
-                name="displayName"
-                label="Display Name"
-                description="Your name as it appears to other users"
-                required
-                value={settings.profile.personalInfo.displayName}
-                maxLength={100}
-                autoComplete="name"
-              />
-
-              <SettingsTextInput
-                name="email"
-                label="Email Address"
-                description="Your primary email address for notifications and account recovery"
-                required
-                type="email"
-                value={settings.profile.personalInfo.email}
-                autoComplete="email"
-              />
-            </SettingsGroup>
-
-            <SettingsDivider />
-
-            <SettingsGroup title="Localization">
-              <SettingsSelect
-                name="timezone"
-                label="Timezone"
-                description="Your local timezone for date and time display"
-                required
-                value={settings.profile.personalInfo.timezone}
-                options={[
-                  { value: 'UTC', label: 'UTC (Coordinated Universal Time)' },
-                  { value: 'America/New_York', label: 'Eastern Time (ET)' },
-                  { value: 'America/Chicago', label: 'Central Time (CT)' },
-                  { value: 'America/Denver', label: 'Mountain Time (MT)' },
-                  { value: 'America/Los_Angeles', label: 'Pacific Time (PT)' },
-                  { value: 'Europe/London', label: 'Greenwich Mean Time (GMT)' },
-                  { value: 'Europe/Paris', label: 'Central European Time (CET)' },
-                  { value: 'Asia/Tokyo', label: 'Japan Standard Time (JST)' }
-                ]}
-              />
-
-              <SettingsSelect
-                name="language"
-                label="Language"
-                description="Interface language preference"
-                required
-                value={settings.profile.personalInfo.language}
-                options={[
-                  { value: 'en', label: 'English' },
-                  { value: 'es', label: 'Español' },
-                  { value: 'fr', label: 'Français' },
-                  { value: 'de', label: 'Deutsch' },
-                  { value: 'ja', label: '日本語' },
-                  { value: 'zh', label: '中文' }
-                ]}
-              />
-            </SettingsGroup>
-          </SettingsSection>
-
-          {/* Appearance Settings */}
-          <SettingsSection
-            title="Appearance"
-            description="Customize the visual appearance and theme of your dashboard"
-            icon={<Palette className="h-5 w-5" />}
-            hasChanges={hasChanges.appearance}
-            errors={errors.appearance || {}}
-            securityContext={securityContext}
-            onSave={() => handleSectionSave('appearance')}
-            onReset={() => handleSectionReset('appearance')}
-            onFieldChange={(fieldName, value) => handleFieldChange('appearance', fieldName, value)}
-            onValidate={(fieldName, value) => handleFieldValidation('appearance', fieldName, value)}
-          >
-            <SettingsGroup title="Theme">
-              <SettingsSelect
-                name="theme.mode"
-                label="Theme Mode"
-                description="Choose your preferred color theme"
-                required
-                value={settings.appearance.theme.mode}
-                options={[
-                  { value: 'light', label: 'Light' },
-                  { value: 'dark', label: 'Dark' },
-                  { value: 'system', label: 'System' }
-                ]}
-              />
-
-              <SettingsSwitch
-                name="theme.highContrast"
-                label="High Contrast"
-                description="Increase contrast for better accessibility"
-                value={settings.appearance.theme.highContrast}
-              />
-
-              <SettingsSwitch
-                name="theme.reducedMotion"
-                label="Reduced Motion"
-                description="Minimize animations and transitions"
-                value={settings.appearance.theme.reducedMotion}
-              />
-            </SettingsGroup>
-
-            <SettingsDivider />
-
-            <SettingsGroup title="Typography">
-              <SettingsSelect
-                name="typography.fontSize"
-                label="Font Size"
-                description="Adjust the base font size for better readability"
-                required
-                value={settings.appearance.typography.fontSize}
-                options={[
-                  { value: 'small', label: 'Small' },
-                  { value: 'medium', label: 'Medium' },
-                  { value: 'large', label: 'Large' },
-                  { value: 'extra-large', label: 'Extra Large' }
-                ]}
-              />
-
-              <SettingsSelect
-                name="typography.fontFamily"
-                label="Font Family"
-                description="Choose your preferred font family"
-                required
-                value={settings.appearance.typography.fontFamily}
-                options={[
-                  { value: 'system', label: 'System Default' },
-                  { value: 'orbitron', label: 'Orbitron (Futuristic)' },
-                  { value: 'inter', label: 'Inter (Modern)' }
-                ]}
-              />
-            </SettingsGroup>
-          </SettingsSection>
-
-          {/* Security Settings */}
-          <SettingsSection
-            title="Security & Privacy"
-            description="Manage your account security and privacy preferences"
-            icon={<Shield className="h-5 w-5" />}
-            hasChanges={hasChanges.security}
-            errors={errors.security || {}}
-            securityContext={securityContext}
-            onSave={() => handleSectionSave('security')}
-            onReset={() => handleSectionReset('security')}
-            onFieldChange={(fieldName, value) => handleFieldChange('security', fieldName, value)}
-            onValidate={(fieldName, value) => handleFieldValidation('security', fieldName, value)}
-          >
-            <SettingsGroup title="Authentication">
-              <SettingsSwitch
-                name="authentication.twoFactorEnabled"
-                label="Two-Factor Authentication"
-                description="Add an extra layer of security to your account"
-                value={settings.security.authentication.twoFactorEnabled}
-              />
-
-              <SettingsSlider
-                name="authentication.sessionTimeout"
-                label="Session Timeout"
-                description="Automatically log out after period of inactivity"
-                value={[settings.security.authentication.sessionTimeout]}
-                min={5}
-                max={1440}
-                step={5}
-                formatValue={(value) => `${value} minutes`}
-              />
-            </SettingsGroup>
-
-            <SettingsDivider />
-
-            <SettingsGroup title="Privacy">
-              <SettingsSwitch
-                name="privacy.allowAnalytics"
-                label="Analytics"
-                description="Help improve the service by sharing anonymous usage data"
-                value={settings.security.privacy.allowAnalytics}
-              />
-
-              <SettingsSwitch
-                name="privacy.allowPersonalization"
-                label="Personalization"
-                description="Allow personalized recommendations and content"
-                value={settings.security.privacy.allowPersonalization}
-              />
-            </SettingsGroup>
-          </SettingsSection>
-        </div>
+    <div className="container max-w-4xl mx-auto py-8 px-4 space-y-6">
+      <div className="space-y-2">
+        <h1 className="text-3xl font-bold tracking-tight">Settings</h1>
+        <p className="text-muted-foreground">
+          Manage your account settings and preferences
+        </p>
       </div>
+
+      <div className="space-y-6">
+        {/* User Profile Section */}
+        <SettingsSection
+          title="User Profile"
+          description="Manage your personal information and account details"
+          icon={<User />}
+          hasChanges={hasProfileChanges()}
+          onSave={handleSaveProfile}
+          onReset={revertProfileSettings}
+        >
+          <SettingsGroup title="Basic Information">
+            <SettingsRow>
+              <SettingsTextInput
+                label="Display Name"
+                value={profileSettings.displayName}
+                onChange={(value) => updateProfileSettings({ displayName: value })}
+                placeholder="Enter your display name"
+                description="This is how you'll appear to others"
+              />
+              
+              <div className="space-y-2">
+                <SettingsTextInput
+                  label="Email Address"
+                  type="email"
+                  value={profileSettings.email}
+                  onChange={(value) => updateProfileSettings({ email: value })}
+                  placeholder="your@email.com"
+                  description="Your primary email address"
+                  required
+                  disabled
+                />
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setShowEmailChange(true)}
+                    className="text-xs text-primary hover:text-primary/80 underline"
+                  >
+                    Change Email Address
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowPasswordChange(true)}
+                    className="text-xs text-primary hover:text-primary/80 underline"
+                  >
+                    Change Password
+                  </button>
+                </div>
+              </div>
+            </SettingsRow>
+            
+            <SettingsTextInput
+              label="Bio"
+              value={profileSettings.bio || ""}
+              onChange={(value) => updateProfileSettings({ bio: value })}
+              placeholder="Tell us about yourself"
+              description="A brief description about you"
+              maxLength={200}
+            />
+            
+            <div className="space-y-4">
+              <SettingsSelect
+                label="Team Mode"
+                value={profileSettings.teamMode}
+                onChange={(value) => updateProfileSettings({ 
+                  teamMode: value as 'lite' | 'standard' | 'enterprise' 
+                })}
+                options={[
+                  { label: "Lite Team - Free", value: "lite" },
+                  { label: "Standard Team - $29/month", value: "standard" },
+                  { label: "Enterprise Team - $99/month", value: "enterprise" }
+                ]}
+                description="Choose your team collaboration level"
+              />
+              
+              {/* Current team mode details */}
+              <div className="p-4 bg-muted/30 border border-border/50 rounded-lg space-y-3">
+                <div className="flex items-center justify-between">
+                  <h4 className="font-medium text-sm">{teamModeDescription.name}</h4>
+                  <span className="text-xs font-medium px-2 py-1 bg-primary/10 text-primary rounded-full">
+                    {teamModeDescription.price}
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground">{teamModeDescription.description}</p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {teamModeDescription.highlights.map((highlight, index) => (
+                    <div key={index} className="flex items-center gap-2 text-xs">
+                      <div className="w-1.5 h-1.5 bg-primary rounded-full flex-shrink-0" />
+                      <span>{highlight}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </SettingsGroup>
+          
+          <SettingsDivider />
+          
+          <SettingsGroup title="Localization">
+            <SettingsRow>
+              <SettingsSelect
+                label="Timezone"
+                value={profileSettings.timezone}
+                onChange={(value) => updateProfileSettings({ timezone: value })}
+                options={TIMEZONE_OPTIONS.map(tz => ({
+                  label: `${tz.label} (${tz.offset})`,
+                  value: tz.value
+                }))}
+                description="Your local timezone for date/time display"
+              />
+              
+              <SettingsSelect
+                label="Language"
+                value={profileSettings.language}
+                onChange={(value) => updateProfileSettings({ language: value })}
+                options={LANGUAGE_OPTIONS.map(lang => ({
+                  label: `${lang.label} (${lang.nativeName})`,
+                  value: lang.value
+                }))}
+                description="Interface language and locale formatting"
+              />
+            </SettingsRow>
+            
+            {/* Live timezone preview */}
+            <div className="mt-4 p-3 bg-muted/30 border border-border/50 rounded-lg">
+              <div className="text-sm font-medium mb-2">Live Preview:</div>
+              <LiveTimezoneDisplay timezone={profileSettings.timezone} />
+            </div>
+          </SettingsGroup>
+        </SettingsSection>
+
+        {/* Appearance Section */}
+        <SettingsSection
+          title="Appearance"
+          description="Customize how the application looks and feels"
+          icon={<Palette />}
+          hasChanges={hasAppearanceChanges()}
+          onSave={handleSaveAppearance}
+          onReset={revertAppearanceSettings}
+        >
+          <SettingsGroup title="Theme">
+            <SettingsSelect
+              label="Theme Mode"
+              value={nextTheme || 'light'}
+              onChange={(value) => {
+                setTheme(value as 'light' | 'dark')
+                // Also update settings context to keep it in sync for saving
+                updateAppearanceSettings({ 
+                  theme: value as 'light' | 'dark'
+                })
+              }}
+              options={[
+                { label: "Light", value: "light" },
+                { label: "Dark", value: "dark" }
+              ]}
+              description="Choose your preferred color scheme"
+            />
+            
+            <SettingsRow>
+              <SettingsSwitch
+                label="High Contrast"
+                checked={appearanceSettings.highContrast}
+                onCheckedChange={(checked) => updateAppearanceSettings({ 
+                  highContrast: checked 
+                })}
+                description="Increase contrast for better visibility"
+              />
+              
+              <SettingsSwitch
+                label="Reduced Motion"
+                checked={appearanceSettings.reducedMotion}
+                onCheckedChange={(checked) => updateAppearanceSettings({ 
+                  reducedMotion: checked 
+                })}
+                description="Minimize animations and transitions"
+              />
+            </SettingsRow>
+          </SettingsGroup>
+          
+          <SettingsDivider />
+          
+          <SettingsGroup title="Typography">
+            <SettingsRow>
+              <SettingsSelect
+                label="Font Size"
+                value={appearanceSettings.fontSize}
+                onChange={(value) => updateAppearanceSettings({ 
+                  fontSize: value as 'small' | 'medium' | 'large' 
+                })}
+                options={[
+                  { label: "Small", value: "small" },
+                  { label: "Medium", value: "medium" },
+                  { label: "Large", value: "large" }
+                ]}
+                description="Adjust text size"
+              />
+              
+              <SettingsSelect
+                label="Font Family"
+                value={appearanceSettings.fontFamily}
+                onChange={(value) => updateAppearanceSettings({ 
+                  fontFamily: value as 'default' | 'orbitron' | 'mono' 
+                })}
+                options={[
+                  { label: "Default", value: "default" },
+                  { label: "Orbitron", value: "orbitron" },
+                  { label: "Monospace", value: "mono" }
+                ]}
+                description="Choose font style"
+              />
+            </SettingsRow>
+          </SettingsGroup>
+        </SettingsSection>
+
+        {/* Security & Privacy Section */}
+        <SettingsSection
+          title="Security & Privacy"
+          description="Manage your security settings and privacy preferences"
+          icon={<Shield />}
+          hasChanges={hasSecurityChanges() || hasPrivacyChanges()}
+          onSave={async () => {
+            if (hasSecurityChanges()) await handleSaveSecurity()
+            if (hasPrivacyChanges()) await handleSavePrivacy()
+          }}
+          onReset={() => {
+            revertSecuritySettings()
+            revertPrivacySettings()
+          }}
+        >
+          <SettingsGroup title="Authentication">
+            {canUseFeature('twoFactorAuth') ? (
+              <TwoFactorAuthSettings
+                enabled={securitySettings.twoFactorEnabled}
+                onToggle={(enabled) => updateSecuritySettings({ twoFactorEnabled: enabled })}
+              />
+            ) : (
+              <div className="p-4 bg-muted/20 border border-dashed border-muted-foreground/30 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-full">
+                    <span className="text-xs font-medium">🔒</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Two-Factor Authentication</p>
+                    <p className="text-xs text-muted-foreground/80">{getUpgradeMessage('twoFactorAuth')}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+            
+            <div className="mt-6">
+              <SettingsSlider
+                label="Session Timeout"
+                value={[Math.max(teamFeatures.sessionTimeout.min, Math.min(teamFeatures.sessionTimeout.max, securitySettings.sessionTimeout))]}
+                onValueChange={(value) => updateSecuritySettings({ 
+                  sessionTimeout: value[0] 
+                })}
+                min={teamFeatures.sessionTimeout.min}
+                max={teamFeatures.sessionTimeout.max}
+                step={5}
+                unit=" min"
+                description={`Automatically log out after period of inactivity (${teamFeatures.sessionTimeout.min}-${teamFeatures.sessionTimeout.max} min for ${teamModeDescription.name})`}
+              />
+            </div>
+          </SettingsGroup>
+          
+          <SettingsDivider />
+          
+          <SettingsGroup title="Privacy">
+            <SettingsRow>
+              <SettingsSwitch
+                label="Analytics"
+                checked={privacySettings.analyticsEnabled}
+                onCheckedChange={(checked) => updatePrivacySettings({ 
+                  analyticsEnabled: checked 
+                })}
+                description="Help improve the app with usage data"
+              />
+              
+              <SettingsSwitch
+                label="Personalization"
+                checked={privacySettings.personalizationEnabled}
+                onCheckedChange={(checked) => updatePrivacySettings({ 
+                  personalizationEnabled: checked 
+                })}
+                description="Get personalized recommendations"
+              />
+            </SettingsRow>
+          </SettingsGroup>
+        </SettingsSection>
+
+        {/* Notification Settings Section */}
+        <SettingsSection
+          title="Notification Settings"
+          description="Manage your notification preferences and alert settings"
+          icon={<Bell />}
+          hasChanges={hasNotificationChanges()}
+          onSave={handleSaveNotifications}
+          onReset={revertNotificationSettings}
+        >
+          <SettingsGroup title="Email Notifications">
+            <SettingsRow>
+              <SettingsSwitch
+                label="Email Notifications"
+                checked={notificationSettings.emailNotifications}
+                onCheckedChange={(checked) => updateNotificationSettings({ 
+                  emailNotifications: checked 
+                })}
+                description="Receive notifications via email"
+              />
+              
+              <SettingsSwitch
+                label="Marketing Emails"
+                checked={notificationSettings.marketingEmails}
+                onCheckedChange={(checked) => updateNotificationSettings({ 
+                  marketingEmails: checked 
+                })}
+                description="Receive promotional and feature announcements"
+              />
+            </SettingsRow>
+            
+            <SettingsRow>
+              <SettingsSwitch
+                label="Daily Digest"
+                checked={notificationSettings.dailyDigest}
+                onCheckedChange={(checked) => updateNotificationSettings({ 
+                  dailyDigest: checked 
+                })}
+                description="Daily summary of activity and alerts"
+              />
+              
+              <SettingsSwitch
+                label="Weekly Report"
+                checked={notificationSettings.weeklyReport}
+                onCheckedChange={(checked) => updateNotificationSettings({ 
+                  weeklyReport: checked 
+                })}
+                description="Weekly performance and insights report"
+              />
+            </SettingsRow>
+          </SettingsGroup>
+          
+          <SettingsDivider />
+          
+          <SettingsGroup title="System Alerts">
+            <SettingsRow>
+              <SettingsSwitch
+                label="In-App Notifications"
+                checked={notificationSettings.inAppNotifications}
+                onCheckedChange={(checked) => updateNotificationSettings({ 
+                  inAppNotifications: checked 
+                })}
+                description="Show notifications within the application"
+              />
+              
+              <div className="space-y-2">
+                <SettingsSwitch
+                  label="Push Notifications"
+                  checked={canUseFeature('pushNotifications') ? notificationSettings.pushNotifications : false}
+                  onCheckedChange={(checked) => updateNotificationSettings({ 
+                    pushNotifications: checked 
+                  })}
+                  description="Browser push notifications when app is closed"
+                  disabled={!canUseFeature('pushNotifications')}
+                />
+                {!canUseFeature('pushNotifications') && (
+                  <p className="text-xs text-muted-foreground/70 ml-6">{getUpgradeMessage('pushNotifications')}</p>
+                )}
+              </div>
+            </SettingsRow>
+            
+            <SettingsRow>
+              <SettingsSwitch
+                label="Automation Alerts"
+                checked={notificationSettings.automationAlerts}
+                onCheckedChange={(checked) => updateNotificationSettings({ 
+                  automationAlerts: checked 
+                })}
+                description="Notifications for automation status changes"
+              />
+              
+              <SettingsSwitch
+                label="System Updates"
+                checked={notificationSettings.systemUpdates}
+                onCheckedChange={(checked) => updateNotificationSettings({ 
+                  systemUpdates: checked 
+                })}
+                description="Notifications about system maintenance and updates"
+              />
+            </SettingsRow>
+            
+            <SettingsSelect
+              label="Notification Frequency"
+              value={notificationSettings.notificationFrequency}
+              onChange={(value) => updateNotificationSettings({ 
+                notificationFrequency: value as 'realtime' | 'hourly' | 'daily' | 'weekly'
+              })}
+              options={[
+                { label: "Real-time", value: "realtime" },
+                { label: "Hourly", value: "hourly" },
+                { label: "Daily", value: "daily" },
+                { label: "Weekly", value: "weekly" }
+              ]}
+              description="How often to receive non-critical notifications"
+            />
+          </SettingsGroup>
+        </SettingsSection>
+
+        {/* Integration Settings Section */}
+        <SettingsSection
+          title="Integration Settings"
+          description="Manage external service connections and API integrations"
+          icon={<Plug />}
+          hasChanges={hasIntegrationChanges()}
+          onSave={handleSaveIntegrations}
+          onReset={revertIntegrationSettings}
+        >
+          <SettingsGroup title="Webhook Configuration">
+            {canUseFeature('webhookSupport') ? (
+              <SettingsTextInput
+                label="Webhook URL"
+                type="url"
+                value={integrationSettings.webhookUrl || ''}
+                onChange={(value) => updateIntegrationSettings({ webhookUrl: value })}
+                placeholder="https://your-domain.com/webhook"
+                description="URL to receive automation event notifications"
+              />
+            ) : (
+              <div className="p-4 bg-muted/20 border border-dashed border-muted-foreground/30 rounded-lg">
+                <div className="flex items-center gap-3">
+                  <div className="flex items-center justify-center w-8 h-8 bg-muted rounded-full">
+                    <span className="text-xs font-medium">🔗</span>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium text-muted-foreground">Webhook Integration</p>
+                    <p className="text-xs text-muted-foreground/80">{getUpgradeMessage('webhookSupport')}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </SettingsGroup>
+          
+          <SettingsDivider />
+          
+          <SettingsGroup title="Synchronization">
+            <SettingsRow>
+              <SettingsSwitch
+                label="Sync Enabled"
+                checked={integrationSettings.syncEnabled}
+                onCheckedChange={(checked) => updateIntegrationSettings({ 
+                  syncEnabled: checked 
+                })}
+                description="Enable automatic data synchronization"
+              />
+              
+              <SettingsSwitch
+                label="Auto Backup"
+                checked={integrationSettings.autoBackup}
+                onCheckedChange={(checked) => updateIntegrationSettings({ 
+                  autoBackup: checked 
+                })}
+                description="Automatically backup settings and data"
+              />
+            </SettingsRow>
+            
+            <SettingsSelect
+              label="Export Format"
+              value={integrationSettings.exportFormat}
+              onChange={(value) => updateIntegrationSettings({ 
+                exportFormat: value as 'json' | 'csv' | 'xml'
+              })}
+              options={[
+                { label: "JSON", value: "json" },
+                { label: "CSV", value: "csv" },
+                { label: "XML", value: "xml" }
+              ]}
+              description="Default format for data exports"
+            />
+          </SettingsGroup>
+        </SettingsSection>
+
+        {/* Automation Settings Section */}
+        <SettingsSection
+          title="Automation Settings"
+          description="Configure automation behavior and performance preferences"
+          icon={<Cog />}
+          hasChanges={hasAutomationChanges()}
+          onSave={handleSaveAutomations}
+          onReset={revertAutomationSettings}
+        >
+          <SettingsGroup title="Execution Settings">
+            <SettingsSlider
+              label="Default Timeout"
+              value={[automationSettings.defaultTimeout]}
+              onValueChange={(value) => updateAutomationSettings({ 
+                defaultTimeout: value[0] 
+              })}
+              min={5}
+              max={300}
+              step={5}
+              unit=" sec"
+              description="Maximum time to wait for automation completion"
+            />
+            
+            <SettingsSlider
+              label="Retry Attempts"
+              value={[Math.min(teamFeatures.maxRetryAttempts, automationSettings.retryAttempts)]}
+              onValueChange={(value) => updateAutomationSettings({ 
+                retryAttempts: value[0] 
+              })}
+              min={1}
+              max={teamFeatures.maxRetryAttempts}
+              step={1}
+              unit=" attempts"
+              description={`Number of times to retry failed automations (max ${teamFeatures.maxRetryAttempts} for ${teamModeDescription.name})`}
+            />
+            
+            <SettingsSelect
+              label="Error Handling"
+              value={automationSettings.errorHandling}
+              onChange={(value) => updateAutomationSettings({ 
+                errorHandling: value as 'stop' | 'continue' | 'rollback'
+              })}
+              options={[
+                { label: "Stop on Error", value: "stop" },
+                { label: "Continue on Error", value: "continue" },
+                { label: "Rollback on Error", value: "rollback" }
+              ]}
+              description="How to handle automation errors"
+            />
+          </SettingsGroup>
+          
+          <SettingsDivider />
+          
+          <SettingsGroup title="Performance">
+            <SettingsRow>
+              <div className="space-y-2">
+                <SettingsSwitch
+                  label="Parallel Execution"
+                  checked={canUseFeature('parallelExecution') ? automationSettings.parallelExecution : false}
+                  onCheckedChange={(checked) => updateAutomationSettings({ 
+                    parallelExecution: checked 
+                  })}
+                  description="Allow multiple automations to run simultaneously"
+                  disabled={!canUseFeature('parallelExecution')}
+                />
+                {!canUseFeature('parallelExecution') && (
+                  <p className="text-xs text-muted-foreground/70 ml-6">{getUpgradeMessage('parallelExecution')}</p>
+                )}
+              </div>
+              
+              <div className="space-y-2">
+                <SettingsSwitch
+                  label="Performance Monitoring"
+                  checked={canUseFeature('performanceMonitoring') ? automationSettings.performanceMonitoring : false}
+                  onCheckedChange={(checked) => updateAutomationSettings({ 
+                    performanceMonitoring: checked 
+                  })}
+                  description="Track and analyze automation performance metrics"
+                  disabled={!canUseFeature('performanceMonitoring')}
+                />
+                {!canUseFeature('performanceMonitoring') && (
+                  <p className="text-xs text-muted-foreground/70 ml-6">{getUpgradeMessage('performanceMonitoring')}</p>
+                )}
+              </div>
+            </SettingsRow>
+            
+            <SettingsRow>
+              <div className="space-y-2">
+                <SettingsSwitch
+                  label="Scheduling Enabled"
+                  checked={canUseFeature('schedulingEnabled') ? automationSettings.schedulingEnabled : false}
+                  onCheckedChange={(checked) => updateAutomationSettings({ 
+                    schedulingEnabled: checked 
+                  })}
+                  description="Enable scheduled automation execution"
+                  disabled={!canUseFeature('schedulingEnabled')}
+                />
+                {!canUseFeature('schedulingEnabled') && (
+                  <p className="text-xs text-muted-foreground/70 ml-6">{getUpgradeMessage('schedulingEnabled')}</p>
+                )}
+              </div>
+              
+              <div className="space-y-2">
+                <SettingsSwitch
+                  label="Debug Mode"
+                  checked={canUseFeature('debugMode') ? automationSettings.debugMode : false}
+                  onCheckedChange={(checked) => updateAutomationSettings({ 
+                    debugMode: checked 
+                  })}
+                  description="Enable detailed logging for troubleshooting"
+                  disabled={!canUseFeature('debugMode')}
+                />
+                {!canUseFeature('debugMode') && (
+                  <p className="text-xs text-muted-foreground/70 ml-6">{getUpgradeMessage('debugMode')}</p>
+                )}
+              </div>
+            </SettingsRow>
+            
+            <SettingsSlider
+              label="Max Concurrent Runs"
+              value={[Math.min(teamFeatures.maxConcurrentRuns, automationSettings.maxConcurrentRuns)]}
+              onValueChange={(value) => updateAutomationSettings({ 
+                maxConcurrentRuns: value[0] 
+              })}
+              min={1}
+              max={teamFeatures.maxConcurrentRuns}
+              step={1}
+              unit=" runs"
+              description={`Maximum number of automations running simultaneously (max ${teamFeatures.maxConcurrentRuns} for ${teamModeDescription.name})`}
+            />
+          </SettingsGroup>
+        </SettingsSection>
+      </div>
+
+      {/* Modals */}
+      <EmailChangeModal
+        isOpen={showEmailChange}
+        onClose={() => setShowEmailChange(false)}
+        currentEmail={profileSettings.email}
+      />
+
+      <PasswordChangeModal
+        isOpen={showPasswordChange}
+        onClose={() => setShowPasswordChange(false)}
+        userEmail={profileSettings.email}
+      />
     </div>
   )
 }

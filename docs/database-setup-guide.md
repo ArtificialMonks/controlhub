@@ -5,7 +5,7 @@
 This guide helps you apply the enterprise-grade settings infrastructure to your Supabase database. The system includes:
 
 - **Core Settings Infrastructure** (Migration 009)
-- **Security & Audit System** (Migration 010) 
+- **Security & Audit System** (Migration 010)
 - **Default Data & Optimization** (Migration 011)
 
 ## Prerequisites
@@ -25,6 +25,7 @@ Navigate to **SQL Editor** in your Supabase dashboard and run:
 ```
 
 **What this creates:**
+
 - `user_settings` table with JSONB storage
 - `user_roles` table for RBAC
 - `role_permissions` table for fine-grained permissions
@@ -41,6 +42,7 @@ Run in SQL Editor:
 ```
 
 **What this creates:**
+
 - `user_sessions` table for session tracking
 - `security_audit_trail` table for security events
 - `settings_audit_trail` table for settings changes
@@ -57,6 +59,7 @@ Run in SQL Editor:
 ```
 
 **What this creates:**
+
 - Default role permissions for all user types
 - Performance optimizations and indexes
 - Materialized views for fast queries
@@ -101,6 +104,7 @@ ORDER BY role;
 ```
 
 Expected result:
+
 - admin: ~20+ permissions
 - editor: ~15+ permissions  
 - user: ~10+ permissions
@@ -127,7 +131,7 @@ WHERE user_id = '00000000-0000-0000-0000-000000000000'; -- System settings
    - Encryption field tracking
    - Version control and checksums
 
-2. **user_roles** 
+2. **user_roles**
    - Role-based access control
    - Expiration support
    - Assignment tracking
@@ -139,17 +143,17 @@ WHERE user_id = '00000000-0000-0000-0000-000000000000'; -- System settings
 
 ### Security Tables
 
-4. **user_sessions**
+1. **user_sessions**
    - Session management and tracking
    - Device fingerprinting
    - Geographic location data
 
-5. **security_audit_trail**
+2. **security_audit_trail**
    - Comprehensive security logging
    - Risk scoring and severity levels
    - Event categorization
 
-6. **settings_audit_trail**
+3. **settings_audit_trail**
    - Settings change tracking
    - Field-level audit trails
    - Human-readable summaries
@@ -175,16 +179,19 @@ SETTINGS_ENCRYPTION_KEY="chub_settings_2025_aes256_ctr_mode_enterprise_encryptio
 ## Security Features
 
 ### Encryption
+
 - AES-256-GCM for sensitive data
 - PBKDF2 key derivation with 100,000 iterations
 - Field-level encryption tracking
 
 ### Access Control
+
 - Role-Based Access Control (RBAC)
 - Row Level Security (RLS) on all tables
 - Permission-based resource access
 
 ### Audit Trail
+
 - Complete activity logging
 - Risk scoring and threat detection
 - Automatic data archival and cleanup
@@ -192,16 +199,19 @@ SETTINGS_ENCRYPTION_KEY="chub_settings_2025_aes256_ctr_mode_enterprise_encryptio
 ## Maintenance
 
 ### Daily Tasks (Automated)
+
 ```sql
 SELECT public.daily_maintenance();
 ```
 
 ### Weekly Tasks (Automated)
+
 ```sql
 SELECT public.weekly_maintenance();
 ```
 
 ### Manual Cleanup
+
 ```sql
 -- Clean up old data (customize retention periods)
 SELECT public.cleanup_old_data(365, 90, 30);
@@ -226,6 +236,7 @@ SELECT public.cleanup_old_data(365, 90, 30);
 ### Support
 
 For issues with this database setup:
+
 1. Check the migration files for any error messages
 2. Verify all environment variables are configured
 3. Ensure proper Supabase permissions for SQL execution

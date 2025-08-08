@@ -130,7 +130,8 @@ export function NotificationCenter({
         title: "All notifications marked as read",
         description: "Your notification inbox is now clear."
       })
-    } catch {
+    } catch (error) {
+      console.error('Error marking notifications as read:', error)
       toast({
         title: "Error",
         description: "Failed to mark notifications as read.",
@@ -375,12 +376,13 @@ export function NotificationCenter({
                 size="sm"
                 onClick={() => {
                   setIsOpen(false)
-                  window.location.href = '/settings'
+                  // Settings page removed - could redirect to profile or preferences when available
                 }}
                 className="text-xs sm:text-sm"
+                disabled
               >
                 <Settings className="h-4 w-4 mr-1 sm:mr-2" />
-                <span className="hidden sm:inline">Notification Settings</span>
+                <span className="hidden sm:inline">Settings Coming Soon</span>
                 <span className="sm:hidden">Settings</span>
               </Button>
               <Button

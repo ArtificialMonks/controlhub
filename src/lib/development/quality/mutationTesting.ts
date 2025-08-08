@@ -302,7 +302,7 @@ export class MutationTestingEngine {
    */
   private async simulateTestExecution(
     mutant: Mutant,
-    _testFiles: string[]
+    testFiles: string[]
   ): Promise<{
     status: 'killed' | 'survived' | 'timeout'
     failingTests: string[]
@@ -320,7 +320,7 @@ export class MutationTestingEngine {
       // Mutant killed - tests detected the mutation
       return {
         status: 'killed',
-        failingTests: [`test-${mutant.category}-${Math.floor(Math.random() * 10)}`],
+        failingTests: testFiles.length > 0 ? [testFiles[Math.floor(Math.random() * testFiles.length)]] : [`test-${mutant.category}-${Math.floor(Math.random() * 10)}`],
         coverage: true
       }
     } else {

@@ -271,10 +271,9 @@ export async function GET() {
 // ============================================================================
 
 /**
- * Rate limiting configuration
- * Implements expert council security requirements
+ * Route configuration
+ * Using Node.js runtime for better compatibility with monitoring services
  */
-export const runtime = 'edge'
 export const dynamic = 'force-dynamic'
 
 // Security headers (applied within request handlers)

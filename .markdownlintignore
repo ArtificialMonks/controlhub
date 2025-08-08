@@ -30,6 +30,32 @@ temp/
 docs/evidence/**/phase-evidence/**/*.md
 avarice-protocol/**/*.md
 
+# Auto-generated QA and analysis reports
+logs/markdown-qa-report-*.md
+logs/sonarqube-quality-enforcement-*.md
+logs/enhanced-markdown-enforcer-report.md
+
+# Configuration files (not actual markdown)
+.env*
+.markdownlintignore
+.gitignore
+.editorconfig
+.prettierrc*
+.eslintrc*
+.cspell.json
+.mcp.json
+.mcp-backup.json
+tsconfig*.json
+package.json
+tailwind.config.*
+next.config.*
+vitest.config.*
+playwright.config.*
+
+# Backup files
+*.backup*
+**(backup)*
+
 # README files that might have special formatting requirements
 **/node_modules/**/README.md
 
